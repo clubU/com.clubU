@@ -1,0 +1,9 @@
+<ion-view view-title="Clubs">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="club in clubs" href="#/app/clubs/{{club.id}}">
+        {{club.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
