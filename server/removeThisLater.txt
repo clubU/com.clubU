@@ -1,1 +1,0 @@
-this file is for the purpose of adding server folder in the git repository. git doesn't add empty folders
