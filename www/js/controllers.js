@@ -10,7 +10,7 @@ angular.module('starter.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-
+/*
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -49,24 +49,78 @@ angular.module('starter.controllers', [])
 
     $state.go('app.user');
   };
+*/
+})
+
+.controller('loginCtrl', function($scope, $state, $http) {
+    $scope.loginData = {};
+
+    $scope.goToSignUp = function() {
+      $state.go('app.signup');
+    };
+
+    $scope.doLogin = function() {
+        console.log("LOGIN user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+        $state.go('app.clubs');
+    }
+
+})
+.controller('clubLoginCtrl', function($scope, $state, $http) {
+    $scope.loginData = {};
+
+    $scope.goToSignUp = function() {
+      $state.go('app.club_signup');
+    };
+
+    $scope.doLogin = function() {
+        console.log("LOGIN club: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+        $state.go('app.user');
+    }
+
 })
 
 .controller('signUpCtrl', function($scope, $state, $http) {
-  //$scope.userData = {};
+  $scope.userData = {};
   $scope.doSignUp = function (form) {
    var request = $http({
       method : 'POST',
       url : hostname + 'user',
-      data : {password: $scope.password, username: $scope.username, firstName: $scope.firstName, lastName: $scope.lastName, dateOfBirth: $scope.dateOfBirth, studentNumber: $scope.studentNumber},
+      crossDomain:  true,
+      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, dateOfBirth: $scope.dateOfBirth, studentNumber: $scope.userData.studentNumber},
       header : {}
     });
+    console.log("SIGNUP user: " + $scope.userData.username + " - PW: " + $scope.userData.password + " - Username: " + $scope.userData.username + " - DOB " + $scope.userData.dateOfBirth);
     $state.go('app.user');
     request.success(function(data){
       if (data == '1'){
         alert("congrats");
       }
       else {
-        alert("you moron");
+        alert("boooo");
+      }
+    })
+
+  };
+
+})
+.controller('clubSignUpCtrl', function($scope, $state, $http) {
+  $scope.userData = {};
+  $scope.doClubSignUp = function (form) {
+   var request = $http({
+      method : 'POST',
+      url : hostname + 'user',
+      crossDomain:  true,
+      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, dateOfBirth: $scope.dateOfBirth, studentNumber: $scope.userData.studentNumber},
+      header : {}
+    });
+    console.log("SIGNUP user: " + $scope.userData.username + " - PW: " + $scope.userData.password + " - Username: " + $scope.userData.username + " - DOB " + $scope.userData.dateOfBirth);
+    $state.go('app.user');
+    request.success(function(data){
+      if (data == '1'){
+        alert("congrats");
+      }
+      else {
+        alert("boooo");
       }
     })
 
@@ -84,9 +138,9 @@ angular.module('starter.controllers', [])
 })
 
 .controller('UserCtrl', function($scope) {
-  alert("userCTRL");
+
 })
 
 .controller('ClubCtrl', function($scope, $stateParams) {
-  alert("helloooo");
+
 });

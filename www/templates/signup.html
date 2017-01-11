@@ -5,32 +5,32 @@
       <div class="list">
         <label class="item item-input">
           <span class="input-label">First Name</span>
-          <input type="text" ng-model="firstName">
-        </label> 
+          <input type="text" ng-model="userData.firstName">
+        </label>
         <label class="item item-input">
           <span class="input-label">Last Name</span>
-          <input type="text" ng-model="lastName">
+          <input type="text" ng-model="userData.lastName">
         </label>
         <label class="item item-input">
           <span class="input-label">Userame</span>
-          <input type="text" ng-model="username">
+          <input type="text" ng-model="userData.username">
         </label>
         <label class="item item-input">
           <span class="input-label">Password</span>
-          <input type="password" ng-model="password">
+          <input type="password" ng-model="userData.password">
         </label>
         <label class="item item-input">
           <span class="input-label">Date of Birth</span>
-          <input type="date" ng-model="dateOfBirth" required="false">
+          <input type="date" ng-model="userData.dateOfBirth" required="false">
         </label>
         <label class="item item-input">
           <span class="input-label">Student Number</span>
-          <input type="number" ng-model="studentNumber" required="false">
+          <input type="number" ng-model="userData.studentNumber" required="false">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Submit</button>
         </label>
       </div>
-      <label class="item">
-        <button class="button button-block button-positive" type="submit">Submit</button>
-      </label>
     </form>
 
   </ion-content>
