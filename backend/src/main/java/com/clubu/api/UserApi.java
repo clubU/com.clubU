@@ -1,5 +1,6 @@
 package com.clubu.server.api;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -23,7 +24,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 public class UserApi extends AbstractApiBase {
 
     private UserDao userDao;
-    
+
     public UserApi() {
         super();
         this.userDao = UserDao.getInstance();
@@ -54,6 +55,7 @@ public class UserApi extends AbstractApiBase {
 
     @UnitOfWork
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createUser(
             @FormParam("username") String username,
@@ -66,6 +68,8 @@ public class UserApi extends AbstractApiBase {
             @FormParam("yearOfStudy") String yearOfStudy,
             @FormParam("programOfStudy") String programOfStudy
             ) {
+System.out.println("LLLLL  " + username);
+System.out.println("KKKK " + email);
         User user = userDao.createUser(
             username, password, firstName, lastName, email,
             studentId, dateOfBirth, yearOfStudy, programOfStudy
@@ -82,4 +86,4 @@ public class UserApi extends AbstractApiBase {
     }
 
 }
- 
+

@@ -50,7 +50,7 @@ public class ClubUApplication extends Application<ClubUConfiguration>{
 
     @Override
     public void initialize(Bootstrap<ClubUConfiguration> bootstrap) {
-        bootstrap.addBundle(migrationsBundle); 
+        bootstrap.addBundle(migrationsBundle);
         bootstrap.addBundle(hibernateBundle);
     }
 

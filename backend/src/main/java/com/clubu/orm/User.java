@@ -46,7 +46,7 @@ public class User {
 
     @Column(name = "username", nullable = false)
     private String username;
-
+    
     @JsonIgnore
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
@@ -164,7 +164,7 @@ public class User {
         this.timeUpdated = timeUpdated;
     }
     // End of member getters and setters
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;

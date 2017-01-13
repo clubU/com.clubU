@@ -25,7 +25,7 @@ public class UserDao extends AbstractDAO<User> {
         }
         return instance;
     }
-    
+
     private UserDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
@@ -40,7 +40,7 @@ public class UserDao extends AbstractDAO<User> {
             return null;
         }
     }
-    
+
     public User findByUsername(
             String username
             ) {

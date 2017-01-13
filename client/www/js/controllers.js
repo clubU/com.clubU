@@ -1,4 +1,4 @@
-var hostname = "localhost:8080";
+var hostname = "http://localhost:8080/";
 
 angular.module('starter.controllers', [])
 
@@ -82,22 +82,33 @@ angular.module('starter.controllers', [])
 .controller('signUpCtrl', function($scope, $state, $http) {
   $scope.userData = {};
   $scope.doSignUp = function (form) {
-   var request = $http({
-      method : 'POST',
-      url : hostname + 'user',
-      crossDomain:  true,
-      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, dateOfBirth: $scope.dateOfBirth, studentNumber: $scope.userData.studentNumber},
-      header : {}
+
+    var request = $http({
+      method: 'POST',
+      url: 'http://localhost:8080/user',
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      data: {
+        password: $scope.userData.password,
+        username: $scope.userData.username,
+        firstName: $scope.userData.firstName,
+        lastName: $scope.userData.lastName,
+        dateOfBirth: $scope.dateOfBirth,
+        studentId: $scope.userData.studentNumber,
+        email: "keke"
+      },
+      transformRequest: function(obj) {
+        var str = [];
+        for(var p in obj)
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        return str.join("&");
+      }
     });
-    console.log("SIGNUP user: " + $scope.userData.username + " - PW: " + $scope.userData.password + " - Username: " + $scope.userData.username + " - DOB " + $scope.userData.dateOfBirth);
+
     $state.go('app.user');
     request.success(function(data){
-      if (data == '1'){
-        alert("congrats");
-      }
-      else {
-        alert("boooo");
-      }
+    
     })
 
   };
@@ -108,9 +119,9 @@ angular.module('starter.controllers', [])
   $scope.doClubSignUp = function (form) {
    var request = $http({
       method : 'POST',
-      url : hostname + 'user',
-      crossDomain:  true,
-      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, dateOfBirth: $scope.dateOfBirth, studentNumber: $scope.userData.studentNumber},
+      url : 'http://localhost:8080/user',
+//      crossDomain:  true,
+      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, dateOfBirth: $scope.dateOfBirth, studentId: $scope.userData.studentNumber, email: "keke"},
       header : {}
     });
     console.log("SIGNUP user: " + $scope.userData.username + " - PW: " + $scope.userData.password + " - Username: " + $scope.userData.username + " - DOB " + $scope.userData.dateOfBirth);
