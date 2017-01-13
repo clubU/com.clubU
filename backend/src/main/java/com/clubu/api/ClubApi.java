@@ -23,7 +23,7 @@ import io.dropwizard.hibernate.UnitOfWork;
 public class ClubApi extends AbstractApiBase {
 
     private ClubDao clubDao;
-    
+
     public ClubApi() {
         super();
         this.clubDao = ClubDao.getInstance();
@@ -31,4 +31,4 @@ public class ClubApi extends AbstractApiBase {
 
     // TODO: Implement APIs
 }
- 
+

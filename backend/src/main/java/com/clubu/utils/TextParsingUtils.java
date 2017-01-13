@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class TextParsingUtils {
-    
+
     public static Date parseDate(String date) {
         if (date == null) {
             return null;
@@ -17,7 +17,7 @@ public class TextParsingUtils {
         try {
             return format.parse(date);
         } catch (ParseException e) {
-            return null; 
+            return null;
         }
     }
 

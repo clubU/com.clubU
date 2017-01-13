@@ -106,7 +106,7 @@ public class Club {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public String getAbbreviation() {
         return abbreviation;
     }
@@ -135,7 +135,7 @@ public class Club {
         this.timeUpdated = timeUpdated;
     }
     // End of member getters and setters
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
