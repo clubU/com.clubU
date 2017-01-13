@@ -1,5 +1,6 @@
 package com.clubu.server.api;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -33,6 +34,7 @@ public class SessionApi extends AbstractApiBase {
 
     @UnitOfWork
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createSession(
             @FormParam("username") String username,
