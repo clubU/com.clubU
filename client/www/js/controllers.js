@@ -1,4 +1,4 @@
-var hostname = "localhost:8080";
+var hostname = "http://localhost:8080/";
 
 angular.module('starter.controllers', [])
 
@@ -86,10 +86,10 @@ angular.module('starter.controllers', [])
       method : 'POST',
       url : hostname + 'user',
       crossDomain:  true,
-      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, dateOfBirth: $scope.dateOfBirth, studentNumber: $scope.userData.studentNumber},
-      header : {}
+      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, studentId: $scope.userData.studentNumber, email: 'test@testemail'},
+      header : {'Content-Type' : 'application/json'}
     });
-    console.log("SIGNUP user: " + $scope.userData.username + " - PW: " + $scope.userData.password + " - Username: " + $scope.userData.username + " - DOB " + $scope.userData.dateOfBirth);
+
     $state.go('app.user');
     request.success(function(data){
       if (data == '1'){

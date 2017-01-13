@@ -19,7 +19,7 @@ public abstract class AbstractApiBase {
                 .status(status)
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
-                .header("Access-Control-Allow-Headers", SESSION_TOKEN_HEADER)
+                .header("Access-Control-Allow-Headers", "*")
                 .allow("OPTIONS");
     }
 
