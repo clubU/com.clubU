@@ -1,0 +1,76 @@
+<!--
+  #TIP: in this case we hide the navbar provided by navigation system.
+-->
+<ion-view hide-nav-bar="true">
+
+  <!--
+    #IMPLEMENTATION-DETAIL
+    We are using custom classes in "scss/scaffolding.scss"
+  -->
+  <ion-content class="padding full-height">
+    <h1 class="text-center white-color home-title">
+        ClubU
+    </h1>
+
+    <h3 class="white-color text-center sans-pro-light">
+    For Students, By Students<br>
+      <i class="ion-ios-ionic-outline" style="font-size:4em;"></i>
+    </h3>
+
+    <!--
+      #IMPLEMENTATION-DETAIL:
+      we are wrapping the login button in an ionic grid in order
+      to keep it centered and quite large
+    -->
+
+    <div class="row">
+        <div class="col col-20"></div>
+        <div class="col">
+            <button class="button button-large button-positive button-block" ui-sref="app.login">Login</button>
+        </div>
+        <div class="col col-20"></div>
+    </div>
+    <div class="row">
+        <div class="col col-20"></div>
+        <div class="col">
+            <button class="button button-large button-positive button-block" ui-sref="app.club_login">Club Login</button>
+        </div>
+        <div class="col col-20"></div>
+    </div>
+  </ion-content>
+
+  <!--
+   We put a link to signup screen in footer bar.
+  -->
+  <!--
+  <div class="bar bar-footer">
+    <button ui-sref="app.signup" class="button button-positive">
+      <h4 id="sign-up-button">New User? Sign Up!</h4>
+    </button>
+    <button ui-sref="app.club_signup" class="button button-calm">
+      <h4 class="title sans-pro-light">New Club? Sign Up!</h4>
+    </button>
+  </div>
+-->
+<ion-footer-bar align-title="left" class="bar-positive">
+  <div class="buttons">
+    <button class="button" ui-sref="app.signup">User</button>
+  </div>
+  <h1 class="title" text-align="middle">New?</h1>
+  <div class="buttons">
+    <button class="button" ui-sref="app.club_signup">Club</button>
+  </div>
+</ion-footer-bar>
+<!--
+  <ion-footer-bar class="bar bar-positive bar-deepblue-bordertop pointer">
+    <div class="row">
+      <div ui-sref="app.signup" class="col col-50">
+        <h1 class="title sans-pro-light">New User? Sign UP!</h1>
+      </div>
+      <div ui-sref="app.club_signup" class="col col-50">
+        <h1 class="title sans-pro-light">New Club? Sign UP!</h1>
+      </div>
+    </div>
+  </ion-footer-bar>
+-->
+</ion-view>

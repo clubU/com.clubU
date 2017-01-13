@@ -11,9 +11,18 @@
   top: 25%;
   left: 10%;
   opacity: 0.8;
+  position: absolute;
 }
 
-.clubPhoto {
+.signup {
+  width:80%;
+  top: 25%;
+  left: 10%;
+  opacity: 0.8;
+  position: absolute;
+}
+
+.club-photo {
   height: 150px;
   width: 150px;
   display: block;
@@ -28,9 +37,13 @@ p {
   font-family: arial;
 }
 
-.tabs{
-  position: absolute;
-  top: 250px;
+.club-page-button {
+  height: 50%;
+  width: 90%;
+  margin-right: 5px;
+  margin-left: 5px;
+}
 
-  margin-top: auto;
+#sign-up-button {
+  font-family: sans-serif;
 }

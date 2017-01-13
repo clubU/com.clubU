@@ -1,10 +1,8 @@
 <ion-view view-title="Login">
   <ion-header-bar>
     <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
   </ion-header-bar>
+
   <ion-content class="background" scroll="false">
 
     <div class="list login">
@@ -20,12 +18,12 @@
         <label class="item">
           <button class="button button-block button-positive" type="submit">Log in</button>
         </label>
+        <h6>Club exec? Log in <a ui-sref="app.club_login">here</a></h6>
       </form>
-      <label class="item">
-        <button class="button button-block button-positive" type="submit" ng-click="goToSignUp()">Sign Up</button>
-      </label>
-      <h6>Club exec? Log in <a href="#/app/club_login">here</a></h6>
     </div>
-
-
   </ion-content>
+
+  <ion-footer-bar align-title="center" class="bar-positive">
+      <h1 class="title sans-pro-light">Forgot Password?</h1>
+  </ion-footer-bar>
+</ion-view>
