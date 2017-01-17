@@ -1,8 +1,0 @@
-database:
-    driverClass: com.mysql.jdbc.Driver
-    user: root 
-    password: Root12345!!! 
-    properties:
-        charset: UTF-8
-    url: jdbc:mysql://localhost/clubu
-
