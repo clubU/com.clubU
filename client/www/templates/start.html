@@ -2,21 +2,15 @@
   #TIP: in this case we hide the navbar provided by navigation system.
 -->
 <ion-view hide-nav-bar="true">
+  <ion-content class="background padding full-height">
 
-  <!--
-    #IMPLEMENTATION-DETAIL
-    We are using custom classes in "scss/scaffolding.scss"
-  -->
-  <ion-content class="padding full-height">
-    <h1 class="text-center white-color home-title">
-        ClubU
-    </h1>
-
-    <h3 class="white-color text-center sans-pro-light">
-    For Students, By Students<br>
-      <i class="ion-ios-ionic-outline" style="font-size:4em;"></i>
-    </h3>
-
+    <div class="row">
+      <div class="col col-20"></div>
+      <div class="col">
+        <h1 class="home-title">ClubU</h1>
+      </div>
+      <div class="col col-20"></div>
+    </div>
     <!--
       #IMPLEMENTATION-DETAIL:
       we are wrapping the login button in an ionic grid in order
@@ -26,14 +20,14 @@
     <div class="row">
         <div class="col col-20"></div>
         <div class="col">
-            <button class="button button-large button-positive button-block" ui-sref="app.login">Login</button>
+            <button class="button button-large button-positive button-block home-button" ui-sref="app.login">Login</button>
         </div>
         <div class="col col-20"></div>
     </div>
     <div class="row">
         <div class="col col-20"></div>
         <div class="col">
-            <button class="button button-large button-positive button-block" ui-sref="app.club_login">Club Login</button>
+            <button class="button button-large button-positive button-block home-button" ui-sref="app.club_login">Club Login</button>
         </div>
         <div class="col col-20"></div>
     </div>

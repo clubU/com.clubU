@@ -108,7 +108,7 @@ angular.module('starter.controllers', [])
 
     $state.go('app.user');
     request.success(function(data){
-    
+
     })
 
   };
