@@ -1,11 +1,12 @@
 <ion-view view-title="Club">
   <ion-content>
+
       <div class="row">
         <div class="col-50">
             <img class="club-photo" src="../img/rocsaut.jpg" align="middle">
         </div>
-        <div class="col-50">
-          <p class="club-name">ROCSAUT</p>
+        <div  class="col-50">
+          <p class="club-name">{{ name }}</p>
         </div>
       </div>
       <div class="row">
@@ -16,29 +17,39 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-33">
-          <button id="about" class="button club-page-button button-assertive">About</button>
-        </div>
-        <div class="col-33">
-          <button class="button club-page-button button-assertive">Contact</button>
-        </div>
-        <div class="col-33">
-          <button class="button club-page-button button-assertive">Posts</button>
-        </div>
+      <ion-item class="item item-text-wrap">
+          <div ng-class="isItemShown(description) ? 'item-expand active' : 'item-expand inactive'">
+            <h2>About</h2>
+            <p>{{ description }}</p>
+          </div>
+          <div ng-click="toggleItem(description)" class="item-expand-footer">
+            <i ng-class="isItemShown(description) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
+            {{ isItemShown(description) ? 'Less' : 'More' }}
+          </div>
+      </ion-item>
+
+      <div>
+        <h3>Upcoming Events</h3>
+        <ion-item ng-repeat=" event in events">
+          <h4>{{ event.title }}</h4>
+          <h5>Time: {{ event.time}}</h5>
+          <h6>Location: {{ event.location }}</h6>
+          <p> {{event.desc}} </p>
+        </ion-item>
       </div>
 
-        <div class="tabs">
-          <a class="tab-item">
-            About
-          </a>
-          <a class="tab-item">
-            Contact
-          </a>
-          <a class="tab-item">
-            Posts
-          </a>
+<!--
+      <div class="row">
+        <div class="col-33">
+          <button id="about" class="button club-page-button button-outline button-stable">About</button>
         </div>
-
+        <div class="col-33">
+          <button class="button club-page-button button-outline button-stable">Contact</button>
+        </div>
+        <div class="col-33">
+          <button class="button club-page-button button-outline button-stable">Events</button>
+        </div>
+      </div>
+-->
   </ion-content>
 </ion-view>
