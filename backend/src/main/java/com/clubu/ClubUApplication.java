@@ -2,11 +2,11 @@ package com.clubu.server;
 
 import com.clubu.server.api.ClubApi;
 import com.clubu.server.api.SessionApi;
-import com.clubu.server.api.UserApi;
+import com.clubu.server.api.StudentApi;
 import com.clubu.server.dao.ClubDao;
-import com.clubu.server.dao.UserDao;
+import com.clubu.server.dao.StudentDao;
 import com.clubu.server.orm.Club;
-import com.clubu.server.orm.User;
+import com.clubu.server.orm.Student;
 
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
@@ -25,8 +25,8 @@ public class ClubUApplication extends Application<ClubUConfiguration>{
     private Environment env;
     private final HibernateBundle<ClubUConfiguration> hibernateBundle =
             new HibernateBundle<ClubUConfiguration>(
-                    User.class,
-                    Club.class
+                    Club.class,
+                    Student.class
             ) {
                 public DataSourceFactory getDataSourceFactory(ClubUConfiguration config) {
                     return config.getDataSourceFactory();
@@ -64,12 +64,12 @@ public class ClubUApplication extends Application<ClubUConfiguration>{
     }
 
     private void registerDao() {
-        UserDao.initialize(hibernateBundle.getSessionFactory());
+        StudentDao.initialize(hibernateBundle.getSessionFactory());
         ClubDao.initialize(hibernateBundle.getSessionFactory());
     }
 
     private void registerApi() {
-        env.jersey().register(new UserApi());
+        env.jersey().register(new StudentApi());
         env.jersey().register(new ClubApi());
         env.jersey().register(new SessionApi());
     }

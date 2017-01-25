@@ -21,22 +21,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "user")
+@Table(name = "student")
 @NamedQueries({
     @NamedQuery(
-        name = User.QNAME_FIND_BY_ID,
-        query = "SELECT u FROM User u WHERE u.id = :id"
+        name = Student.QNAME_FIND_ALL,
+        query = "SELECT s FROM Student s"
     ),
     @NamedQuery(
-        name = User.QNAME_FIND_BY_USERNAME,
-        query = "SELECT u FROM User u WHERE u.username = :username"
+        name = Student.QNAME_FIND_BY_ID,
+        query = "SELECT s FROM Student s WHERE s.id = :id"
+    ),
+    @NamedQuery(
+        name = Student.QNAME_FIND_BY_USERNAME,
+        query = "SELECT s FROM Student s WHERE s.username = :username"
     )
 })
-public class User {
+public class Student {
 
     // Start of query names
-    public static final String QNAME_FIND_BY_ID = "com.clubu.server.orm.User.FIND_BY_ID";
-    public static final String QNAME_FIND_BY_USERNAME = "com.clubu.server.orm.User.QNAME_FIND_BY_USERNAME";
+    public static final String QNAME_FIND_ALL = "com.clubu.server.orm.Student.FIND_ALL";
+    public static final String QNAME_FIND_BY_ID = "com.clubu.server.orm.Student.FIND_BY_ID";
+    public static final String QNAME_FIND_BY_USERNAME = "com.clubu.server.orm.Student.QNAME_FIND_BY_USERNAME";
     // End of query names
 
     // Start of member fields
@@ -60,8 +65,8 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "student_id", nullable = false)
-    private Integer studentId;
+    @Column(name = "student_number", nullable = false)
+    private Integer studentNumber;
 
     @Column(name = "date_of_birth", nullable = true)
     private Date dateOfBirth;
@@ -71,6 +76,16 @@ public class User {
 
     @Column(name = "program_of_study", nullable = true)
     private String programOfStudy;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "subscription",
+        joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "club_id", referencedColumnName = "id")}
+    )
+    @OrderBy("id ASC")
+    @JsonIgnoreProperties({"students"})
+    private List<Club> clubs;
 
     @Column(name = "time_created", nullable = false)
     private Date timeCreated;
@@ -143,11 +158,18 @@ public class User {
         this.programOfStudy = programOfStudy;
     }
 
-    public Integer getStudentId() {
-        return studentId;
+    public Integer getStudentNumber() {
+        return studentNumber;
     }
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
+    public void setStudentNumber(Integer studentNumber) {
+        this.studentNumber = studentNumber;
+    }
+
+    public List<Club> getClubs() {
+        return clubs;
+    }
+    public void setClubs(List<Club> clubs) {
+        this.clubs = clubs;
     }
 
     public Date getTimeCreated() {
@@ -181,7 +203,7 @@ public class User {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        Student other = (Student) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

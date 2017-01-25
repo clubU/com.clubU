@@ -1,5 +1,7 @@
 package com.clubu.server.api;
 
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -29,6 +31,23 @@ public class ClubApi extends AbstractApiBase {
         this.clubDao = ClubDao.getInstance();
     }
 
-    // TODO: Implement APIs
+    // Start of CORS requests
+    @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/all")
+    public Response corsAll() { return newResponse(Response.Status.OK).build(); }
+    @OPTIONS @Produces(MediaType.TEXT_HTML)
+    public Response cors() { return newResponse(Response.Status.OK).build(); }
+    // End of CORS requests
+
+    @UnitOfWork
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all")
+    public Response findAll() {
+        List<Club> clubs = clubDao.findAll();
+        return newResponse(Response.Status.OK)
+                .entity(clubs)
+                .build();
+    }
+
 }
 

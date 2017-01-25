@@ -1,5 +1,7 @@
 package com.clubu.server.api;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -15,22 +17,24 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.clubu.server.dao.UserDao;
-import com.clubu.server.orm.User;
+import com.clubu.server.dao.StudentDao;
+import com.clubu.server.orm.Student;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
-@Path("/user")
-public class UserApi extends AbstractApiBase {
+@Path("/student")
+public class StudentApi extends AbstractApiBase {
 
-    private UserDao userDao;
+    private StudentDao studentDao;
 
-    public UserApi() {
+    public StudentApi() {
         super();
-        this.userDao = UserDao.getInstance();
+        this.studentDao = StudentDao.getInstance();
     }
 
     // Start of CORS requests
+    @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/all")
+    public Response corsAll() { return newResponse(Response.Status.OK).build(); }
     @OPTIONS @Produces(MediaType.TEXT_HTML)
     public Response cors() { return newResponse(Response.Status.OK).build(); }
     // End of CORS requests
@@ -38,13 +42,24 @@ public class UserApi extends AbstractApiBase {
     @UnitOfWork
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findUser(
+    @Path("/all")
+    public Response findAll() {
+        List<Student> students = studentDao.findAll();
+        return newResponse(Response.Status.OK)
+                .entity(students)
+                .build();
+    }
+
+    @UnitOfWork
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findStudent(
             @QueryParam("username") String username
             ) {
-        User user = userDao.findByUsername(username);
-        if (user != null) {
+        Student student = studentDao.findByUsername(username);
+        if (student != null) {
             return newResponse(Response.Status.OK)
-                    .entity(user)
+                    .entity(student)
                     .build();
         } else {
             return newResponse(Response.Status.BAD_REQUEST)
@@ -57,26 +72,24 @@ public class UserApi extends AbstractApiBase {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createUser(
+    public Response createStudent(
             @FormParam("username") String username,
             @FormParam("password") String password,
             @FormParam("firstName") String firstName,
             @FormParam("lastName") String lastName,
             @FormParam("email") String email,
-            @FormParam("studentId") String studentId,
+            @FormParam("studentNumber") String studentNumber,
             @FormParam("dateOfBirth") String dateOfBirth,
             @FormParam("yearOfStudy") String yearOfStudy,
             @FormParam("programOfStudy") String programOfStudy
             ) {
-System.out.println("LLLLL  " + username);
-System.out.println("KKKK " + email);
-        User user = userDao.createUser(
+        Student student = studentDao.createStudent(
             username, password, firstName, lastName, email,
-            studentId, dateOfBirth, yearOfStudy, programOfStudy
+            studentNumber, dateOfBirth, yearOfStudy, programOfStudy
         );
-        if (user != null) {
+        if (student != null) {
             return newResponse(Response.Status.OK)
-                    .entity(user)
+                    .entity(student)
                     .build();
         } else {
             return newResponse(Response.Status.BAD_REQUEST)

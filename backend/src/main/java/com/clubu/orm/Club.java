@@ -24,6 +24,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "club")
 @NamedQueries({
     @NamedQuery(
+        name = Club.QNAME_FIND_ALL,
+        query = "SELECT c FROM Club c"
+    ),
+    @NamedQuery(
         name = Club.QNAME_FIND_BY_ID,
         query = "SELECT c FROM Club c WHERE c.id = :id"
     ),
@@ -36,6 +40,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Club {
 
     // Start of query names
+    public static final String QNAME_FIND_ALL = "com.clubu.server.orm.Club.FIND_ALL";
     public static final String QNAME_FIND_BY_ID = "com.clubu.server.orm.Club.FIND_BY_ID";
     public static final String QNAME_FIND_BY_USERNAME = "com.clubu.server.orm.Club.FIND_BY_USERNAME";
     // End of query names
@@ -63,6 +68,16 @@ public class Club {
 
     @Column(name = "description", nullable = true)
     private String description;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "subscription",
+        joinColumns = {@JoinColumn(name = "club_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")}
+    )
+    @OrderBy("id ASC")
+    @JsonIgnoreProperties({"clubs"})
+    private List<Student> students;
 
     @Column(name = "time_created", nullable = false)
     private Date timeCreated;
@@ -119,6 +134,13 @@ public class Club {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     public Date getTimeCreated() {

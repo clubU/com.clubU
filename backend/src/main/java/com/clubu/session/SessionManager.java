@@ -28,8 +28,8 @@ public class SessionManager {
         return false;
     }
 
-    public Session createSession(String username) {
-        Session session = new Session(username);
+    public Session createSession(String username, SessionType type) {
+        Session session = new Session(username, type);
         sessions.add(session);
         return session;
     }

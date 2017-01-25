@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS club (
     time_created DATETIME NOT NULL,
     time_updated DATETIME NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE(username)
+    UNIQUE (username)
 );
 
