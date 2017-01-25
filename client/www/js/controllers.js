@@ -72,7 +72,21 @@ angular.module('starter.controllers', [])
       $state.go('app.club_signup');
     };
 
-    $scope.doLogin = function() {
+    $scope.doLogin = function (form) {
+
+      var request = $http({
+        method: 'POST',
+        url: 'http://localhost:8080/user',
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: {
+          username: $scope.loginData.username,
+          password: $scopy.loginData.password
+        },
+
+
+      });
         console.log("LOGIN club: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
         $state.go('app.user');
     }
@@ -153,5 +167,40 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ClubCtrl', function($scope, $stateParams) {
+  $scope.name = 'ROCSAUT';
+  $scope.description = 'The Taiwan Republic of China Student Association at the University of Toronto (ROCSAUT) at UTSG aims at providing a platform for students with similar backgrounds or students who are interested in the Taiwanese culture to engage in events to meet new people and network. 多倫多大學台灣同學會歡迎不管是台灣背景還是對台灣文化有興趣的同學參加我們社團!';
 
+  $scope.events = [
+    { title: 'OTP',
+      time: 'September 20, 2017',
+      desc: 'Orientation to welcome new comers',
+      location: 'ES1055'
+    },
+    {
+      title: 'Mix n Mingle',
+      time: 'October 3, 2017',
+      desc: 'come meet new people',
+      location: 'GB404'
+    },
+    {
+      title: 'Semi-Formal',
+      time: 'Jan. 27, 2017',
+      desc: 'Dress up and come eat or something',
+      location: 'Eaton Chelsea'
+    }
+  ];
+  /*
+   * if given group is the selected group, deselect it
+   * else, select the given group
+   */
+  $scope.toggleItem= function(item) {
+    if ($scope.isItemShown(item)) {
+      $scope.shownItem = null;
+    } else {
+      $scope.shownItem = item;
+    }
+  };
+  $scope.isItemShown = function(item) {
+    return $scope.shownItem === item;
+  };
 });

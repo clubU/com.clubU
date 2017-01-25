@@ -79,6 +79,19 @@
 
 }
 
+.item-expand {
+  position: relative;
+  width: 100%;
+  max-height: 60px;
+  transition: max-height 0.1s ease-out;
+  overflow: hidden;
+}
+
+.item-expand.active {
+  max-height: 200px;
+  transition: max-height 0.3s ease-out;
+}
+
 
 
 /* User account page */
