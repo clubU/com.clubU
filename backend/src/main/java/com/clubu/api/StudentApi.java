@@ -33,27 +33,18 @@ public class StudentApi extends AbstractApiBase {
     }
 
     // Start of CORS requests
-    @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/all")
-    public Response corsAll() { return newResponse(Response.Status.OK).build(); }
     @OPTIONS @Produces(MediaType.TEXT_HTML)
     public Response cors() { return newResponse(Response.Status.OK).build(); }
+    @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/all")
+    public Response corsAll() { return newResponse(Response.Status.OK).build(); }
+    @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/{id : \\d+}")
+    public Response corsId() { return newResponse(Response.Status.OK).build(); }
     // End of CORS requests
 
     @UnitOfWork
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/all")
-    public Response findAll() {
-        List<Student> students = studentDao.findAll();
-        return newResponse(Response.Status.OK)
-                .entity(students)
-                .build();
-    }
-
-    @UnitOfWork
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response findStudent(
+    public Response find(
             @QueryParam("username") String username
             ) {
         Student student = studentDao.findByUsername(username);
@@ -72,7 +63,7 @@ public class StudentApi extends AbstractApiBase {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createStudent(
+    public Response create(
             @FormParam("username") String username,
             @FormParam("password") String password,
             @FormParam("firstName") String firstName,
@@ -96,6 +87,16 @@ public class StudentApi extends AbstractApiBase {
                     .entity("{}")
                     .build();
         }
+    }
+
+    @UnitOfWork
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id : \\d+}")
+    public Response findById(@PathParam("id") long id) {
+        return newResponse(Response.Status.OK)
+                .entity(studentDao.findById(id))
+                .build();
     }
 
 }

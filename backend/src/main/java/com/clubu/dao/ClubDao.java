@@ -34,8 +34,8 @@ public class ClubDao extends AbstractDAO<Club> {
         return list(namedQuery(Club.QNAME_FIND_ALL));
     }
 
-    public Club findById(String id) {
-        List<Club> clubs = list(namedQuery(Club.QNAME_FIND_BY_ID).setLong("id", Long.parseLong(id)));
+    public Club findById(long id) {
+        List<Club> clubs = list(namedQuery(Club.QNAME_FIND_BY_ID).setLong("id", id));
         if (!clubs.isEmpty()) {
             return clubs.get(0);
         } else {

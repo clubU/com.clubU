@@ -34,8 +34,8 @@ public class StudentDao extends AbstractDAO<Student> {
         return list(namedQuery(Student.QNAME_FIND_ALL));
     }
 
-    public Student findById(String id) {
-        List<Student> students = list(namedQuery(Student.QNAME_FIND_BY_ID).setLong("id", Long.parseLong(id)));
+    public Student findById(long id) {
+        List<Student> students = list(namedQuery(Student.QNAME_FIND_BY_ID).setLong("id", id));
         if (!students.isEmpty()) {
             return students.get(0);
         } else {

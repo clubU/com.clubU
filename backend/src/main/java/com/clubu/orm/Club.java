@@ -43,6 +43,7 @@ public class Club {
     public static final String QNAME_FIND_ALL = "com.clubu.server.orm.Club.FIND_ALL";
     public static final String QNAME_FIND_BY_ID = "com.clubu.server.orm.Club.FIND_BY_ID";
     public static final String QNAME_FIND_BY_USERNAME = "com.clubu.server.orm.Club.FIND_BY_USERNAME";
+    public static final String QNAME_FIND_UNSUBSCRIBED_CLUBS = "com.clubu.server.orm.Club.FIND_UNSUBSCRIBED_CLUBS";
     // End of query names
 
     // Start of member fields
