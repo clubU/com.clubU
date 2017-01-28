@@ -1,4 +1,4 @@
-<ion-view view-title="Club">
+<ion-view view-title=" {{ name }}">
   <ion-content>
 
       <div class="row">
@@ -18,13 +18,13 @@
       </div>
 
       <ion-item class="item item-text-wrap">
-          <div ng-class="isItemShown(description) ? 'item-expand active' : 'item-expand inactive'">
+          <div ng-class="isItemShown(about) ? 'item-expand active' : 'item-expand inactive'">
             <h2>About</h2>
-            <p>{{ description }}</p>
+            <p>{{ about }}</p>
           </div>
-          <div ng-click="toggleItem(description)" class="item-expand-footer">
-            <i ng-class="isItemShown(description) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
-            {{ isItemShown(description) ? 'Less' : 'More' }}
+          <div ng-click="toggleItem(about)" class="item-expand-footer">
+            <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
+            {{ isItemShown(about) ? 'Less' : 'More' }}
           </div>
       </ion-item>
 
