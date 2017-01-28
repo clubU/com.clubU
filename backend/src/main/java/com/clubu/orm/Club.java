@@ -34,6 +34,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
     @NamedQuery(
         name = Club.QNAME_FIND_BY_USERNAME,
         query = "SELECT c FROM Club c WHERE c.username = :username"
+    ),
+    @NamedQuery(
+        name = Club.QNAME_FIND_BY_SEARCH_KEYWORD,
+        query = "SELECT c FROM Club c WHERE c.name LIKE :searchKeyword"
     )
 })
 
@@ -43,7 +47,7 @@ public class Club {
     public static final String QNAME_FIND_ALL = "com.clubu.server.orm.Club.FIND_ALL";
     public static final String QNAME_FIND_BY_ID = "com.clubu.server.orm.Club.FIND_BY_ID";
     public static final String QNAME_FIND_BY_USERNAME = "com.clubu.server.orm.Club.FIND_BY_USERNAME";
-    public static final String QNAME_FIND_UNSUBSCRIBED_CLUBS = "com.clubu.server.orm.Club.FIND_UNSUBSCRIBED_CLUBS";
+    public static final String QNAME_FIND_BY_SEARCH_KEYWORD = "com.clubu.server.orm.Club.FIND_BY_SEARCH_KEYWORD";
     // End of query names
 
     // Start of member fields

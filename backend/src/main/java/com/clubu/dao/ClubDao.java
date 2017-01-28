@@ -73,6 +73,11 @@ public class ClubDao extends AbstractDAO<Club> {
         return persist(club);
     }
 
+    public List<Club> findBySearchKeyword(String searchKeyword) {
+        String param = "%" + searchKeyword + "%";
+        return list(namedQuery(Club.QNAME_FIND_BY_SEARCH_KEYWORD).setString("searchKeyword", param));
+    }
+
     public boolean validateCredentials(String username, String password) {
         Club club = findByUsername(username);
         return club == null ? false : BCrypt.checkpw(password, club.getPasswordHash());
