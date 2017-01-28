@@ -15,22 +15,26 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.clubu.server.dao.UserDao;
-import com.clubu.server.orm.User;
+import com.clubu.server.dao.ClubDao;
+import com.clubu.server.dao.StudentDao;
+import com.clubu.server.orm.Club;
+import com.clubu.server.orm.Student;
 import com.clubu.server.session.Session;
+import com.clubu.server.session.SessionType;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/session")
 public class SessionApi extends AbstractApiBase {
 
-    private UserDao userDao;
+    private ClubDao clubDao;
+    private StudentDao studentDao;
 
     public SessionApi() {
         super();
-        this.userDao = UserDao.getInstance();
+        this.studentDao = StudentDao.getInstance();
+        this.clubDao = ClubDao.getInstance();
     }
-
 
     @UnitOfWork
     @POST
@@ -38,18 +42,27 @@ public class SessionApi extends AbstractApiBase {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createSession(
             @FormParam("username") String username,
-            @FormParam("password") String password
+            @FormParam("password") String password,
+            @FormParam("type") int type
             ) {
-        if (userDao.validateCredentials(username, password)) {
-            Session session = sessionManager.createSession(username);
-            return newResponse(Response.Status.CREATED)
-                    .entity(session)
-                    .build();
-        } else {
-            return newResponse(Response.Status.BAD_REQUEST)
-                    .entity("{}")
-                    .build();
+        if (type == SessionType.STUDENT.getTypeValue()) {
+            if (studentDao.validateCredentials(username, password)) {
+                Session session = sessionManager.createSession(username, SessionType.STUDENT);
+                return newResponse(Response.Status.CREATED)
+                        .entity(session)
+                        .build();
+            }
+        } else if (type == SessionType.CLUB.getTypeValue()) {
+            if (clubDao.validateCredentials(username, password)) {
+                Session session = sessionManager.createSession(username, SessionType.CLUB);
+                return newResponse(Response.Status.CREATED)
+                        .entity(session)
+                        .build();
+            }
         }
+        return newResponse(Response.Status.BAD_REQUEST)
+                .entity("{}")
+                .build();
     }
 
     @UnitOfWork
@@ -71,3 +84,4 @@ public class SessionApi extends AbstractApiBase {
     }
 
 }
+

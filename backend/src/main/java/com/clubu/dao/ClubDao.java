@@ -30,10 +30,12 @@ public class ClubDao extends AbstractDAO<Club> {
         super(sessionFactory);
     }
 
-    public Club findById(
-            String id
-            ) {
-        List<Club> clubs = list(namedQuery(Club.QNAME_FIND_BY_ID).setLong("id", Long.parseLong(id)));
+    public List<Club> findAll() {
+        return list(namedQuery(Club.QNAME_FIND_ALL));
+    }
+
+    public Club findById(long id) {
+        List<Club> clubs = list(namedQuery(Club.QNAME_FIND_BY_ID).setLong("id", id));
         if (!clubs.isEmpty()) {
             return clubs.get(0);
         } else {
@@ -41,9 +43,7 @@ public class ClubDao extends AbstractDAO<Club> {
         }
     }
 
-    public Club findByUsername(
-            String username
-            ) {
+    public Club findByUsername(String username) {
         List<Club> clubs = list(namedQuery(Club.QNAME_FIND_BY_USERNAME).setString("username", username));
         if (!clubs.isEmpty()) {
             return clubs.get(0);
@@ -73,10 +73,7 @@ public class ClubDao extends AbstractDAO<Club> {
         return persist(club);
     }
 
-    public boolean validateCredentials(
-        String username,
-        String password
-        ) {
+    public boolean validateCredentials(String username, String password) {
         Club club = findByUsername(username);
         return club == null ? false : BCrypt.checkpw(password, club.getPasswordHash());
     }

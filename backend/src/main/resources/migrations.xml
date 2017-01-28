@@ -14,14 +14,8 @@
         <sqlFile path="m002.sql"/>
     </changeSet>
 
-<!--
     <changeSet id="3" author="davidchou">
         <sqlFile path="m003.sql"/>
     </changeSet>
-
-    <changeSet id="4" author="davidchou">
-        <sqlFile path="m004.sql"/>
-    </changeSet>
--->
 
 </databaseChangeLog>
