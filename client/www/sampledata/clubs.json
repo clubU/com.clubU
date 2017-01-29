@@ -8,19 +8,20 @@
     {
         "id" : 2,
         "title" : "ICU",
-        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi."
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/icu.jpg"
     },
     {
         "id" : 3,
         "title" : "881",
         "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
-        "image" : "sampledata/products/3.jpg",
-        "price" : 200
+        "image" : "sampledata/img/881.jpg"
     },
     {
         "id" : 4,
         "title" : "Magic Glasses",
-        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi."
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/glasses.jpg"
     }
 
 ]

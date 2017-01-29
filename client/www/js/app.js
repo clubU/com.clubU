@@ -45,7 +45,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     url: '/home_feed',
     views: {
       'menuContent': {
-        templateUrl: 'templates/home_feed.html'
+        templateUrl: 'templates/home_feed.html',
+        controller: 'FeedCtrl'
       }
     }
   })

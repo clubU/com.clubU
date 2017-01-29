@@ -1,9 +1,13 @@
 <ion-view view-title="Clubs">
   <ion-content>
-    <ion-list>
-      <ion-item ng-repeat="club in clubs">
-        {{club.title}}
-      </ion-item>
-    </ion-list>
+    <ion-refresher pulling-text="LOADING" on-refresh="doRefresh()">
+    </ion-refresher>
+    <div ng-repeat="club in clubs">
+      <ion-list>
+        <ion-item href="#/app/clubs/{{club.id}}">
+          {{club.title}}
+        </ion-item>
+      </ion-list>
+    </div>
   </ion-content>
 </ion-view>

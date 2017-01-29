@@ -150,11 +150,24 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('ClubsCtrl', function($scope, $ionicActionSheet) {
-/*
+.controller ('FeedCtrl', function($scope, $state, $http, FeedService) {
   $scope.doRefresh = function(){
-    BackendService.getClubs()
-    .success(function(newItems) {
+    FeedService.getEvents().success(function(newItems) {
+      $scope.events = newItems;
+    })
+    .finally(function(){
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+  $scope.doRefresh();
+
+  //$scope.doRefresh();
+})
+
+.controller('ClubsCtrl', function($scope, $ionicActionSheet, BackendService) {
+
+  $scope.doRefresh = function(){
+    BackendService.getClubs().success(function(newItems) {
       $scope.clubs = newItems;
     })
     .finally(function() {
@@ -162,13 +175,11 @@ angular.module('starter.controllers', ['starter.services'])
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
-*/
-  $scope.clubs = [
-    { title: 'ROCSAUT', id: 1 },
-    { title: '881', id: 2 },
-    { title: 'ICU', id: 3 },
-    { title: 'EngSoc', id: 4 }
-  ];
+
+  $scope.doRefresh();
+  $scope.getRandomIndex = function(length){
+    return Math.floor(Math.random() * length);
+  };
 })
 
 .controller('ClubCtrl', function($scope, $stateParams) {
