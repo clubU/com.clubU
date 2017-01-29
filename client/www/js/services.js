@@ -1,7 +1,6 @@
 angular.module('starter.services', [])
 
 // Clubs services
-
 .factory('BackendService', ['$http', function($http){
 
   var svc = {};
@@ -11,11 +10,5 @@ angular.module('starter.services', [])
   }
 
   return svc;
-
-
-
-
-
-
 
 }])

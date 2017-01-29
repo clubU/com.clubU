@@ -165,25 +165,25 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ClubsCtrl', function($scope, $ionicActionSheet, BackendService) {
-
+.controller('ClubsCtrl', function($scope, $ionicActionSheet) {
+/*
   $scope.doRefresh = function(){
     BackendService.getClubs()
     .success(function(newItems) {
-      $scope.products = newItems;
+      $scope.clubs = newItems;
     })
     .finally(function() {
       // Stop the ion-refresher from spinning (not needed in this view)
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
-/*
+*/
   $scope.clubs = [
     { title: 'ROCSAUT', id: 1 },
     { title: '881', id: 2 },
     { title: 'ICU', id: 3 },
     { title: 'EngSoc', id: 4 }
-  ]; */
+  ];
 })
 
 .controller('ClubCtrl', function($scope, $stateParams) {
