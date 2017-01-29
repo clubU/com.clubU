@@ -1,6 +1,6 @@
 var hostname = "http://localhost:8080/";
 
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['starter.services'])
 
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
@@ -94,38 +94,23 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('signUpCtrl', function($scope, $state, $http) {
+.controller('signUpCtrl', function($scope, $state, $http, conn) {
   $scope.userData = {};
   $scope.doSignUp = function (form) {
-
-    var request = $http({
-      method: 'POST',
-      url: 'http://localhost:8080/user',
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      data: {
+  	var $data = {
         password: $scope.userData.password,
         username: $scope.userData.username,
         firstName: $scope.userData.firstName,
         lastName: $scope.userData.lastName,
-        dateOfBirth: $scope.dateOfBirth,
-        studentId: $scope.userData.studentNumber,
-        email: "keke"
-      },
-      transformRequest: function(obj) {
-        var str = [];
-        for(var p in obj)
-        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-        return str.join("&");
-      }
-    });
+        programOfStudy: $scope.userData.fieldOfStudy,
+        studentNumber: $scope.userData.studentNumber,
+        email: $scope.userData.email
+	};
 
-    $state.go('app.user');
-    request.success(function(data){
-
-    })
-
+	conn.dataTrans("POST", $data, "student")
+	.success(function(data) {
+	    $state.go('app.user');
+	});
   };
 
 })
