@@ -52,7 +52,7 @@ angular.module('starter.controllers', ['starter.services'])
 */
 })
 
-.controller('loginCtrl', function($scope, $state, $http) {
+.controller('loginCtrl', function($scope, $state, $http, conn) {
     $scope.loginData = {};
 
     $scope.goToSignUp = function() {
@@ -60,35 +60,33 @@ angular.module('starter.controllers', ['starter.services'])
     };
 
     $scope.doLogin = function() {
-        console.log("LOGIN user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+	  	var $data = {
+	  		username: $scope.loginData.username,
+	  		password: $scope.loginData.password,
+	  		type: "1"
+	  	}
+
+	  	conn.dataTrans("POST", $data, "session");
         $state.go('app.clubs');
     }
 
 })
-.controller('clubLoginCtrl', function($scope, $state, $http) {
+.controller('clubLoginCtrl', function($scope, $state, $http, conn) {
     $scope.loginData = {};
 
     $scope.goToSignUp = function() {
-      $state.go('app.club_signup');
+      $state.go('app.signup');
     };
 
-    $scope.doLogin = function (form) {
+    $scope.doLogin = function() {
+	  	var $data = {
+	  		username: $scope.loginData.username,
+	  		password: $scope.loginData.password,
+	  		type: "2"
+	  	}
 
-      var request = $http({
-        method: 'POST',
-        url: 'http://localhost:8080/user',
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        data: {
-          username: $scope.loginData.username,
-          password: $scopy.loginData.password
-        },
-
-
-      });
-        console.log("LOGIN club: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
-        $state.go('app.user');
+	  	conn.dataTrans("POST", $data, "session");
+        $state.go('app.clubs');
     }
 
 })
@@ -113,27 +111,18 @@ angular.module('starter.controllers', ['starter.services'])
   };
 
 })
-.controller('clubSignUpCtrl', function($scope, $state, $http) {
+.controller('clubSignUpCtrl', function($scope, $state, $http, conn) {
   $scope.userData = {};
   $scope.doClubSignUp = function (form) {
-   var request = $http({
-      method : 'POST',
-      url : 'http://localhost:8080/user',
-//      crossDomain:  true,
-      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, dateOfBirth: $scope.dateOfBirth, studentId: $scope.userData.studentNumber, email: "keke"},
-      header : {}
-    });
-    console.log("SIGNUP user: " + $scope.userData.username + " - PW: " + $scope.userData.password + " - Username: " + $scope.userData.username + " - DOB " + $scope.userData.dateOfBirth);
-    $state.go('app.user');
-    request.success(function(data){
-      if (data == '1'){
-        alert("congrats");
-      }
-      else {
-        alert("boooo");
-      }
-    })
+  	var $data = {
+  		username: $scope.userData.username,
+  		password: $scope.userData.password,
+  		name: $scope.userData.clubName,
+  		email: $scope.userData.email
+  	}
 
+  	conn.dataTrans("POST", $data, "club");
+  	$state.go('app.user');
   };
 
 })
