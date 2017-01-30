@@ -73,6 +73,14 @@ public class ClubApi extends AbstractApiBase {
         }
     }
 
+    @UnitOfWork
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findBySearchKeyword(@QueryParam("searchKeyword") String searchKeyword) {
+        return newResponse(Response.Status.OK)
+                .entity(clubDao.findBySearchKeyword(searchKeyword))
+                .build();
+    }
 
     @UnitOfWork
     @GET

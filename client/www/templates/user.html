@@ -1,22 +1,26 @@
 <ion-view view-title="Profile">
   <ion-content>
     <div class="text-center ui-gradient-deepblue padding">
-      <img class="avatar-account" src="../img/blankProfile.jpeg">
-      <h2>Firstname Lastname</h2>
+      <img class="avatar-account" src="../img/spongebob.jpg">
+      <h2> {{info.firstName}} {{info.lastName}} </h2>
     </div>
 
     <div class="list user-info">
       <label class="item ">
         <span>Username</span>
+        <h2> {{ info.userName }} </h2>
       </label>
       <label class="item">
         <span>Email</span>
+        <h2> {{ info.email}} </h2>
       </label>
       <label class="item">
         <span>Program of Study</span>
+        <h2> {{ info.program }} </h2>
       </label>
       <label class="item">
         <span>Year of Study</span>
+        <h2> {{ info.year }} </h2>
       </label>
     </div>
 

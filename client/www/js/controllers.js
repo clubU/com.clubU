@@ -2,6 +2,7 @@ var hostname = "http://localhost:8080/";
 
 angular.module('starter.controllers', ['starter.services'])
 
+
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -67,7 +68,7 @@ angular.module('starter.controllers', ['starter.services'])
 	  	}
 
 	  	conn.dataTrans("POST", $data, "session");
-        $state.go('app.clubs');
+        $state.go('app.feed');
     }
 
 })
@@ -86,7 +87,7 @@ angular.module('starter.controllers', ['starter.services'])
 	  	}
 
 	  	conn.dataTrans("POST", $data, "session");
-        $state.go('app.clubs');
+        $state.go('app.feed');
     }
 
 })
@@ -127,22 +128,58 @@ angular.module('starter.controllers', ['starter.services'])
 
 })
 
-.controller('ClubsCtrl', function($scope) {
-  $scope.clubs = [
-    { title: 'ROCSAUT', id: 1 },
-    { title: '881', id: 2 },
-    { title: 'ICU', id: 3 },
-    { title: 'EngSoc', id: 4 }
-  ];
+.controller('UserCtrl', function($scope) {
+  $scope.info = {
+    firstName: 'Spongebob',
+    lastName: 'Cornelia',
+    userName: 'student1',
+    email: 'email@lol.com',
+    program: 'ECE',
+    year: '4',
+  };
 })
 
-.controller('UserCtrl', function($scope) {
+.controller ('FeedCtrl', function($scope, $state, $http, FeedService) {
+  $scope.doRefresh = function(){
+    FeedService.getEvents().success(function(newItems) {
+      $scope.events = newItems;
+    })
+    .finally(function(){
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+  $scope.doRefresh();
+
+  //$scope.doRefresh();
+})
+
+.controller('ClubsCtrl', function($scope, $ionicActionSheet, BackendService) {
+
+  $scope.doRefresh = function(){
+    BackendService.getClubs().success(function(newItems) {
+      $scope.clubs = newItems;
+    })
+    .finally(function() {
+      // Stop the ion-refresher from spinning (not needed in this view)
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+
+  $scope.doRefresh();
+  $scope.getRandomIndex = function(length){
+    return Math.floor(Math.random() * length);
+  };
+
+  $scope.getClub = function(id){
+    alert(id);
+  };
 
 })
 
 .controller('ClubCtrl', function($scope, $stateParams) {
+
   $scope.name = 'ROCSAUT';
-  $scope.description = 'The Taiwan Republic of China Student Association at the University of Toronto (ROCSAUT) at UTSG aims at providing a platform for students with similar backgrounds or students who are interested in the Taiwanese culture to engage in events to meet new people and network. 多倫多大學台灣同學會歡迎不管是台灣背景還是對台灣文化有興趣的同學參加我們社團!';
+  $scope.about = 'The Taiwan Republic of China Student Association at the University of Toronto (ROCSAUT) at UTSG aims at providing a platform for students with similar backgrounds or students who are interested in the Taiwanese culture to engage in events to meet new people and network. 多倫多大學台灣同學會歡迎不管是台灣背景還是對台灣文化有興趣的同學參加我們社團!';
 
   $scope.events = [
     { title: 'OTP',

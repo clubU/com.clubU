@@ -41,6 +41,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.feed', {
+    url: '/home_feed',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/home_feed.html',
+        controller: 'FeedCtrl'
+      }
+    }
+  })
+
   .state('app.search', {
     url: '/search',
     views: {
@@ -97,15 +107,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
-    .state('app.clubs', {
-      url: '/clubs',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/clubs.html',
-          controller: 'ClubsCtrl'
-        }
-      }
-    })
+
   .state('app.user', {
     url: '/user',
     views: {
@@ -116,8 +118,18 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.clubs', {
+    url: '/clubs',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/clubs.html',
+        controller: 'ClubsCtrl'
+      }
+    }
+  })
+
   .state('app.single', {
-    url: '/clubs/:clubId',
+    url: '/clubs/:id',
     views: {
       'menuContent': {
         templateUrl: 'templates/club.html',
