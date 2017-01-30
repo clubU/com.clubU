@@ -2,7 +2,7 @@
   <ion-content>
     <ion-refresher pulling-text="LOADING" on-refresh="doRefresh()">
     </ion-refresher>
-    <div ng-repeat="club in clubs">
+    <div ng-repeat="club in clubs" ng-click="getClub(club.id)">
       <ion-list>
         <ion-item href="#/app/clubs/{{club.id}}">
           {{club.title}}

@@ -180,6 +180,11 @@ angular.module('starter.controllers', ['starter.services'])
   $scope.getRandomIndex = function(length){
     return Math.floor(Math.random() * length);
   };
+
+  $scope.getClub = function(id){
+    alert(id);
+  };
+
 })
 
 .controller('ClubCtrl', function($scope, $stateParams) {
