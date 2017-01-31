@@ -53,13 +53,13 @@ public class ClubDao extends AbstractDAO<Club> {
     }
 
     public Club createClub(
-            String username,
-            String password,
-            String name,
-            String email,
-            String abbreviation,
-            String description
-            ) {
+        String username,
+        String password,
+        String name,
+        String email,
+        String abbreviation,
+        String description
+        ) {
         Club club = new Club();
         Date now = new Date();
         club.setUsername(username);

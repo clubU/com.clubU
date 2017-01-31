@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
@@ -40,7 +41,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
         query = "SELECT c FROM Club c WHERE c.name LIKE :searchKeyword"
     )
 })
-
 public class Club {
 
     // Start of query names
@@ -83,6 +83,11 @@ public class Club {
     @OrderBy("id ASC")
     @JsonIgnoreProperties({"clubs"})
     private List<Student> students;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "club_id")
+    @JsonIgnoreProperties({"club"})
+    private List<Event> events;
 
     @Column(name = "time_created", nullable = false)
     private Date timeCreated;
@@ -146,6 +151,13 @@ public class Club {
     }
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+    public void setEvents(List<Event> events) {
+        this.events = events; 
     }
 
     public Date getTimeCreated() {
