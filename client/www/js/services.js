@@ -34,6 +34,8 @@ angular.module('starter.services', [])
     return $http.get('sampledata/events.json');
   }
 
+
+
   return svc;
 }])
 

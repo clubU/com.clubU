@@ -161,7 +161,7 @@ angular.module('starter.controllers', ['starter.services'])
   };
   $scope.doRefresh();
 
-  //$scope.doRefresh();
+
 })
 
 .controller('ClubsCtrl', function($scope, $ionicActionSheet, BackendService) {
@@ -179,10 +179,6 @@ angular.module('starter.controllers', ['starter.services'])
   $scope.doRefresh();
   $scope.getRandomIndex = function(length){
     return Math.floor(Math.random() * length);
-  };
-
-  $scope.getClub = function(id){
-    alert(id);
   };
 
 })
@@ -225,4 +221,33 @@ angular.module('starter.controllers', ['starter.services'])
   $scope.isItemShown = function(item) {
     return $scope.shownItem === item;
   };
+})
+
+.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, FeedService) {
+
+  $scope.doRefresh = function(){
+    FeedService.getEvents().success(function(newItems) {
+      $scope.events = newItems;
+    })
+    .finally(function(){
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+  $scope.doRefresh();
+
+
+  $scope.eventData = {};
+  $scope.addEvent = function(form){
+    var $data = {
+      title: $scope.eventData.title,
+      date: $scope.eventData.date,
+      desc: $scope.eventData.description
+    };
+    $http.post('sampledata/events.json', $scope.eventData);
+  };
+
+
+
+
+
 });

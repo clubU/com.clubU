@@ -1,10 +1,12 @@
-<ion-view view-title="Feed">
+<ion-view view-title="Feed" hide-back-button="true">
+  <ion-header-bar class="bar bar-deepblue bar-deepblue-borderbottom">
+  </ion-header-bar>
+
   <ion-content>
     <!-- ion refresher for page refresh functionality -->
     <ion-refresher pulling-text="LOADING" on-refresh="doRefresh()">
     </ion-refresher>
 
-    <h2>Upcoming Events</h2>
     <div ng-repeat="event in events">
       <div class="item item-avatar item-button-right">
         <img src="sampledata/img/rocsaut.jpg">
@@ -23,7 +25,12 @@
       </div>
     </div>
 
+    <!-- club recommendation -->
     <h4>You may also like.. </h4>
-    
+    <div ng-repeat="">
+      <div class="item">
+        
+      </div>
+    </div>
   </ion-content>
 </ion-view>

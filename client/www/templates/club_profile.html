@@ -1,0 +1,60 @@
+<ion-view view-title="Profile">
+
+    <ion-content>
+      <h2> Add event here </h2>
+      <form ng-submit="addEvent()">
+        <div class="list signup">
+          <label class="item item-input">
+            <span class="input-label">Event Title</span>
+            <input type="text" ng-model="eventData.title">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Date</span>
+            <input type="text" ng-model="eventData.date">
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Description</span>
+            <input type="text" ng-model="eventData.desc">
+          </label>
+
+          <button class="button button-block button-positive" type="submit">Add new event</button>
+        </div>
+      </form>
+      <!-- Club Photo -->
+      <div class=" text-center ui-gradient-deepblue padding">
+        <img class="avatar-account" ng-src="{{user.avatar}}">
+        <h2> CLUB NAME </h2>
+      </div>
+
+      <ion-item class="item item-text-wrap">
+        <div>
+          <h2>About</h2>
+          <p>{{ about }}</p>
+        </div>
+      </ion-item>
+
+
+
+
+      <h1>EVENTS</h2>
+      <div ng-repeat="event in events">
+        <div class="item item-avatar item-button-right">
+          <img src="sampledata/img/rocsaut.jpg">
+          <h2>{{event.title}}</h2>
+          <p>{{event.date}}</p>
+        </div>
+
+        <div class="item item-image">
+          <img ng-src="{{event.image}}">
+        </div>
+
+        <div class="item item-text-wrap">
+          <p>
+            {{event.description}}
+          </p>
+        </div>
+      </div>
+
+    </ion-content>
+
+</ion-view>
