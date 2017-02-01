@@ -1,9 +1,10 @@
-<ion-view view-title=" {{ name }}">
+<ion-view>
+  <ion-nav-title>{{ name }}</ion-nav-title>
   <ion-content>
 
       <div class="row">
         <div class="col-50">
-            <img class="club-photo" src="../img/rocsaut.jpg" align="middle">
+            <img class="club-photo" ng-src="{{image}}" align="middle">
         </div>
         <div  class="col-50">
           <p class="club-name">{{ name }}</p>

@@ -2,7 +2,7 @@ angular.module('starter.services', [])
 
 
 // Clubs services
-.factory('BackendService', ['$http', function($http){
+/*.factory('BackendService', function($http){
 
   var svc = {};
   svc.getClubs = function(){
@@ -26,16 +26,7 @@ angular.module('starter.services', [])
   }
   return svc;
 
-}])
-
-.factory('FeedService', ['$http', function($http){
-  var svc = {};
-  svc.getEvents = function(){
-    return $http.get('sampledata/events.json');
-  }
-
-  return svc;
-}])
+})*/
 
 .service('conn',function($state, $http) {
 	this.url = 'http://localhost:8080/';
@@ -43,17 +34,27 @@ angular.module('starter.services', [])
     	"Content-Type": "application/x-www-form-urlencoded"
     }
 	this.dataTrans = function($method, $data, $path) {
-		return $http({
-			method: $method,
-			url: this.url + $path,
-			headers: this.headers,
-			data: $data,
-			transformRequest: function(obj) {
-				var str = [];
-				for(var p in obj)
-					str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-				return str.join("&");
-			}
-		});
+    var capsul = {
+      method: $method,
+      url: this.url + $path,
+      headers: this.headers,
+      data: $data,
+      transformRequest: function(obj) {
+        var str = [];
+        for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        return str.join("&");
+      }
+    };
+
+    if ($method == "GET") {
+      delete capsul.transformRequest;
+    }
+
+		return $http(capsul);
 	}
 })
+.service('tempData', function() {
+  this.data = {};
+})
+;
