@@ -23,3 +23,6 @@ INSERT INTO subscription VALUES(4, 1, @now);
 INSERT INTO subscription VALUES(4, 2, @now);
 INSERT INTO subscription VALUES(4, 3, @now);
 
+INSERT INTO event VALUES(1, 1, "OTP", @now, "Somewhere", "Something", @now, @now);
+INSERT INTO event VALUES(2, 1, "LOL", @now, "Nowhere", "Nothing", @now, @now);
+

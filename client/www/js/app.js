@@ -4,9 +4,10 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $httpBackend) {
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,6 +21,78 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       StatusBar.styleDefault();
     }
   });
+//////////////////////////////////////////////////////////////////////////////httpbackend test data
+  var clubsInfo = [
+    {
+        "id" : 1,
+        "name" : "ROCSAUT",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/rocsaut.jpg"
+    },
+    {
+        "id" : 2,
+        "name" : "ICU",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/icu.jpg"
+    },
+    {
+        "id" : 3,
+        "name" : "881",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/881.jpg"
+    },
+    {
+        "id" : 4,
+        "name" : "Magic Glasses",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/glasses.jpg"
+    }
+  ];
+
+  var eventsInfo = [
+    {
+        "id" : 1,
+        "title" : "OTP",
+        "time" : "Sept 20, 2017",
+        "description" : "OTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTP",
+        "location" : "40 St George",
+        "image" : "sampledata/img/OTP.jpg"
+    },
+    {
+        "id" : 2,
+        "title" : "Event 2",
+        "time" : "June 9, 1969",
+        "description" : "8========================D",
+        "location" : "Mars",
+        "image" : "sampledata/img/smd.jpg"
+    },
+    {
+        "id" : 3,
+        "title" : "Event 3",
+        "time" : "August 7, 1994",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "location" : "tbd",
+        "image" : "sampledata/img/rocsaut.jpg"
+    },
+    {
+        "id" : 4,
+        "title" : "Event 4",
+        "time" : "May 5, 2017",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "location" : "secret",
+        "image" : "sampledata/img/rocsaut.jpg"
+    }
+
+  ];
+
+  $httpBackend.whenGET(/templates\/.*/).passThrough();
+  $httpBackend.whenPOST(/.*session/).respond(200);
+  $httpBackend.whenGET(/.*club\/\d/, function() {return true;}).respond(function(method,url) {
+    $num = url.match(/.*\/(\d)$/)[1];
+    return [200,clubsInfo[$num - 1]];
+  });
+  $httpBackend.whenGET(/.*event/, function() {return true;}). respond(eventsInfo);
+  $httpBackend.whenGET(/.*student/, function() {return true;}). respond(clubsInfo);
 })
 
 .config(function($stateProvider, $urlRouterProvider) {

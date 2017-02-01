@@ -53,7 +53,7 @@ angular.module('starter.controllers', ['starter.services'])
 */
 })
 
-.controller('loginCtrl', function($scope, $state, $http) {
+.controller('loginCtrl', function($scope, $state, $http, conn) {
     $scope.loginData = {};
 
     $scope.goToSignUp = function() {
@@ -61,35 +61,35 @@ angular.module('starter.controllers', ['starter.services'])
     };
 
     $scope.doLogin = function() {
-        console.log("LOGIN user: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+	  	var $data = {
+	  		username: $scope.loginData.username,
+	  		password: $scope.loginData.password,
+	  		type: "1"
+	  	}
+
+	  	conn.dataTrans("POST", $data, "session").success(function() {
         $state.go('app.feed');
+      });
     }
 
 })
-.controller('clubLoginCtrl', function($scope, $state, $http) {
+.controller('clubLoginCtrl', function($scope, $state, $http, conn) {
     $scope.loginData = {};
 
     $scope.goToSignUp = function() {
-      $state.go('app.club_signup');
+      $state.go('app.signup');
     };
 
-    $scope.doLogin = function (form) {
+    $scope.doLogin = function() {
+	  	var $data = {
+	  		username: $scope.loginData.username,
+	  		password: $scope.loginData.password,
+	  		type: "2"
+	  	}
 
-      var request = $http({
-        method: 'POST',
-        url: 'http://localhost:8080/user',
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        data: {
-          username: $scope.loginData.username,
-          password: $scopy.loginData.password
-        },
-
-
-      });
-        console.log("LOGIN club: " + $scope.loginData.username + " - PW: " + $scope.loginData.password);
+	  	conn.dataTrans("POST", $data, "session").success(function() {
         $state.go('app.feed');
+      });
     }
 
 })
@@ -114,27 +114,18 @@ angular.module('starter.controllers', ['starter.services'])
   };
 
 })
-.controller('clubSignUpCtrl', function($scope, $state, $http) {
+.controller('clubSignUpCtrl', function($scope, $state, $http, conn) {
   $scope.userData = {};
   $scope.doClubSignUp = function (form) {
-   var request = $http({
-      method : 'POST',
-      url : 'http://localhost:8080/user',
-//      crossDomain:  true,
-      data : {password: $scope.userData.password, username: $scope.username, firstName: $scope.userData.firstName, lastName: $scope.userData.lastName, dateOfBirth: $scope.dateOfBirth, studentId: $scope.userData.studentNumber, email: "keke"},
-      header : {}
-    });
-    console.log("SIGNUP user: " + $scope.userData.username + " - PW: " + $scope.userData.password + " - Username: " + $scope.userData.username + " - DOB " + $scope.userData.dateOfBirth);
-    $state.go('app.user');
-    request.success(function(data){
-      if (data == '1'){
-        alert("congrats");
-      }
-      else {
-        alert("boooo");
-      }
-    })
+  	var $data = {
+  		username: $scope.userData.username,
+  		password: $scope.userData.password,
+  		name: $scope.userData.clubName,
+  		email: $scope.userData.email
+  	}
 
+  	conn.dataTrans("POST", $data, "club");
+  	$state.go('app.user');
   };
 
 })
@@ -150,9 +141,10 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller ('FeedCtrl', function($scope, $state, $http, FeedService) {
+.controller ('FeedCtrl', function($scope, $state, $http, conn) {
   $scope.doRefresh = function(){
-    FeedService.getEvents().success(function(newItems) {
+    conn.dataTrans("GET", {clubId:"1"}, "event")
+    .success(function(newItems) {
       $scope.events = newItems;
     })
     .finally(function(){
@@ -164,10 +156,10 @@ angular.module('starter.controllers', ['starter.services'])
 
 })
 
-.controller('ClubsCtrl', function($scope, $ionicActionSheet, BackendService) {
+.controller('ClubsCtrl', function($scope, $ionicActionSheet, conn, tempData) {
 
   $scope.doRefresh = function(){
-    BackendService.getClubs().success(function(newItems) {
+    conn.dataTrans("GET", "temptest", "student").success(function(newItems) {
       $scope.clubs = newItems;
     })
     .finally(function() {
@@ -181,32 +173,30 @@ angular.module('starter.controllers', ['starter.services'])
     return Math.floor(Math.random() * length);
   };
 
+
+  $scope.getClub = function(id){
+    tempData.clubId = id;
+  };
+
+
 })
 
-.controller('ClubCtrl', function($scope, $stateParams) {
+.controller('ClubCtrl', function($scope, $stateParams, conn, tempData) {
+  var $clubInfo = {};
+  conn.dataTrans("GET", null, "club/" + tempData.clubId).success(function(data) {
+    $clubInfo = data;
+    $scope.image = $clubInfo.image;
+    $scope.name = $clubInfo.name;
+    $scope.about = $clubInfo.description;
+  });
 
-  $scope.name = 'ROCSAUT';
-  $scope.about = 'The Taiwan Republic of China Student Association at the University of Toronto (ROCSAUT) at UTSG aims at providing a platform for students with similar backgrounds or students who are interested in the Taiwanese culture to engage in events to meet new people and network. 多倫多大學台灣同學會歡迎不管是台灣背景還是對台灣文化有興趣的同學參加我們社團!';
 
-  $scope.events = [
-    { title: 'OTP',
-      time: 'September 20, 2017',
-      desc: 'Orientation to welcome new comers',
-      location: 'ES1055'
-    },
-    {
-      title: 'Mix n Mingle',
-      time: 'October 3, 2017',
-      desc: 'come meet new people',
-      location: 'GB404'
-    },
-    {
-      title: 'Semi-Formal',
-      time: 'Jan. 27, 2017',
-      desc: 'Dress up and come eat or something',
-      location: 'Eaton Chelsea'
-    }
-  ];
+  $eventList = {};
+  conn.dataTrans("GET", null, "event").success(function(data) {
+    $eventList = data;
+    $scope.events = $eventList;
+  });
+
   /*
    * if given group is the selected group, deselect it
    * else, select the given group
