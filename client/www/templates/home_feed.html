@@ -11,7 +11,8 @@
       <div class="item item-avatar item-button-right">
         <img src="sampledata/img/rocsaut.jpg">
         <h2>{{event.title}}</h2>
-        <p>{{event.date}}</p>
+        <p>{{event.time}}</p>
+        <p>{{event.location}}</p>
       </div>
 
       <div class="item item-image">
@@ -27,10 +28,12 @@
 
     <!-- club recommendation -->
     <h4>You may also like.. </h4>
-    <div ng-repeat="">
-      <div class="item">
-        
+    <div ng-repeat="club in clubs">
+      <div class="item" href="#/app/clubs/{{club.id}}">
+        <img ng-src="{{club.image}}">
+        <h2>{{club.name}}</h2>
       </div>
     </div>
+    
   </ion-content>
 </ion-view>

@@ -62,9 +62,9 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
         "id" : 2,
         "title" : "Event 2",
         "time" : "June 9, 1969",
-        "description" : "8========================D",
+        "description" : "This is event 2",
         "location" : "Mars",
-        "image" : "sampledata/img/smd.jpg"
+        "image" : "sampledata/img/event2.jpg"
     },
     {
         "id" : 3,
@@ -72,7 +72,7 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
         "time" : "August 7, 1994",
         "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
         "location" : "tbd",
-        "image" : "sampledata/img/rocsaut.jpg"
+        "image" : "sampledata/img/event3.jpg"
     },
     {
         "id" : 4,
@@ -80,7 +80,7 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
         "time" : "May 5, 2017",
         "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
         "location" : "secret",
-        "image" : "sampledata/img/rocsaut.jpg"
+        "image" : "sampledata/img/event4.jpg"
     }
 
   ];
