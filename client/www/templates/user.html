@@ -5,6 +5,11 @@
       <h2> {{info.firstName}} {{info.lastName}} </h2>
     </div>
 
+    <label class="list item-input user-info">
+      <span class="input-label">Club Name</span>
+      <input type="text" ng-model="accountClub.clubName" name="clubName" ng-readonly="readonly" required>
+    </label>
+
     <div class="list user-info">
       <label class="item ">
         <span>Username</span>

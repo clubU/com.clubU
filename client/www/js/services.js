@@ -26,7 +26,21 @@ angular.module('starter.services', [])
   }
   return svc;
 
+}])
+
+.factory('FeedService', ['$http', function($http){
+  var svc = {};
+  svc.getEvents = function(){
+    return $http.get('sampledata/events.json');
+  }
+
+
+
+  return svc;
+}])
+
 })*/
+
 
 .service('conn',function($state, $http) {
 	this.url = 'http://localhost:8080/';

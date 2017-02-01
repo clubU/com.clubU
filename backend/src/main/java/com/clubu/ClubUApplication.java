@@ -4,6 +4,7 @@ import com.clubu.server.api.ClubApi;
 import com.clubu.server.api.EventApi;
 import com.clubu.server.api.SessionApi;
 import com.clubu.server.api.StudentApi;
+import com.clubu.server.api.SubscriptionApi;
 import com.clubu.server.dao.ClubDao;
 import com.clubu.server.dao.EventDao;
 import com.clubu.server.dao.StudentDao;
@@ -78,6 +79,7 @@ public class ClubUApplication extends Application<ClubUConfiguration>{
         env.jersey().register(new EventApi());
         env.jersey().register(new SessionApi());
         env.jersey().register(new StudentApi());
+        env.jersey().register(new SubscriptionApi());
     }
 
 }
