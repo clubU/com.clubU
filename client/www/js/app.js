@@ -132,8 +132,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     url: '/clubs/:id',
     views: {
       'menuContent': {
-        templateUrl: 'templates/club_profile.html',
-        controller: 'ClubProfileCtrl'
+        templateUrl: 'templates/club.html',
+        controller: 'ClubCtrl'
       }
     }
   });
