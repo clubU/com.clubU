@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS subscription ( 
     student_id BIGINT NOT NULL,
     club_id BIGINT NOT NULL,
-    time_created DATETIME NOT NULL,
     PRIMARY KEY (student_id, club_id),
     FOREIGN KEY (student_id)
         REFERENCES student(id)

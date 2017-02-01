@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.clubu.server.orm.Club;
 import com.clubu.server.orm.Student;
 import com.clubu.server.utils.TextParsingUtils;
 
@@ -77,6 +78,12 @@ public class StudentDao extends AbstractDAO<Student> {
         student.setTimeCreated(now);
         student.setTimeUpdated(now);
         return persist(student);
+    }
+
+    public Student addClub(Student student, Club club) {
+        student.addClub(club);
+        currentSession().update(student);
+        return student;
     }
 
     public boolean validateCredentials(String username, String password) {

@@ -171,6 +171,14 @@ public class Student {
     public void setClubs(List<Club> clubs) {
         this.clubs = clubs;
     }
+    public void addClub(Club club) {
+        for (Club c : clubs) {
+            if (c.getId() == club.getId()) {
+                return;
+            }
+        }
+        clubs.add(club);
+    }
 
     public Date getTimeCreated() {
         return timeCreated;
