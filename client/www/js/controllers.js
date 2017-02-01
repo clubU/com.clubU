@@ -206,7 +206,14 @@ angular.module('starter.controllers', ['starter.services'])
       $scope.shownItem = item;
     }
   };
+
   $scope.isItemShown = function(item) {
     return $scope.shownItem === item;
   };
+
+  $scope.subscribe = function() {
+    conn.dataTrans("POST", {studentUsername: "temptest", clubId: $clubInfo.id},"subscription"),success(function() {
+      console.log("subcribe successfully");
+    });
+  }
 });

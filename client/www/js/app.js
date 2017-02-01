@@ -49,6 +49,26 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
     }
   ];
 
+  var unsubscribedClub =    [
+    {
+        "id" : 5,
+        "name" : "Jogging club",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/jogging.jpg"
+    },
+        {
+        "id" : 6,
+        "name" : "Mountain Climbing club",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/mountain.jpg"
+    },
+    {
+        "id" : 7,
+        "name" : "Swimming club",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
+        "image" : "sampledata/img/swimming.jpg"
+    }
+    ];
   var eventsInfo = [
     {
         "id" : 1,
@@ -93,6 +113,16 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
   });
   $httpBackend.whenGET(/.*event/, function() {return true;}). respond(eventsInfo);
   $httpBackend.whenGET(/.*student/, function() {return true;}). respond(clubsInfo);
+  $httpBackend.whenGET(/.*subscription\/\d/, function() {return true;}).respond(function(method,url,data) {
+    console.log(data);
+    var target;
+    for each (var club in unsubscribedClub) {
+      if (club.id == data.id)
+          target = club;
+    }
+
+    clubsInfo[5] = unsubscribedClub;
+  });
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
