@@ -150,12 +150,14 @@ angular.module('starter.controllers', ['starter.services'])
     .finally(function(){
       $scope.$broadcast('scroll.refreshComplete');
     });
+
+	conn.dataTrans("GET", "temptest", "club/recommendations")
+	.success(function(data) {
+		$scope.clubs = data;
+  	})
+
   };
 
-  conn.dataTrans("GET", "temptest", "club/recommendations")
-  .success(function(data) {
-    $scope.clubs = data;
-  })
 
   $scope.doRefresh();
 
