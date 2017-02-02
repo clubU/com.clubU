@@ -194,16 +194,7 @@ angular.module('starter.controllers', ['starter.services'])
 
   $scope.btnText = 'Subscribe';
   $scope.buttonColour = "button-positive";
-  $scope.changeSub = function() {
-    $scope.btnText = 'Subscribed';
-    $scope.buttonColour = "button-balanced";
-  };
 
-  $scope.mouseover = function() {
-    $scope.btnText = 'Unsubscribe';
-    $scope.buttonType = "icon ion-ios-close-empty";
-    $scope.buttonColour = "button-assertive";
-  }
   var $clubInfo = {};
   href = window.location.href;
   clubId = href.match(/.*\/(\d)$/)[1];
@@ -238,6 +229,9 @@ angular.module('starter.controllers', ['starter.services'])
   };
 
   $scope.subscribe = function() {
+    $scope.btnText = 'Subscribed';
+    $scope.buttonColour = "button-balanced";
+
     conn.dataTrans("POST", {studentUsername: "temptest", clubId: $clubInfo.id},"subscription").success(function() {
       console.log("subcribe successfully");
     });
