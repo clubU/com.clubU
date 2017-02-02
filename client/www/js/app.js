@@ -73,34 +73,34 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
     {
         "id" : 1,
         "title" : "OTP",
-        "time" : "Sept 20, 2017",
-        "description" : "OTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTPOTP",
-        "location" : "40 St George",
+        "time" : "Jan. 20, 2017",
+        "description" : "Orientation event for the winter term",
+        "location" : "40 St. George Street",
         "image" : "sampledata/img/OTP.jpg"
     },
     {
         "id" : 2,
-        "title" : "Event 2",
-        "time" : "June 9, 1969",
+        "title" : "Mentorship Program Orientation",
+        "time" : "Feb 17, 2017",
         "description" : "This is event 2",
-        "location" : "Mars",
-        "image" : "sampledata/img/event2.jpg"
+        "location" : "40 St. George Street",
+        "image" : "sampledata/img/mentor.jpg"
     },
     {
         "id" : 3,
-        "title" : "Event 3",
-        "time" : "August 7, 1994",
-        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
-        "location" : "tbd",
-        "image" : "sampledata/img/event3.jpg"
+        "title" : "Semi-Formal",
+        "time" : "Apr. 27, 2017",
+        "description" : "Annual semi-formal event! Come and enjoy good food, music, and win prizes! ",
+        "location" : "Eaton Chelsea Hotel",
+        "image" : "sampledata/img/event2.jpg"
     },
     {
         "id" : 4,
-        "title" : "Event 4",
-        "time" : "May 5, 2017",
-        "description" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, nesciunt hic aut? Saepe nihil autem nesciunt, ab quisquam animi, aperiam fugit? Ut velit a, in perspiciatis error inventore. Dolorum, eligendi.",
-        "location" : "secret",
-        "image" : "sampledata/img/event4.jpg"
+        "title" : "Star Wars Movie Night",
+        "time" : "May 4, 2017",
+        "description" : "May the force be with you.",
+        "location" : "TBD",
+        "image" : "sampledata/img/starwars.jpg"
     }
 
   ];

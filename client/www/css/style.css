@@ -17,6 +17,30 @@
   opacity: 0.8;
 }
 
+.examplePic {
+  height: 150px;
+  width: 150px;
+  border:1px solid black;
+  margin: 2px;
+}
+
+.cardHolder {
+  height: 200px;
+  width:100%;
+  padding: 8px;
+  margin: 6px;
+}
+
+.you-may-like {
+  text-align: center;
+}
+
+.item .item-divider .home {
+  height: 1px;
+}
+
+
+
 /* Side Menu */
 
 

@@ -12,7 +12,7 @@
         <img src="sampledata/img/rocsaut.jpg">
         <h2>{{event.title}}</h2>
         <p>{{event.time}}</p>
-        <p>{{event.location}}</p>
+        <p>Location: {{event.location}}</p>
       </div>
 
       <div class="item item-image">
@@ -24,19 +24,33 @@
           {{event.description}}
         </p>
       </div>
+      <ion-item class="item item-divider home"></ion-item>
     </div>
 
-    <!-- club recommendation -->
-    <h4>You may also like.. </h4>
-    <div ng-repeat="club in clubs">
-      <ion-list>
-        <ion-item href="#/app/clubs/{{club.id}}">
-          {{club.name}}
-          <img ng-src="{{club.image}}">
-        </ion-item>
-      </ion-list>
-
+    <!-- club recommendation
+    <h3 style='margin-top: 5px;' class="you-may-like calm" >You may also like.. </h3> -->
+    <a class="item home-item">
+      You may also like...
+    </a>
+<!--
+    <div class="recommend-clubs" ng-repeat="club in clubs">
+      <ion-item href="#/app/clubs/{{club.id}}" style="display: inline-block; margin: 5px;">
+        {{club.name}}
+        <img ng-src="{{club.image}}" class="examplePic">
+      </ion-item>
     </div>
+-->
+      <ion-scroll direction="xy" class="wide-as-needed">
+        <div ng-repeat="club in clubs" style='display: inline-block; margin: 5px;'>
+          <a href="#/app/clubs/{{club.id}}" style="text-decoration: none;">
+            <span>
+              <h5>{{club.name}}</h5>
+              <img ng-src="{{club.image}}" class="examplePic">
+            </span>
+          </a>
+        </div>
+      </ion-scroll>
+
 
   </ion-content>
 </ion-view>
