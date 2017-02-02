@@ -235,9 +235,5 @@ angular.module('starter.controllers', ['starter.services'])
     };
     $http.post('sampledata/events.json', $scope.eventData);
   };
-
-
-
-
-
+  
 });
