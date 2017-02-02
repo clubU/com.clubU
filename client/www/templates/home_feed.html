@@ -29,11 +29,14 @@
     <!-- club recommendation -->
     <h4>You may also like.. </h4>
     <div ng-repeat="club in clubs">
-      <div class="item" href="#/app/clubs/{{club.id}}">
-        <img ng-src="{{club.image}}">
-        <h2>{{club.name}}</h2>
-      </div>
+      <ion-list>
+        <ion-item href="#/app/clubs/{{club.id}}">
+          {{club.name}}
+          <img ng-src="{{club.image}}">
+        </ion-item>
+      </ion-list>
+
     </div>
-    
+
   </ion-content>
 </ion-view>

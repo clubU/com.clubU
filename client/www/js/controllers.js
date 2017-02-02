@@ -151,6 +151,12 @@ angular.module('starter.controllers', ['starter.services'])
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
+
+  conn.dataTrans("GET", "temptest", "club/recommendations")
+  .success(function(data) {
+    $scope.clubs = data;
+  })
+
   $scope.doRefresh();
 
 
@@ -183,7 +189,9 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('ClubCtrl', function($scope, $stateParams, conn, tempData) {
   var $clubInfo = {};
-  conn.dataTrans("GET", null, "club/" + tempData.clubId).success(function(data) {
+  href = window.location.href;
+  clubId = href.match(/.*\/(\d)$/)[1];
+  conn.dataTrans("GET", null, "club/" + clubId).success(function(data) {
     $clubInfo = data;
     $scope.image = $clubInfo.image;
     $scope.name = $clubInfo.name;
@@ -214,7 +222,7 @@ angular.module('starter.controllers', ['starter.services'])
   };
 
   $scope.subscribe = function() {
-    conn.dataTrans("POST", {studentUsername: "temptest", clubId: $clubInfo.id},"subscription"),success(function() {
+    conn.dataTrans("POST", {studentUsername: "temptest", clubId: $clubInfo.id},"subscription").success(function() {
       console.log("subcribe successfully");
     });
   }

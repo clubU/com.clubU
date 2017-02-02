@@ -109,17 +109,23 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
   $httpBackend.whenPOST(/.*session/).respond(200);
   $httpBackend.whenGET(/.*club\/\d/, function() {return true;}).respond(function(method,url) {
     $num = url.match(/.*\/(\d)$/)[1];
-    return [200,clubsInfo[$num - 1]];
+    if ($num > 4) {
+    	$num -= 4;
+    	$targetList = unsubscribedClub;
+    } else
+    	$targetList = clubsInfo;
+    return [200,$targetList[$num - 1]];
   });
   $httpBackend.whenGET(/.*event/, function() {return true;}). respond(eventsInfo);
+  $httpBackend.whenGET(/.*club\/recommendations/, function() {return true;}). respond(unsubscribedClub);
   $httpBackend.whenGET(/.*student/, function() {return true;}). respond(clubsInfo);
-  $httpBackend.whenGET(/.*subscription\/\d/, function() {return true;}).respond(function(method,url,data) {
+  $httpBackend.whenPOST(/.*subscription/, function() {return true;}).respond(function(method,url,data) {
     console.log(data);
     var target;
-    for each (var club in unsubscribedClub) {
+/*    forEach (var club in unsubscribedClub) {
       if (club.id == data.id)
           target = club;
-    }
+    }*/
 
     clubsInfo[5] = unsubscribedClub;
   });
