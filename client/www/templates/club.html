@@ -1,24 +1,30 @@
 <ion-view hide-back-button="true">
   <ion-nav-title>{{ name }}</ion-nav-title>
   <ion-content>
+    <!--
+    <div class="row">
+    <div class="col-50">
+    <img class="club-photo" ng-src="{{image}}" align="middle">
+  </div>
+  <div  class="col-50">
+  <p class="club-name">{{ name }}</p>
+</div>
+</div>
 
-      <div class="row">
-        <div class="col-50">
-            <img class="club-photo" ng-src="{{image}}" align="middle">
+-->
+    <div class="content">
+      <div class="profile-info">
+        <img class="profile-image" ng-src="{{image}}">
+        <!-- *profile-name / name profile -->
+				<h3 class="profile-name">{{name}}</h3>
+        <div class="row">
+          <div class="col">
+            <button class="button button-block {{buttonColour}}" ng-click="subscribe()">
+              {{btnText}}
+            </button>
+          </div>
         </div>
-        <div  class="col-50">
-          <p class="club-name">{{ name }}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <button class="button button-block {{buttonColour}}" ng-click="subscribe()">
-            {{btnText}}
-          </button>
-        </div>
-      </div>
-
-      <ion-item class="item item-text-wrap">
+        <ion-item class="item item-text-wrap">
           <div ng-class="isItemShown(about) ? 'item-expand active' : 'item-expand inactive'">
             <h2>About</h2>
             <p>{{ about }}</p>
@@ -27,10 +33,14 @@
             <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
             {{ isItemShown(about) ? 'Less' : 'More' }}
           </div>
-      </ion-item>
+        </ion-item>
+      </div>
 
-      <div>
-        <h3>Upcoming Events</h3>
+      <div class="list">
+        <div class="item item-divider">
+          Upcoming Events laala
+        </div>
+
         <ion-item ng-repeat=" event in events">
           <h4>{{ event.title }}</h4>
           <h5>Time: {{ event.time}}</h5>
@@ -38,6 +48,6 @@
           <p> {{event.desc}} </p>
         </ion-item>
       </div>
-
+    </div>
   </ion-content>
 </ion-view>

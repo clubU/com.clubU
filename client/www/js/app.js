@@ -225,6 +225,15 @@ console.log(unsubscribedClub);
     }
   })
 
+  .state('app.edit_profile', {
+    url: '/edit_profile',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/edit_profile.html'
+      }
+    }
+  })
+
   .state('app.clubs', {
     url: '/clubs',
     views: {

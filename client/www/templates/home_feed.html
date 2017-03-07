@@ -2,8 +2,42 @@
   <ion-header-bar class="bar bar-deepblue bar-deepblue-borderbottom">
   </ion-header-bar>
 
+  <ion-content class="padding">
+    <ion-refresher pulling-text="LOADING" on-refresh="doRefresh()">
+    </ion-refresher>
+    <div ng-repeat="event in events" class="list card">
+      <div class="item item-avatar item-icon-right">
+        <img src="sampledata/img/rocsaut.jpg">
+        <h2>{{event.title}}</h2>
+        <p class="icon-p">
+          <i class="icon ion-ios-location-outline"></i>
+          {{event.location}}
+        </p>
+
+        <p class="time">
+          <a>
+            <i class="icon ion-ios-clock-outline"></i>
+            {{event.time}}
+          </a>
+        </p>
+      </div>
+
+      <div class="item item-image">
+        <img ng-src="{{event.image}}">
+      </div>
+
+      <div class="item item-text-wrap">
+        <p>
+          {{event.description}}
+        </p>
+      </div>
+      <ion-item class="item item-divider home"></ion-item>
+    </div>
+
+  </ion-content>
+<!--
   <ion-content>
-    <!-- ion refresher for page refresh functionality -->
+
     <ion-refresher pulling-text="LOADING" on-refresh="doRefresh()">
     </ion-refresher>
 
@@ -28,7 +62,7 @@
     </div>
 
     <!-- club recommendation
-    <h3 style='margin-top: 5px;' class="you-may-like calm" >You may also like.. </h3> -->
+    <h3 style='margin-top: 5px;' class="you-may-like calm" >You may also like.. </h3>
     <a class="item home-item">
       You may also like...
     </a>
@@ -39,7 +73,7 @@
         <img ng-src="{{club.image}}" class="examplePic">
       </ion-item>
     </div>
--->
+
       <ion-scroll direction="xy" class="wide-as-needed">
         <div ng-repeat="club in clubs" style='display: inline-block; margin: 5px;'>
           <a href="#/app/clubs/{{club.id}}" style="text-decoration: none;">
@@ -53,4 +87,5 @@
 
 
   </ion-content>
+-->
 </ion-view>

@@ -1,0 +1,43 @@
+<ion-view hide-back-button="true">
+  <ion-nav-title>{{ name }}</ion-nav-title>
+  <ion-content>
+
+      <div class="row">
+        <div class="col-50">
+            <img class="club-photo" ng-src="{{image}}" align="middle">
+        </div>
+        <div  class="col-50">
+          <p class="club-name">{{ name }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="button button-block {{buttonColour}}" ng-click="subscribe()">
+            {{btnText}}
+          </button>
+        </div>
+      </div>
+
+      <ion-item class="item item-text-wrap">
+          <div ng-class="isItemShown(about) ? 'item-expand active' : 'item-expand inactive'">
+            <h2>About</h2>
+            <p>{{ about }}</p>
+          </div>
+          <div ng-click="toggleItem(about)" class="item-expand-footer">
+            <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
+            {{ isItemShown(about) ? 'Less' : 'More' }}
+          </div>
+      </ion-item>
+
+      <div>
+        <h3>Upcoming Events</h3>
+        <ion-item ng-repeat=" event in events">
+          <h4>{{ event.title }}</h4>
+          <h5>Time: {{ event.time}}</h5>
+          <h6>Location: {{ event.location }}</h6>
+          <p> {{event.desc}} </p>
+        </ion-item>
+      </div>
+
+  </ion-content>
+</ion-view>
