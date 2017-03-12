@@ -20,7 +20,7 @@ public class EventDao extends AbstractDAO<Event> {
 
     public static EventDao getInstance() {
         if (instance == null) {
-            throw new RuntimeException("ClubDao needs to be initialized first before use");
+            throw new RuntimeException("EventDao needs to be initialized first before use");
         }
         return instance;
     }
