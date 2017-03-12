@@ -1,28 +1,31 @@
 <ion-view view-title="Profile">
+  <ion-nav-buttons side="right">
+    <a class="button button-icon icon ion-ios-gear-outline" ui-sref="app.edit_profile"></a>
+  </ion-nav-buttons>
   <ion-content>
 
     <!-- *profile-bg / container image -->
-		<div class="profile-bg">
-			<img src="img/bg.jpg" alt="">
-		</div>
+    <div class="profile-bg">
+      <img src="img/bg.jpg" alt="">
+    </div>
 
     <div class="content">
-			<!-- *profile-info / container data profile -->
-			<div class="profile-info">
-				<!-- *profile-image / image profile -->
-				<img class="profile-image" src="img/jenjen.png">
-				<!-- *profile-name / name profile -->
-				<h3 class="profile-name">{{info.firstName}} {{info.lastName}}</h3>
-				<!-- *profile-description / description profile -->
-				<span class="profile-description">
-					{{info.program}}, Year {{info.year}}
-				</span>
-				<!-- *btn-social / button Follower / Following -->
-				<div class="button-bar btn-social">
-					<a class="button" ui-sref="app.clubs">
-						My Clubs
-					</a>
-				</div>
+      <!-- *profile-info / container data profile -->
+      <div class="profile-info">
+        <!-- *profile-image / image profile -->
+        <img class="profile-image" src="img/jenjen.png">
+        <!-- *profile-name / name profile -->
+        <h3 class="profile-name">{{info.firstName}} {{info.lastName}}</h3>
+        <!-- *profile-description / description profile -->
+        <span class="profile-description">
+          {{info.program}}, Year {{info.year}}
+        </span>
+        <!-- *btn-social / button Follower / Following -->
+        <div class="button-bar btn-social">
+          <a class="button" ui-sref="app.clubs">
+            My Clubs
+          </a>
+        </div>
       </div>
 
       <div class="list">
@@ -32,23 +35,16 @@
         </div>
         <a class="item item-avatar">
           <p>
-						<!-- *name -->
-      			<span class="name">Email: {{info.email}}</span>
+            <!-- *name -->
+            <span class="name">Email: {{info.email}}</span>
           </p>
           <p>
             <span class="name"> Username: {{info.userName}}</span>
           </p>
-				</a>
+        </a>
       </div>
 
     </div>
 
-    <div class="row">
-      <div class="col">
-        <button class="button icon-left ion-gear-a button-outline club-page-button button-positive" ui-sref="app.edit_profile">
-        Edit Profile
-        </button>
-      </div>
-    </div>
   </ion-content>
 </ion-view>

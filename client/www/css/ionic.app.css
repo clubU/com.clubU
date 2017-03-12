@@ -10023,8 +10023,7 @@ a.button {
  * --------------------------------------------------
  */
 .time {
-  position: absolute;
-  right: 11px; }
+  right: 20px; }
   .time a {
     color: #666;
     text-decoration: none; }
@@ -10033,7 +10032,7 @@ a.button {
       position: relative;
       right: 0; }
       .time a .icon:before {
-        font-size: 14px;
+        font-size: 12px;
         width: 12px; }
 
 .icon-p {

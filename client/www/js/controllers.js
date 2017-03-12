@@ -53,27 +53,30 @@ angular.module('starter.controllers', ['starter.services'])
 */
 })
 
-.controller('loginCtrl', function($scope, $state, $http, conn) {
-    $scope.loginData = {};
+.controller('loginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn) {
 
-    $scope.goToSignUp = function() {
-      $state.go('app.signup');
-    };
+  $ionicSideMenuDelegate.canDragContent(false)
+  $scope.loginData = {};
 
-    $scope.doLogin = function() {
-	  	var $data = {
-	  		username: $scope.loginData.username,
-	  		password: $scope.loginData.password,
-	  		type: "1"
-	  	}
+  $scope.goToSignUp = function() {
+    $state.go('app.signup');
+  };
 
-	  	conn.dataTrans("POST", $data, "session").success(function() {
-        $state.go('app.feed');
-      });
+  $scope.doLogin = function() {
+    var $data = {
+      username: $scope.loginData.username,
+      password: $scope.loginData.password,
+      type: "1"
     }
 
+    conn.dataTrans("POST", $data, "session").success(function() {
+      $state.go('app.feed');
+    });
+  }
+
 })
-.controller('clubLoginCtrl', function($scope, $state, $http, conn) {
+.controller('clubLoginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn) {
+    $ionicSideMenuDelegate.canDragContent(false);
     $scope.loginData = {};
 
     $scope.goToSignUp = function() {
@@ -88,7 +91,7 @@ angular.module('starter.controllers', ['starter.services'])
 	  	}
 
 	  	conn.dataTrans("POST", $data, "session").success(function() {
-        $state.go('app.feed');
+        $state.go('app.club_side_profile');
       });
     }
 
@@ -130,7 +133,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 })
 
-.controller('UserCtrl', function($scope) {
+.controller('UserCtrl', function($scope, $state, $http) {
   $scope.info = {
     firstName: 'Spongebob',
     lastName: 'Cornelia',
@@ -139,6 +142,11 @@ angular.module('starter.controllers', ['starter.services'])
     program: 'ECE',
     year: '4',
   };
+})
+
+.controller('EditProdileCtrl', function($scope, $state, $http) {
+
+  // enter edit user function here
 })
 
 .controller ('FeedCtrl', function($scope, $state, $http, conn) {
@@ -238,18 +246,7 @@ angular.module('starter.controllers', ['starter.services'])
   }
 })
 
-.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, FeedService) {
-
-  $scope.doRefresh = function(){
-    FeedService.getEvents().success(function(newItems) {
-      $scope.events = newItems;
-    })
-    .finally(function(){
-      $scope.$broadcast('scroll.refreshComplete');
-    });
-  };
-  $scope.doRefresh();
-
+.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http) {
 
   $scope.eventData = {};
   $scope.addEvent = function(form){
@@ -260,5 +257,11 @@ angular.module('starter.controllers', ['starter.services'])
     };
     $http.post('sampledata/events.json', $scope.eventData);
   };
+
+})
+
+.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http) {
+
+  // Add funcitons for edit profile here
 
 });

@@ -4,8 +4,8 @@
  */
 
 .time {
-	position: absolute;
-	right: 11px;
+	//position: absolute;
+	right: 20px;
 	a {
 		color: #666;
 		text-decoration: none;
@@ -14,7 +14,7 @@
 			position: relative;
 			right: 0;
 			&:before {
-				font-size: 14px;
+				font-size: 12px;
 				width: 12px;
 			}
 		}
