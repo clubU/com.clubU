@@ -53,7 +53,7 @@ angular.module('starter.controllers', ['starter.services'])
 */
 })
 
-.controller('loginCtrl', function($scope, $state, $http, conn) {
+.controller('loginCtrl', function($scope, $state, $http, conn, userInfo) {
     $scope.loginData = {};
 
     $scope.goToSignUp = function() {
@@ -68,7 +68,8 @@ angular.module('starter.controllers', ['starter.services'])
 	  	}
 
 	  	conn.dataTrans("POST", $data, "session").success(function() {
-        $state.go('app.feed');
+		  	userInfo.username = $data.username;
+	        $state.go('app.feed');
       });
     }
 
@@ -124,34 +125,64 @@ angular.module('starter.controllers', ['starter.services'])
   		email: $scope.userData.email
   	}
 
-  	conn.dataTrans("POST", $data, "club");
-  	$state.go('app.user');
+  	conn.dataTrans("POST", $data, "club")
+  	.success(function(data) {
+	  	$state.go('app.user');
+  	});
   };
 
 })
 
-.controller('UserCtrl', function($scope) {
-  $scope.info = {
-    firstName: 'Spongebob',
-    lastName: 'Cornelia',
-    userName: 'student1',
-    email: 'email@lol.com',
-    program: 'ECE',
-    year: '4',
-  };
-})
-
-.controller ('FeedCtrl', function($scope, $state, $http, conn) {
-  $scope.doRefresh = function(){
-    conn.dataTrans("GET", {clubId:"1"}, "event")
-    .success(function(newItems) {
-      $scope.events = newItems;
+.controller('UserCtrl', function($scope, conn, userInfo) {
+    conn.dataTrans("GET", userInfo.username, "student").success(function(response) {
+        $scope.info = {
+		    firstName: response.firstName,
+		    lastName: response.lastName,
+		    userName: response.username,
+		    email: response.email,
+		    program: response.programOfStudy,
+		    year: response.yearOfStudy
+		};
     })
-    .finally(function(){
+})
+
+.controller ('FeedCtrl', function($scope, $state, $http, conn, userInfo) {
+
+
+  $scope.doRefresh = function(){
+	conn.dataTrans("GET", userInfo.username, "student")
+	.success(function(data) {
+	  $scope.user = data;
+	  $scope.events = [];
+	  var $allEventPromise = [];
+	  data.clubs.forEach(function(club) {
+	    var dataPromise = conn.dataTrans("GET", null, "event/" + club.id)
+	    .success(function(events) {
+	      $scope.events = $scope.events.concat(events);
+	    });
+
+	    $allEventPromise.push(dataPromise);
+	  });
+
+	  Promise.all($allEventPromise).then(function(data) {
+		  $scope.events.sort(function(event1_, event2_) {
+		  	var event1 = new Date(event1_);
+		  	var event2 = new Date(event2_);
+		  	if (event1 > event2)
+		  		return 1;
+		  	else if (event1 == event2)
+		  		return 0;
+		  	else
+			  	return -1;
+		  });
+	  });
+
+	}).finally(function(){
       $scope.$broadcast('scroll.refreshComplete');
     });
 
-	conn.dataTrans("GET", "temptest", "club/recommendations")
+
+	conn.dataTrans("GET", userInfo.username, "club/recommendations")
 	.success(function(data) {
 		$scope.clubs = data;
   	})
@@ -164,11 +195,11 @@ angular.module('starter.controllers', ['starter.services'])
 
 })
 
-.controller('ClubsCtrl', function($scope, $ionicActionSheet, conn, tempData) {
+.controller('ClubsCtrl', function($scope, $ionicActionSheet, conn, tempData, userInfo) {
 
   $scope.doRefresh = function(){
-    conn.dataTrans("GET", "temptest", "student").success(function(newItems) {
-      $scope.clubs = newItems;
+    conn.dataTrans("GET", userInfo.username, "student").success(function(newItems) {
+      $scope.clubs = newItems.clubs;
     })
     .finally(function() {
       // Stop the ion-refresher from spinning (not needed in this view)
@@ -207,7 +238,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 
   $eventList = {};
-  conn.dataTrans("GET", null, "event").success(function(data) {
+  conn.dataTrans("GET", null, "event/" + clubId).success(function(data) {
     $eventList = data;
     $scope.events = $eventList;
   });
@@ -261,4 +292,16 @@ angular.module('starter.controllers', ['starter.services'])
     $http.post('sampledata/events.json', $scope.eventData);
   };
 
+})
+.controller('searchCtrl', function($scope, conn) {
+	$scope.searchWord = "";
+	$scope.search = function() {
+		conn.dataTrans("GET", $scope.searchWord, "club").success(function(clubs) {
+	    	$scope.clubs = clubs;
+	    });
+	}
+
+	$scope.getClub = function(id){
+		tempData.clubId = id;
+	};
 });

@@ -3,11 +3,18 @@
     <label class="item item-input">
       <i class="icon ion-search">
       </i>
-      <input type="text" placeholder="Search for Clubs...">
+      <input type="text" placeholder="Search for Clubs..." ng-model="searchWord">
+      <button ion-button on-click="search()">Search</button>
     </label>
  </ion-header-bar>
 
   <ion-content>
-
+    <div ng-repeat="club in clubs" ng-click="getClub(club.id)">
+      <ion-list>
+        <ion-item href="#/app/clubs/{{club.id}}">
+          {{club.name}}
+        </ion-item>
+      </ion-list>
+    </div>
   </ion-content>
 </ion-view>

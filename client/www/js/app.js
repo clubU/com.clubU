@@ -22,32 +22,32 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
     }
   });
 //////////////////////////////////////////////////////////////////////////////httpbackend test data
-  var clubsInfo = {
-    c1: {
+  var clubsInfo = [
+    {
         "id" : 1,
         "name" : "Taiwanese Student Association",
         "description" : "The Taiwan Republic of China Student Association at the University of Toronto (ROCSAUT) at UTSG aims at providing a platform for students with similar backgrounds or students who are interested in the Taiwanese culture to engage in events to meet new people and network.",
         "image" : "sampledata/img/rocsaut.jpg"
     },
-    c2: {
+    {
         "id" : 2,
         "name" : "International Cantonese Union",
         "description" : "The International Cantonese Union is a student organization at the University of Toronto, St George campus. We serve people who are interested in CANTONESE",
         "image" : "sampledata/img/icu.jpg"
     },
-    c3: {
+    {
         "id" : 3,
         "name" : "881 Drama Club",
         "description" : "The official fan page for the largest Mandarin speaking drama club at the University of Toronto. The club was established in 2001 as a sub-club of ROCSAUT",
         "image" : "sampledata/img/881.jpg"
     },
-    c4: {
+    {
         "id" : 4,
         "name" : "Magic Glasses Magician Club",
         "description" : "The closer you look, the less you see.",
         "image" : "sampledata/img/glasses.jpg"
     }
-  };
+  ];
 
   var unsubscribedClub =    {
     c5: {
@@ -114,9 +114,9 @@ angular.module('starter', ['ionic', 'starter.controllers','ngMockE2E'])
     	$target = unsubscribedClub["c" + $num];
     return [200,$target];
   });
-  $httpBackend.whenGET(/.*event/, function() {return true;}). respond(eventsInfo);
+  $httpBackend.whenGET(/.*event\/1/, function() {return true;}). respond(eventsInfo);
   $httpBackend.whenGET(/.*club\/recommendations/, function() {return true;}). respond(unsubscribedClub);
-  $httpBackend.whenGET(/.*student/, function() {return true;}). respond(clubsInfo);
+  $httpBackend.whenGET(/.*student/, function() {return true;}). respond({"clubs": clubsInfo});
   $httpBackend.whenPOST(/.*subscription/, function() {return true;}).respond(function(method,url,data) {
     console.log(data);
     $numStr = "c" + data.match(/.*(\d)$/)[1];
@@ -162,7 +162,8 @@ console.log(unsubscribedClub);
     url: '/search',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/search.html',
+        controller: 'searchCtrl'
       }
     }
   })
