@@ -259,6 +259,16 @@ console.log(unsubscribedClub);
     }
   })
 
+  .state('app.create_event', {
+    url: '/create_event',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/create_edit_event.html',
+        controller: 'CreateEventCtrl'
+      }
+    }
+  })
+
   .state('app.clubs', {
     url: '/clubs',
     views: {
