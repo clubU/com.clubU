@@ -10294,7 +10294,6 @@ a.button {
   width: 100%; }
   .edit-profile-bg:before {
     color: #fff;
-    content: 'Tap here to select cover photo';
     position: relative;
     top: 30px; }
   .edit-profile-bg img {
@@ -10358,7 +10357,10 @@ a.button {
   .content-edit .list-inset .item.item-input {
     border-radius: 3px;
     margin-bottom: 5px;
-    padding: 2px 0 2px 16px; }
+    padding: 2px 0 2px 16px;
+    border: solid;
+    border-width: thin;
+    border-color: #f0f0f0; }
   .content-edit .list-inset .item.item-select select {
     padding-bottom: 10px;
     padding-top: 10px; }

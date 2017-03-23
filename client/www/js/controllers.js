@@ -144,7 +144,7 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 
-.controller('EditProdileCtrl', function($scope, $state, $http) {
+.controller('EditProdileCtrl', function($scope, $state, $http, $cordovaCamera) {
 
   // enter edit user function here
 })
@@ -263,5 +263,11 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http) {
 
   // Add funcitons for edit profile here
+
+})
+
+.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http) {
+
+
 
 });

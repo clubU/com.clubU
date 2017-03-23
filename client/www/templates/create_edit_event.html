@@ -1,5 +1,5 @@
 <!-- (*) assigned classes -->
-<ion-view view-title="Edit Profile">
+<ion-view view-title="Event">
 	<ion-nav-buttons side="right">
         <button class="button button-icon ion-ios-checkmark-empty"></button>
     </ion-nav-buttons>
@@ -30,27 +30,22 @@
 				</div>
 			</div>
 			<!-- list inset style -->
-			<!-- item divider -->
-			<div class="item item-divider">
-					Account Settings
-			</div>
 			<div class="list list-inset">
 				<label class="item item-input">
-					<span class="input-label">First Name</span>
-					<input type="text" placeholder="John">
+          <span calss="input-label">Event Title</span>
+					<input type="text">
 				</label>
-				<label class="item item-input">
-					<span class="input-label">Last Name</span>
-					<input type="text"  placeholder="Doe">
+        <label class="item item-input">
+					<span class="input-label">Event Date</span>
+					<input type="date">
 				</label>
-
-				<label class="item item-input">
-				    <span class="input-label edit">Email: email@abc.com</span>
-						<!--Email: {{info.email}} -->
+        <label class="item item-input">
+          <span class="input-label">Start Time</span>
+					<input type="time">
 				</label>
-				<label class="item item-input">
-					<span class="input-label">Password</span>
-				    <input type="password" placeholder="Password">
+        <label class="item item-input item-stacked-label">
+					<span class="input-label">Event Description</span>
+					<textarea></textarea>
 				</label>
 			</div>
 		</div>
