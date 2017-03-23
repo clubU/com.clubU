@@ -177,6 +177,8 @@ console.log(unsubscribedClub);
       }
     }
   })
+
+
   .state('app.club_login', {
     url: '/club_login',
     views: {
@@ -186,6 +188,17 @@ console.log(unsubscribedClub);
       }
     }
   })
+
+  .state('app.club_side_profile', {
+    url: '/club_side_profile',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/club_side_profile.html',
+        controller: 'ClubProfileCtrl'
+      }
+    }
+  })
+
 
   .state('app.signup', {
       url: '/signup',
@@ -230,7 +243,18 @@ console.log(unsubscribedClub);
     url: '/edit_profile',
     views: {
       'menuContent': {
-        templateUrl: 'templates/edit_profile.html'
+        templateUrl: 'templates/edit_profile.html',
+        controller: 'UserCtrl'
+      }
+    }
+  })
+
+  .state('app.edit_club_profile', {
+    url: '/edit_club_profile',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/edit_club_profile.html',
+        controller: 'EditClubProfileCtrl'
       }
     }
   })
