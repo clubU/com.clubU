@@ -11,12 +11,13 @@
     <analyzer type="index">
       <tokenizer class="solr.StandardTokenizerFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
-      <filter class="solr.NGramFilterFactory" maxGramSize="64" minGramSize="1"/>
+      <filter class="solr.EdgeNGramFilterFactory" maxGramSize="64" minGramSize="3"/>
     </analyzer>
     <analyzer type="query">
       <tokenizer class="solr.StandardTokenizerFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
-      <filter class="solr.NGramFilterFactory" maxGramSize="64" minGramSize="1"/>
+      <filter class="solr.EdgeNGramFilterFactory" maxGramSize="64" minGramSize="3"/>
+      <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
     </analyzer>
   </fieldType>
   <fieldType name="tlongs" class="solr.TrieLongField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="8"/>
