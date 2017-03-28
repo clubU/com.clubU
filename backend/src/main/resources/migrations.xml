@@ -26,4 +26,8 @@
         <sqlFile path="m005.sql"/>
     </changeSet>
 
+    <changeSet id="6" author="davidchou">
+        <sqlFile path="m006.sql"/>
+    </changeSet>
+
 </databaseChangeLog>
