@@ -1,5 +1,6 @@
 package com.clubu.server.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.clubu.server.orm.Club;
+import com.clubu.server.search.ClubSearchEngine;
 import com.clubu.server.utils.TextParsingUtils;
 
 import io.dropwizard.hibernate.AbstractDAO;
@@ -26,8 +28,11 @@ public class ClubDao extends AbstractDAO<Club> {
         return instance;
     }
 
+	private ClubSearchEngine searchEngine = null;
+
     private ClubDao(SessionFactory sessionFactory) {
         super(sessionFactory);
+		searchEngine = ClubSearchEngine.getInstance();
     }
 
     public List<Club> findAll() {
@@ -73,9 +78,18 @@ public class ClubDao extends AbstractDAO<Club> {
         return persist(club);
     }
 
-    public List<Club> findBySearchKeyword(String searchKeyword) {
+    public List<Club> findBySearchKeyword(String keyword) {
+/*
+		// LEGACY CODE
         String param = "%" + searchKeyword + "%";
         return list(namedQuery(Club.QNAME_FIND_BY_SEARCH_KEYWORD).setString("searchKeyword", param));
+*/
+		List<Club> ret = new ArrayList<Club>();
+		List<Long> ids = searchEngine.executeQuery(keyword);
+		for (Long id : ids) {
+			ret.add(findById(id));
+		}
+		return ret;
     }
 
     public boolean validateCredentials(String username, String password) {
