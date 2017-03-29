@@ -6,3 +6,5 @@ database:
         charset: UTF-8
     url: jdbc:mysql://localhost/clubu
 
+solrUrl: http://localhost:8983/solr/clubu
+
