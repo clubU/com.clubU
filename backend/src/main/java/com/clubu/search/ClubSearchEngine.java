@@ -1,5 +1,7 @@
 package com.clubu.server.search;
 
+import com.clubu.server.ClubUConfiguration;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +14,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
 public class ClubSearchEngine {
-	private static final String SOLR_URL = "http://localhost:8983/solr/clubu";
+
 	private static ClubSearchEngine instance = null;
 	public static ClubSearchEngine getInstance() {
 		if (instance == null) {
@@ -23,7 +25,8 @@ public class ClubSearchEngine {
 
 	private SolrClient client = null;
 	private ClubSearchEngine() {
-		client = new HttpSolrClient(SOLR_URL);
+		String solrUrl = ClubUConfiguration.getInstance().getSolrUrl();
+		client = new HttpSolrClient(solrUrl);
 	}
 
 	public List<Long> executeQuery(String keyword) {

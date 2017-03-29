@@ -35,4 +35,18 @@ public class ClubUConfiguration extends Configuration {
     }
     // End of database section
 
+	// Start of Solr section
+	@NotEmpty
+	private String solrUrl;
+
+	@JsonProperty
+	public String getSolrUrl() {
+		return solrUrl;
+	}
+	@JsonProperty
+	public void setSolrUrl(String solrUrl) {
+		this.solrUrl = solrUrl;
+	}
+	// End of Solr section
 }
+
