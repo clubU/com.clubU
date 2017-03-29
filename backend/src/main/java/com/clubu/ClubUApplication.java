@@ -17,6 +17,7 @@ import com.clubu.server.orm.Student;
 
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -47,12 +48,14 @@ public class ClubUApplication extends Application<ClubUConfiguration>{
                     return config.getDataSourceFactory();
                 }
             };
+    private final MultiPartBundle multiPartBundle = new MultiPartBundle();
 
     @Override
     public void run(ClubUConfiguration config, Environment env) throws Exception {
         ClubUConfiguration.setInstance(config);
         this.config = config;
         this.env = env;
+
         registerDao();
         registerApi();
     }
@@ -61,6 +64,7 @@ public class ClubUApplication extends Application<ClubUConfiguration>{
     public void initialize(Bootstrap<ClubUConfiguration> bootstrap) {
         bootstrap.addBundle(migrationsBundle);
         bootstrap.addBundle(hibernateBundle);
+        bootstrap.addBundle(multiPartBundle);
     }
 
     @Override

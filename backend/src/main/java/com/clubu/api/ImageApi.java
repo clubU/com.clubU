@@ -17,6 +17,8 @@ import javax.ws.rs.core.Response;
 import com.clubu.server.dao.ImageDao;
 import com.clubu.server.orm.Image;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
 import io.dropwizard.hibernate.UnitOfWork;
 
 import org.apache.commons.io.IOUtils;
@@ -38,13 +40,14 @@ public class ImageApi extends AbstractApiBase {
     public Response corsId() { return newResponse(Response.Status.OK).build(); }
     // End of CORS requests
 
-    @UnitOfWork
+    //@UnitOfWork
     @POST
-    @Consumes("*/*")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(InputStream stream) {
+    public Response create(@FormDataParam("file") InputStream fileContent) {
+/*           
         try {
-            byte[] content = IOUtils.toByteArray(stream);
+            byte[] content = IOUtils.toByteArray(fileContent);
             Image image = imageDao.create(content);
             if (image != null) {
                 return newResponse(Response.Status.OK)
@@ -60,7 +63,10 @@ public class ImageApi extends AbstractApiBase {
                     .entity("{}")
                     .build();
         }
-
+*/
+            return newResponse(Response.Status.BAD_REQUEST)
+                    .entity("{}")
+                    .build();
     }
     
     @UnitOfWork
