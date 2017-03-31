@@ -11,6 +11,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "image")
 @NamedQueries({
@@ -31,6 +33,7 @@ public class Image {
     private Long id;
 
     @Column(name = "content", nullable = false)
+    @JsonIgnore
     private byte[] content;
     // End of member fields
 

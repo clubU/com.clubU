@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS image (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    content BLOB NOT NULL,
+    content LONGBLOB NOT NULL,
     PRIMARY KEY (id)
 );
 

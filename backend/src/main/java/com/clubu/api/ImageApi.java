@@ -1,6 +1,7 @@
 package com.clubu.server.api;
 
 import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.ws.rs.Consumes;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response;
 import com.clubu.server.dao.ImageDao;
 import com.clubu.server.orm.Image;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import io.dropwizard.hibernate.UnitOfWork;
@@ -40,15 +42,17 @@ public class ImageApi extends AbstractApiBase {
     public Response corsId() { return newResponse(Response.Status.OK).build(); }
     // End of CORS requests
 
-    //@UnitOfWork
+    @UnitOfWork
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(@FormDataParam("file") InputStream fileContent) {
-/*           
+    public Response create(
+		@FormDataParam("file") InputStream fileContent,
+		@FormDataParam("file") FormDataContentDisposition fileDetail
+	) {
         try {
-            byte[] content = IOUtils.toByteArray(fileContent);
-            Image image = imageDao.create(content);
+			byte[] data = IOUtils.toByteArray(fileContent);
+            Image image = imageDao.create(data);
             if (image != null) {
                 return newResponse(Response.Status.OK)
                         .entity(image)
@@ -63,20 +67,23 @@ public class ImageApi extends AbstractApiBase {
                     .entity("{}")
                     .build();
         }
-*/
-            return newResponse(Response.Status.BAD_REQUEST)
-                    .entity("{}")
-                    .build();
     }
     
     @UnitOfWork
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces("image/jpeg")
     @Path("/{id : \\d+}")
     public Response findById(@PathParam("id") long id) {
-        return newResponse(Response.Status.OK)
-                .entity(imageDao.findById(id))
-                .build();
+		Image image = imageDao.findById(id);
+		if (image != null) {
+        	return newResponse(Response.Status.OK)
+           			.entity(image.getContent())
+                	.build();
+		} else {
+        	return newResponse(Response.Status.BAD_REQUEST)
+           			.entity("{}")
+                	.build();
+		}
     }
 
 }
