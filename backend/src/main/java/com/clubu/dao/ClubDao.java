@@ -40,7 +40,10 @@ public class ClubDao extends AbstractDAO<Club> {
         return list(namedQuery(Club.QNAME_FIND_ALL));
     }
 
-    public Club findById(long id) {
+    public Club findById(Long id) {
+		if (id == null) {
+			return null;
+		}
         List<Club> clubs = list(namedQuery(Club.QNAME_FIND_BY_ID).setLong("id", id));
         if (!clubs.isEmpty()) {
             return clubs.get(0);
@@ -80,6 +83,29 @@ public class ClubDao extends AbstractDAO<Club> {
         club.setTimeUpdated(now);
         return persist(club);
     }
+
+	public Club update(
+		Long id,
+		String password,
+		String abbreviation,
+		String description,
+		Image image
+	) {
+		Club club = findById(id);
+		if (club != null) {
+			if (password != null)
+        		club.setPasswordHash(BCrypt.hashpw(password, BCrypt.gensalt()));
+			if (abbreviation != null)
+				club.setAbbreviation(abbreviation);
+			if (description != null)
+				club.setDescription(description);
+			if (image != null)
+				club.setImage(image);
+			return persist(club);
+		} else {
+			return null;
+		}
+	}
 
     public List<Club> findBySearchKeyword(String keyword) {
 /*

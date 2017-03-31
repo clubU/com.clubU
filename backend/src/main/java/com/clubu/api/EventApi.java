@@ -68,7 +68,35 @@ public class EventApi extends AbstractApiBase {
         );
         if (event != null) {
             return newResponse(Response.Status.OK)
-                    .entity(club)
+                    .entity(event)
+                    .build();
+        } else {
+            return newResponse(Response.Status.BAD_REQUEST)
+                    .entity("{}")
+                    .build();
+        }
+    }
+
+    @UnitOfWork
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id : \\d+}")
+    public Response update(
+        @PathParam("id") Long id,
+        @FormParam("title") String title,
+        @FormParam("time") Long time,
+        @FormParam("location") String location,
+        @FormParam("description") String description,
+        @FormParam("imageId") Long imageId
+    ) {
+        Image image = null;
+        if (imageId != null) {
+            image = imageDao.findById(imageId);
+        }
+        Event event = eventDao.update(id, title, time, location, description, image);
+        if (event != null) {
+            return newResponse(Response.Status.OK)
+                    .entity(event)
                     .build();
         } else {
             return newResponse(Response.Status.BAD_REQUEST)

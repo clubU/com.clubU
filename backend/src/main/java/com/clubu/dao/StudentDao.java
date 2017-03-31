@@ -83,6 +83,38 @@ public class StudentDao extends AbstractDAO<Student> {
         return persist(student);
     }
 
+	public Student update(
+		Long id,
+		String password,
+		String firstName,
+		String lastName,
+		String dateOfBirth,
+		Integer yearOfStudy,
+		String programOfStudy,
+		Image image
+	) {
+		Student student = findById(id);
+		if (student != null) {
+			if (password != null)
+        		student.setPasswordHash(BCrypt.hashpw(password, BCrypt.gensalt()));
+			if (firstName != null)
+        		student.setFirstName(firstName);
+			if (lastName != null)
+        		student.setLastName(lastName);
+			if (dateOfBirth != null)
+        		student.setDateOfBirth(TextParsingUtils.parseDate(dateOfBirth));
+			if (yearOfStudy != null)
+        		student.setYearOfStudy(yearOfStudy);
+			if (programOfStudy != null)
+        		student.setProgramOfStudy(programOfStudy);
+			if (image != null)
+				student.setImage(image);
+			return persist(student);
+		} else {
+			return null;
+		}
+	}
+
     public Student addClub(Student student, Club club) {
         student.addClub(club);
         currentSession().update(student);

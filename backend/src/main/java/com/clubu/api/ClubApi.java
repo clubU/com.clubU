@@ -106,10 +106,38 @@ public class ClubApi extends AbstractApiBase {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id : \\d+}")
-    public Response findById(@PathParam("id") long id) {
+    public Response findById(@PathParam("id") Long id) {
         return newResponse(Response.Status.OK)
                 .entity(clubDao.findById(id))
                 .build();
+    }
+
+    @UnitOfWork
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id : \\d+}")
+    public Response update(
+		@PathParam("id") Long id,
+		@FormParam("password") String password,
+		@FormParam("abbreviation") String abbreviation,
+		@FormParam("description") String description,
+		@FormParam("imageId") Long imageId
+	) {
+		Image image = null;
+		if (imageId != null) {
+			image = imageDao.findById(id);
+		}
+		Club club = clubDao.update(id, password, abbreviation, description, image);
+		if (club != null) {
+        	return newResponse(Response.Status.OK)
+        	        .entity(club)
+        	        .build();
+		} else {
+        	return newResponse(Response.Status.BAD_REQUEST)
+        	        .entity("{}")
+        	        .build();
+
+		}
     }
 
     @UnitOfWork

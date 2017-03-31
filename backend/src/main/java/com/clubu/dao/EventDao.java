@@ -30,7 +30,10 @@ public class EventDao extends AbstractDAO<Event> {
         super(sessionFactory);
     }
 
-    public Event findById(long id) {
+    public Event findById(Long id) {
+        if (id == null) {
+            return null;
+        }
         List<Event> events = list(namedQuery(Event.QNAME_FIND_BY_ID).setLong("id", id));
         return events.isEmpty() ? null : events.get(0);
     }
@@ -54,6 +57,32 @@ public class EventDao extends AbstractDAO<Event> {
         event.setTimeCreated(now);
         event.setTimeUpdated(now);
         return persist(event);
+    }
+
+	public Event update(
+        Long id,
+        String title,
+        Long time,
+        String location,
+        String description,
+        Image image
+    ) {
+        Event event = findById(id);
+        if (event != null) {
+            if (title != null)
+                event.setTitle(title);
+            if (time != null)
+                event.setTime(new Date(time));
+            if (location != null)
+                event.setLocation(location);
+            if (description != null)
+                event.setDescription(description);
+            if (image != null)
+                event.setImage(image);
+            return persist(event);
+        } else {
+            return null;
+        }
     }
 
 }
