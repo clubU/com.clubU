@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.clubu.server.orm.Club;
+import com.clubu.server.orm.Image;
 import com.clubu.server.search.ClubSearchEngine;
 import com.clubu.server.utils.TextParsingUtils;
 
@@ -63,8 +64,9 @@ public class ClubDao extends AbstractDAO<Club> {
         String name,
         String email,
         String abbreviation,
-        String description
-        ) {
+        String description,
+		Image image	
+    ) {
         Club club = new Club();
         Date now = new Date();
         club.setUsername(username);
@@ -73,6 +75,7 @@ public class ClubDao extends AbstractDAO<Club> {
         club.setEmail(email);
         club.setAbbreviation(abbreviation);
         club.setDescription(description);
+		club.setImage(image);
         club.setTimeCreated(now);
         club.setTimeUpdated(now);
         return persist(club);

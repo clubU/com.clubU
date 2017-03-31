@@ -2,6 +2,7 @@ package com.clubu.server.orm;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -53,6 +55,9 @@ public class Event {
     @JoinColumn(name = "club_id")
     @JsonIgnoreProperties({"events", "students"})
     private Club club;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Image image;
 
     @Column(name = "time_created", nullable = false)
     private Date timeCreated;
@@ -103,6 +108,13 @@ public class Event {
     public void setClub(Club club) {
         this.club = club;
     }
+
+	public Image getImage() {
+		return image;
+	}
+	public void setImage(Image image) {
+		this.image = image;
+	}
 
     public Date getTimeCreated() {
         return timeCreated;

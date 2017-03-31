@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.clubu.server.orm.Club;
+import com.clubu.server.orm.Image;
 import com.clubu.server.orm.Student;
 import com.clubu.server.utils.TextParsingUtils;
 
@@ -54,16 +55,17 @@ public class StudentDao extends AbstractDAO<Student> {
     }
 
     public Student createStudent(
-            String username,
-            String password,
-            String firstName,
-            String lastName,
-            String email,
-            String studentNumber,
-            String dateOfBirth,
-            String yearOfStudy,
-            String programOfStudy
-            ) {
+        String username,
+        String password,
+        String firstName,
+        String lastName,
+        String email,
+        String studentNumber,
+        String dateOfBirth,
+        String yearOfStudy,
+        String programOfStudy,
+		Image image
+     ) {
         Student student = new Student();
         Date now = new Date();
         student.setUsername(username);
@@ -75,6 +77,7 @@ public class StudentDao extends AbstractDAO<Student> {
         student.setDateOfBirth(dateOfBirth == null ? null : TextParsingUtils.parseDate(dateOfBirth));
         student.setYearOfStudy(yearOfStudy == null ? null : Integer.parseInt(yearOfStudy));
         student.setProgramOfStudy(programOfStudy);
+		student.setImage(image);
         student.setTimeCreated(now);
         student.setTimeUpdated(now);
         return persist(student);

@@ -3,6 +3,7 @@ package com.clubu.server.orm;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,9 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -89,6 +91,9 @@ public class Club {
     @JsonIgnoreProperties({"club"})
     private List<Event> events;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	private Image image;
+
     @Column(name = "time_created", nullable = false)
     private Date timeCreated;
 
@@ -159,6 +164,13 @@ public class Club {
     public void setEvents(List<Event> events) {
         this.events = events; 
     }
+
+	public Image getImage() {
+		return image;
+	}
+	public void setImage(Image image) {
+		this.image = image;
+	}
 
     public Date getTimeCreated() {
         return timeCreated;

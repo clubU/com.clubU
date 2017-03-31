@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 
 import com.clubu.server.orm.Club;
 import com.clubu.server.orm.Event;
+import com.clubu.server.orm.Image;
 
 import io.dropwizard.hibernate.AbstractDAO;
 
@@ -37,10 +38,11 @@ public class EventDao extends AbstractDAO<Event> {
     public Event create(
         Club club,
         String title,
-        long time,
+        Long time,
         String location,
-        String description
-        ) {
+        String description,
+		Image image
+    ) {
         Event event = new Event();
         Date now = new Date();
         event.setClub(club);
@@ -48,6 +50,7 @@ public class EventDao extends AbstractDAO<Event> {
         event.setTime(new Date(time));
         event.setLocation(location);
         event.setDescription(description);
+		event.setImage(image);
         event.setTimeCreated(now);
         event.setTimeUpdated(now);
         return persist(event);

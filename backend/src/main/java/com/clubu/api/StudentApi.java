@@ -17,7 +17,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.clubu.server.dao.ImageDao;
 import com.clubu.server.dao.StudentDao;
+import com.clubu.server.orm.Image;
 import com.clubu.server.orm.Student;
 
 import io.dropwizard.hibernate.UnitOfWork;
@@ -25,10 +27,12 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Path("/student")
 public class StudentApi extends AbstractApiBase {
 
+	private ImageDao imageDao;
     private StudentDao studentDao;
 
     public StudentApi() {
         super();
+		this.imageDao = ImageDao.getInstance();
         this.studentDao = StudentDao.getInstance();
     }
 
@@ -64,19 +68,24 @@ public class StudentApi extends AbstractApiBase {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(
-            @FormParam("username") String username,
-            @FormParam("password") String password,
-            @FormParam("firstName") String firstName,
-            @FormParam("lastName") String lastName,
-            @FormParam("email") String email,
-            @FormParam("studentNumber") String studentNumber,
-            @FormParam("dateOfBirth") String dateOfBirth,
-            @FormParam("yearOfStudy") String yearOfStudy,
-            @FormParam("programOfStudy") String programOfStudy
-            ) {
+        @FormParam("username") String username,
+        @FormParam("password") String password,
+        @FormParam("firstName") String firstName,
+        @FormParam("lastName") String lastName,
+        @FormParam("email") String email,
+        @FormParam("studentNumber") String studentNumber,
+        @FormParam("dateOfBirth") String dateOfBirth,
+        @FormParam("yearOfStudy") String yearOfStudy,
+        @FormParam("programOfStudy") String programOfStudy,
+		@FormParam("imageId") Long imageId
+    ) {
+		Image image = null;
+		if (imageId != null) {
+			image = imageDao.findById(imageId);
+		}
         Student student = studentDao.createStudent(
             username, password, firstName, lastName, email,
-            studentNumber, dateOfBirth, yearOfStudy, programOfStudy
+            studentNumber, dateOfBirth, yearOfStudy, programOfStudy, image
         );
         if (student != null) {
             return newResponse(Response.Status.OK)

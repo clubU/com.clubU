@@ -19,8 +19,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.clubu.server.dao.ClubDao;
+import com.clubu.server.dao.ImageDao;
 import com.clubu.server.dao.StudentDao;
 import com.clubu.server.orm.Club;
+import com.clubu.server.orm.Image;
 import com.clubu.server.orm.Student;
 
 import io.dropwizard.hibernate.UnitOfWork;
@@ -30,11 +32,13 @@ public class ClubApi extends AbstractApiBase {
 
     private ClubDao clubDao;
     private StudentDao studentDao;
+    private ImageDao imageDao;
 
     public ClubApi() {
         super();
         this.clubDao = ClubDao.getInstance();
         this.studentDao = StudentDao.getInstance();
+        this.imageDao = ImageDao.getInstance();
     }
 
     // Start of CORS requests
@@ -56,11 +60,16 @@ public class ClubApi extends AbstractApiBase {
         @FormParam("name") String name,
         @FormParam("email") String email,
         @FormParam("abbreviation") String abbreviation,
-        @FormParam("description") String description
-        ) {
+        @FormParam("description") String description,
+        @FormParam("imageId") Long imageId
+    ) {
+        Image image = null;
+        if (imageId != null) {
+            image = imageDao.findById(imageId);
+        }
         Club club = clubDao.createClub(
-            username, password, name,
-            email, abbreviation, description
+            username, password, name, email,
+            abbreviation, description, image
         );
         if (club != null) {
             return newResponse(Response.Status.OK)
@@ -76,9 +85,9 @@ public class ClubApi extends AbstractApiBase {
     @UnitOfWork
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findBySearchKeyword(@QueryParam("searchKeyword") String searchKeyword) {
+    public Response findByKeyword(@QueryParam("keyword") String keyword) {
         return newResponse(Response.Status.OK)
-                .entity(clubDao.findBySearchKeyword(searchKeyword))
+                .entity(clubDao.findBySearchKeyword(keyword))
                 .build();
     }
 

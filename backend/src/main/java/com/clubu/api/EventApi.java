@@ -12,9 +12,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.clubu.server.dao.ClubDao;
-import com.clubu.server.orm.Club;
 import com.clubu.server.dao.EventDao;
+import com.clubu.server.dao.ImageDao;
+import com.clubu.server.orm.Club;
 import com.clubu.server.orm.Event;
+import com.clubu.server.orm.Image;
 
 import io.dropwizard.hibernate.UnitOfWork;
 
@@ -23,11 +25,13 @@ public class EventApi extends AbstractApiBase {
 
     private ClubDao clubDao;
     private EventDao eventDao;
+	private ImageDao imageDao;
 
     public EventApi() {
         super();
         this.clubDao = ClubDao.getInstance();
         this.eventDao = EventDao.getInstance();
+		this.imageDao = ImageDao.getInstance();
     }
 
     // Start of CORS requests
@@ -46,16 +50,21 @@ public class EventApi extends AbstractApiBase {
         @FormParam("title") String title,
         @FormParam("time") long date,
         @FormParam("location") String location,
-        @FormParam("description") String description
-        ) {
+        @FormParam("description") String description,
+		@FormParam("imageId") Long imageId
+    ) {
         Club club = clubDao.findById(clubId);
         if (club == null) {
             return newResponse(Response.Status.BAD_REQUEST)
                     .entity("{}")
                     .build();
         }
+		Image image = null;
+		if (imageId != null) {
+			image = imageDao.findById(imageId);
+		}
         Event event = eventDao.create(
-            club, title, date, location, description
+            club, title, date, location, description, image
         );
         if (event != null) {
             return newResponse(Response.Status.OK)
