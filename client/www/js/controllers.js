@@ -2,7 +2,6 @@ var hostname = "http://localhost:8080/";
 
 angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.cards'])
 
-
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -54,8 +53,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 
-.controller('loginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn, userInfo) {
-
+.controller('loginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn, userInfo, msgbox) {
   $ionicSideMenuDelegate.canDragContent(false)
   $scope.loginData = {};
 
@@ -72,9 +70,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
     conn.dataTrans("POST", $data, "session").success(function() {
       userInfo.username = $data.username;
-
+      $state.go('app.feed');
     });
-    $state.go('app.feed');
   }
 
 
@@ -102,7 +99,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 })
 
-.controller('signUpCtrl', function($scope, $state, $http, conn) {
+.controller('signUpCtrl', function($scope, $state, $http, conn,msgbox) {
   $scope.userData = {};
   $scope.doSignUp = function (form) {
   	var $data = {
@@ -118,11 +115,14 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	conn.dataTrans("POST", $data, "student")
 	.success(function(data) {
 	    $state.go('app.user');
+	})
+	.error(function(data) {
+		msgbox.alert("sign up failed");
 	});
   };
 
 })
-.controller('clubSignUpCtrl', function($scope, $state, $http, conn) {
+.controller('clubSignUpCtrl', function($scope, $state, $http, conn, userInfo) {
   $scope.userData = {};
   $scope.doClubSignUp = function (form) {
   	var $data = {
@@ -134,6 +134,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
   	conn.dataTrans("POST", $data, "club")
   	.success(function(data) {
+  		userInfo.username = $data.username;
 	  	$state.go('app.user');
   	});
   };
