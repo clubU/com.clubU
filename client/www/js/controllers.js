@@ -1,6 +1,6 @@
 var hostname = "http://localhost:8080/";
 
-angular.module('starter.controllers', ['starter.services','ngCordova'])
+angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.cards'])
 
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
@@ -158,7 +158,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova'])
        var options = {
            quality: 100,
            destinationType: Camera.DestinationType.FILE_URI,
-           sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+           sourceType: Camera.PictureSourceType.CAMERA,
            allowEdit: true,
            encodingType: Camera.EncodingType.JPEG,
            popoverOptions: CameraPopoverOptions,
