@@ -74,4 +74,11 @@ angular.module('starter.services', [])
 .service('userInfo', function() {
 	this.username = "";
 })
+.service('msgbox', function($ionicPopup) {
+	this.alert = function($string) {
+		$ionicPopup.alert({
+		title: $string
+		});
+	};
+})
 ;
