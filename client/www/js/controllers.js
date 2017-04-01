@@ -1,6 +1,6 @@
 var hostname = "http://localhost:8080/";
 
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', ['starter.services','ngCordova'])
 
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
@@ -72,9 +72,11 @@ angular.module('starter.controllers', ['starter.services'])
 
     conn.dataTrans("POST", $data, "session").success(function() {
       userInfo.username = $data.username;
-      $state.go('app.feed');
+
     });
+    $state.go('app.feed');
   }
+
 
 })
 .controller('clubLoginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn) {
@@ -93,8 +95,9 @@ angular.module('starter.controllers', ['starter.services'])
 	  	}
 
 	  	conn.dataTrans("POST", $data, "session").success(function() {
-        $state.go('app.club_side_profile');
+
       });
+      $state.go('app.club_side_profile');
     }
 
 })
@@ -150,7 +153,52 @@ angular.module('starter.controllers', ['starter.services'])
     })
 })
 
-.controller('EditProdileCtrl', function($scope, $state, $http, $cordovaCamera) {
+.controller('EditProfileCtrl', function($scope, $state, $http, $cordovaCamera) {
+  $scope.openPhotoLibrary = function() {
+       var options = {
+           quality: 100,
+           destinationType: Camera.DestinationType.FILE_URI,
+           sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+           allowEdit: true,
+           encodingType: Camera.EncodingType.JPEG,
+           popoverOptions: CameraPopoverOptions,
+           saveToPhotoAlbum: false
+       };
+
+       $cordovaCamera.getPicture(options).then(function(imageData) {
+
+           //console.log(imageData);
+           //console.log(options);
+
+          // var url = "http://mydomein.com/upload.php";
+           //target path may be local or url
+           var targetPath = imageData;
+           var filename = targetPath.split("/").pop();
+           var options = {
+               fileKey: "file",
+               fileName: filename,
+               chunkedMode: false,
+               mimeType: "image/jpg"
+           };
+           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+               console.log("SUCCESS: " + JSON.stringify(result.response));
+               alert("success");
+               alert(JSON.stringify(result.response));
+           }, function(err) {
+               console.log("ERROR: " + JSON.stringify(err));
+               alert(JSON.stringify(err));
+           }, function (progress) {
+               // constant progress updates
+               $timeout(function () {
+                   $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+               })
+           });
+
+       }, function(err) {
+           // error
+           console.log(err);
+       });
+     }
   // enter edit user function here
 })
 
@@ -309,5 +357,9 @@ angular.module('starter.controllers', ['starter.services'])
 })
 
 .controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http) {
+
+})
+
+.controller('EventCtrl', function($scope, $ionicActionSheet, $http) {
 
 });

@@ -141,7 +141,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     views: {
       'menuContent': {
         templateUrl: 'templates/edit_profile.html',
-        controller: 'UserCtrl'
+        controller: 'EditProfileCtrl'
       }
     }
   })
@@ -162,6 +162,16 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       'menuContent': {
         templateUrl: 'templates/create_edit_event.html',
         controller: 'CreateEventCtrl'
+      }
+    }
+  })
+
+  .state('app.event', {
+    url: '/event',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/event.html',
+        controller: 'EventCtrl'
       }
     }
   })

@@ -2,9 +2,16 @@
 
 /* homescreen background image */
 .background.scroll-content {
-    background: url('../img/toronto.jpg') no-repeat;
+    /* background: url('../img/logo.png') no-repeat; */
+    background: #46C7F3;
     background-size: cover;
     opacity: 1;
+}
+
+.start-logo {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 20px;
 }
 
 .home-title {
