@@ -98,6 +98,39 @@ public class StudentApi extends AbstractApiBase {
         }
     }
 
+	@UnitOfWork
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id : \\d+}")
+	public Response update(
+		@PathParam("id") Long id,
+		@FormParam("password") String password,
+		@FormParam("firstName") String firstName,
+		@FormParam("lastName") String lastName,
+		@FormParam("dateOfBirth") String dateOfBirth,
+		@FormParam("yearOfStudy") Integer yearOfStudy,
+		@FormParam("programOfStudy") String programOfStudy,
+		@FormParam("imageId") Long imageId
+	) {
+		Image image = null;
+		if (imageId != null) {
+			image = imageDao.findById(imageId);
+		}
+		Student student = studentDao.update(
+			id, password, firstName, lastName,
+			dateOfBirth, yearOfStudy, programOfStudy, image
+		);
+		if (student != null) {
+            return newResponse(Response.Status.OK)
+                    .entity(student)
+                    .build();
+		} else {
+            return newResponse(Response.Status.BAD_REQUEST)
+                    .entity("{}")
+                    .build();
+		}
+	}
+
     @UnitOfWork
     @GET
     @Produces(MediaType.APPLICATION_JSON)

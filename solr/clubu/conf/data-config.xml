@@ -7,13 +7,14 @@
 <document>
   <entity name="club"  
     pk="id"
-    query="select id,name,description from club"
-    deltaImportQuery="SELECT id,name,description from clubu WHERE id='${dih.delta.id}'"
-    deltaQuery="SELECT id FROM product WHERE time_updated > '${dih.last_index_time}'"
+    query="SELECT id, name, description, abbreviation FROM club"
+    deltaImportQuery="SELECT id, name, description, abbreviation FROM club WHERE id='${dih.delta.id}'"
+    deltaQuery="SELECT id FROM club WHERE time_updated > '${dih.last_index_time}'"
     >
      <field column="id" name="id"/>
-     <field column="name" name="name"/>       
-     <field column="description" name="description"/>       
+     <field column="name" name="name"/>
+     <field column="description" name="description"/>
+     <field column="abbreviation" name="abbreviation"/>
   </entity>
 </document>
 </dataConfig>

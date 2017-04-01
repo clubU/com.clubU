@@ -20,10 +20,21 @@
       <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
     </analyzer>
   </fieldType>
+  <fieldType name="text_strict" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
   <fieldType name="tlongs" class="solr.TrieLongField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="8"/>
   <field name="_root_" type="string" docValues="false" indexed="true" stored="false"/>
   <field name="_text_" type="text_general" multiValued="true" indexed="true" stored="false"/>
   <field name="_version_" type="long" indexed="true" stored="true"/>
+  <field name="abbreviation" type="text_strict" multiValued="false" indexed="true" stored="true"/>
   <field name="description" type="text_general" multiValued="false" indexed="true" stored="true"/>
   <field name="id" type="long" multiValued="false" indexed="true" required="true" stored="true"/>
   <field name="name" type="text_general" multiValued="false" indexed="true" required="true" stored="true"/>

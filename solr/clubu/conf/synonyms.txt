@@ -1,4 +1,6 @@
-crazy, mad, absurd
-canine, dog
-feline, cat
-engineer, cool, supreme, sexy
+culture, cultural, african, filipino, celtics, chinese, bulgarian, italian, asian, iranian
+sports, badminton, bodybuilding, fly, fitness, health
+engineer, design, development
+art, cinema, design, drama
+science, chemistry, brain
+music, piano, instruments, radio
