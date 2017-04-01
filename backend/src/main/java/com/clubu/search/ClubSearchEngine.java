@@ -38,13 +38,14 @@ public class ClubSearchEngine {
 		List<Long> ret = null;
 		String value = null;
 
-		query.set("q", "name:\"" + keyword + "\"");
+		query.set("q", keyword);
+		query.set("defType", "edismax");
+		query.set("qf", "abbreivation^3 name^2 description");
 		try {
 			response = client.query(query);
 		} catch (Exception e) {
 			return null;
 		}
-
 
 		if (response != null) {
 			documents = response.getResults();
@@ -59,4 +60,5 @@ public class ClubSearchEngine {
 			return null;
 		}
 	}
+
 }
