@@ -454,6 +454,10 @@ console.log($scope.events);
     };
     $http.post('sampledata/events.json', $scope.eventData);
   };
+  $scope.logout = function() {
+    $location.path('/start');
+    $window.location.reload();
+  };
 
 })
 
@@ -575,7 +579,9 @@ console.log($scope.events);
      }
 })
 
-.controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate) {
+.controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, userInfo) {
   $ionicSideMenuDelegate.canDragContent(false);
+  $scope.userInfo = userInfo;
+
 
 });

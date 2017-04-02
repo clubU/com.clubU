@@ -1,10 +1,10 @@
 <ion-view hide-back-button="true">
-<ion-nav-bar class="bar-stable">
+  <ion-nav-bar class="bar-stable">
     <ion-nav-buttons side="right">
       <a class="button button-icon icon ion-ios-gear-outline" ui-sref="app.edit_club_profile"></a>
     </ion-nav-buttons>
     <ion-nav-title>{{ clubName }}</ion-nav-title>
-</ion-nav-bar>
+  </ion-nav-bar>
 
   <ion-content>
     <!--
@@ -55,6 +55,15 @@
         <h6>Location: {{ event.location }}</h6>
         <p> {{event.description}} </p>
       </ion-item>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button class="button button-block button-assertive" ng-click="logout()">
+        <i class="icon ion-log-out"></i>
+        Logout
+      </button>
     </div>
   </div>
 </ion-content>
