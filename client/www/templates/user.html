@@ -2,7 +2,7 @@
   <ion-nav-buttons side="right">
     <a class="button button-icon icon ion-ios-gear-outline" ui-sref="app.edit_profile"></a>
   </ion-nav-buttons>
-  <ion-content>
+  <ion-content onload="doRefresh()">
 
     <!-- *profile-bg / container image -->
     <div class="profile-bg">
@@ -10,6 +10,7 @@
     </div>
 
     <div class="content">
+      <ion-refresher pulling-text="LOADING" on-refresh="doRefresh()"></ion-refresher>
       <!-- *profile-info / container data profile -->
       <div class="profile-info">
         <!-- *profile-image / image profile -->

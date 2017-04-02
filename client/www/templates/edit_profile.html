@@ -1,7 +1,7 @@
 <!-- (*) assigned classes -->
 <ion-view view-title="Edit Profile">
 	<ion-nav-buttons side="right">
-        <button class="button button-icon ion-ios-checkmark-empty"></button>
+        <button class="button button-icon ion-ios-checkmark-empty" ng-click="update()"></button>
     </ion-nav-buttons>
 	<ion-content>
 		<!--*edit-profile-bg / background profile -->
@@ -17,10 +17,10 @@
 				<div class="img-bg">
 					<!--*opt-image / icon add image o cancel image -->
 					<a class="opt-image-left">
-						<i class="icon ion-ios-camera" ng-click="openPhotoLibrary()"></i>
+						<i class="icon ion-ios-camera" ng-click="openPhotoLibrary('CAMERA')"></i>
 					</a>
 					<a class="opt-image">
-						<i class="icon ion-ios-plus-outline" ng-click="openPhotoLibrary()"></i>
+						<i class="icon ion-ios-plus-outline" ng-click="openPhotoLibrary('PHOTOLIBRARY')"></i>
 					</a>
 					<!-- or -->
 					<!--
@@ -40,11 +40,11 @@
 			<div class="list list-inset">
 				<label class="item item-input">
 					<span class="input-label">First Name</span>
-					<input type="text" placeholder="John">
+					<input type="text" placeholder="John" ng-model="data.firstName">
 				</label>
 				<label class="item item-input">
 					<span class="input-label">Last Name</span>
-					<input type="text"  placeholder="Doe">
+					<input type="text"  placeholder="Doe" ng-model="data.lastName">
 				</label>
 
 				<label class="item item-input">
@@ -53,7 +53,7 @@
 				</label>
 				<label class="item item-input">
 					<span class="input-label">Password</span>
-				    <input type="password" placeholder="Password">
+				    <input type="password" placeholder="Password" ng-model="data.password">
 				</label>
 			</div>
 		</div>
