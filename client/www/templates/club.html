@@ -1,6 +1,6 @@
 <ion-view hide-back-button="true">
 
-  <ion-nav-title>{{ name }}</ion-nav-title>
+  <ion-nav-title>{{ clubName }}</ion-nav-title>
   <ion-content>
     <!--
     <div class="row">
@@ -17,7 +17,22 @@
       <div class="profile-info">
         <img class="profile-image" ng-src="{{image.data}}">
         <!-- *profile-name / name profile -->
+
 				<h3 class="profile-name">{{clubName}}</h3>
+
+
+      </div>
+
+      <ion-item class="item item-text-wrap">
+        <div ng-class="isItemShown(about) ? 'item-expand active' : 'item-expand inactive'">
+          <h2>About</h2>
+
+          <p>{{clubDesc}}</p>
+        </div>
+        <div ng-click="toggleItem(about)" class="item-expand-footer">
+          <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
+          {{ isItemShown(clubDesc) ? 'Less' : 'More' }}
+        </div>
         <div class="row">
           <div class="col">
             <button class="button button-block {{buttonColour}}" ng-click="subscribe()">
@@ -25,17 +40,6 @@
             </button>
           </div>
         </div>
-      </div>
-
-      <ion-item class="item item-text-wrap">
-          <div ng-class="isItemShown(about) ? 'item-expand active' : 'item-expand inactive'">
-            <h2>About</h2>
-            <p>{{clubDesc}}</p>
-          </div>
-          <div ng-click="toggleItem(about)" class="item-expand-footer">
-            <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
-            {{ isItemShown(clubDesc) ? 'Less' : 'More' }}
-          </div>
       </ion-item>
 
       <div class="list">

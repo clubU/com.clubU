@@ -16,7 +16,11 @@
     <ion-header-bar class="bar-stable">
       <h1 class="title">Menu</h1>
     </ion-header-bar>
-    <ion-content>
+    <ion-content onload="doRefresh()">
+
+      <ion-refresher pulling-text="LOADING" on-refresh="doRefresh()">
+      </ion-refresher>
+
       <ion-item menu-close class="item-menu-avatar text-center">
         <img src="{{profImg.data}}" ui-sref="app.user" class="avatar-menu">
       </ion-item>

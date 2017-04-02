@@ -1,22 +1,29 @@
 var hostname = "http://localhost:8080/";
 
-angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.cards'])
+angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.hscrollcards'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state,$window, $location, conn, userInfo) {
-	$scope.logout = function() {
-	    $location.path('/start');
-	    $window.location.reload();
-	}
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $window, $location, conn, userInfo) {
+  $scope.doRefresh = function() {
+    $scope.logout = function() {
+      $location.path('/start');
+      $window.location.reload();
+    }
 
-	$scope.profImg = {};
-	$scope.profImg.data = "../img/blankProfile.jpeg";
+    $scope.profImg = {};
+    $scope.profImg.data = "../img/blankProfile.jpeg";
     conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
-    	if (response.image) {
-			var $profId = response.image.id;
-			conn.getImg("image/" + $profId, $scope.profImg);
-		}
-    });
+      if (response.image) {
+        var $profId = response.image.id;
+        conn.getImg("image/" + $profId, $scope.profImg);
+      }
+    }).finally(function(){
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+  }
 
+  $scope.doRefresh();
+
+})
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -63,7 +70,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
     $state.go('app.user');
   };
 */
-})
+
 
 
 .controller('loginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn, userInfo, msgbox) {
@@ -83,6 +90,10 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
     conn.dataTrans("POST", $data, "session").success(function() {
       userInfo.username = $data.username;
+	  	conn.dataTrans("GET", null, "student?username=" + userInfo.username)
+	  	.success(function(data) {
+		  	userInfo.id = data.id;
+	  	});
       $state.go('app.feed');
     })
     .error(function(data) {
@@ -118,7 +129,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 })
 
-.controller('signUpCtrl', function($scope, $state, $http, conn,msgbox) {
+.controller('signUpCtrl', function($scope, $state, $http, conn, msgbox, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.userData = {};
   $scope.doSignUp = function (form) {
   	var $data = {
@@ -141,7 +153,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   };
 
 })
-.controller('clubSignUpCtrl', function($scope, $state, $http, conn, userInfo, msgbox) {
+.controller('clubSignUpCtrl', function($scope, $state, $http, conn, userInfo, msgbox, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.userData = {};
   $scope.doClubSignUp = function (form) {
   	var $data = {
@@ -164,32 +177,39 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 .controller('UserCtrl', function($scope, conn, userInfo) {
-    conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
-        $scope.info = {
-		    firstName: response.firstName,
-		    lastName: response.lastName,
-		    userName: response.username,
-		    email: response.email,
-		    program: response.programOfStudy,
-		    year: response.yearOfStudy
-		};
+	$scope.doRefresh = function ()  {
+		conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
+			$scope.info = {
+				firstName: response.firstName,
+				lastName: response.lastName,
+				userName: response.username,
+				email: response.email,
+				program: response.programOfStudy,
+				year: response.yearOfStudy
+			};
 
-		$scope.profImg = {};
-		if (!response.image)
-			$scope.profImg.data = "../img/blankProfile.jpeg";
-		else {
-			var $profId = response.image.id;
-			conn.getImg("image/" + $profId, $scope.profImg);
-    	}
-    })
+			$scope.profImg = {};
+			if (!response.image)
+				$scope.profImg.data = "../img/blankProfile.jpeg";
+			else {
+				var $profId = response.image.id;
+				conn.getImg("image/" + $profId, $scope.profImg);
+			}
+		}).finally(function(){
+			$scope.$broadcast('scroll.refreshComplete');
+		});
+	}
+
+    $scope.doRefresh();
 })
 
-.controller('EditProfileCtrl', function($scope, $state, $http, $cordovaCamera) {
-  $scope.openPhotoLibrary = function() {
+.controller('EditProfileCtrl', function($scope, $state, $http, $cordovaCamera, conn, userInfo) {
+	$scope.data = {};
+  $scope.openPhotoLibrary = function($action) {
        var options = {
            quality: 100,
            destinationType: Camera.DestinationType.FILE_URI,
-           sourceType: Camera.PictureSourceType.CAMERA,
+           sourceType: Camera.PictureSourceType[$action],
            allowEdit: true,
            encodingType: Camera.EncodingType.JPEG,
            popoverOptions: CameraPopoverOptions,
@@ -211,7 +231,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
                chunkedMode: false,
                mimeType: "image/jpg"
            };
-           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+           $cordovaFileTransfer.upload(conn.url + "image", targetPath, options).then(function(result) {
                console.log("SUCCESS: " + JSON.stringify(result.response));
                alert("success");
                alert(JSON.stringify(result.response));
@@ -231,6 +251,12 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
        });
      }
   // enter edit user function here
+ 	$scope.update = function() {
+		conn.dataTrans("POST", $scope.data, "student/" + userInfo.id)
+		.success(function(data) {
+			$state.go('app.user');
+		});
+ 	}
 })
 
 .controller ('FeedCtrl', function($scope, $state, $http, conn, userInfo) {
@@ -272,7 +298,6 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	}).finally(function(){
       $scope.$broadcast('scroll.refreshComplete');
     });
-
 
 	conn.dataTrans("GET", null, "club/recommendations?forStudentUsername=" + userInfo.username)
 	.success(function(data) {
@@ -388,8 +413,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   }
 })
 
-.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http) {
-
+.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.eventData = {};
   $scope.addEvent = function(form){
     var $data = {
@@ -404,12 +429,13 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 .controller('searchCtrl', function($scope, conn, tempData) {
 	$scope.searchWord = "";
+  $scope.searchMsg = "Searching";
 	$scope.loading = false;
 	$scope.search = function() {
 		$scope.loading = true;
 		conn.dataTrans("GET", null, "club?keyword=" + $scope.searchWord).success(function(clubs) {
 	    	$scope.clubs = clubs;
-	    	$scope.loading = false;
+        $scope.loading = false;
 	    });
 	};
 
@@ -418,7 +444,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	};
 })
 
-.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera) {
+.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.openPhotoLibrary = function() {
        var options = {
            quality: 100,
@@ -469,7 +496,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 })
 
-.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera) {
+.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.openPhotoLibrary = function() {
        var options = {
            quality: 100,
@@ -517,6 +545,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
      }
 })
 
-.controller('EventCtrl', function($scope, $ionicActionSheet, $http) {
+.controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
 
 });

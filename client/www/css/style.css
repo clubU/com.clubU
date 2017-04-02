@@ -54,7 +54,14 @@
 */
 
 
-/* Side Menu */
+/* Search Bar */
+.search-bar {
+  width: 90%;
+}
+
+.search {
+  margin-right: 10px;
+}
 
 
 
