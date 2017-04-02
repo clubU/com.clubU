@@ -414,7 +414,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 .controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, conn, userInfo) {
-  $ionicSideMenuDelegate.canDragContent(false);
+  $ionicSideMenuDelegate.canDragContent(false)
   $scope.eventData = {};
   var $clubInfo = {};
   clubId = userInfo.clubId;
@@ -466,7 +466,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 .controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate) {
-  $ionicSideMenuDelegate.canDragContent(false);
+  $ionicSideMenuDelegate.canDragContent(false)
   $scope.openPhotoLibrary = function() {
        var options = {
            quality: 100,

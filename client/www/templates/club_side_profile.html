@@ -1,8 +1,11 @@
 <ion-view hide-back-button="true">
-  <ion-nav-buttons side="right">
-    <a class="button button-icon icon ion-ios-gear-outline" ui-sref="app.edit_club_profile"></a>
-  </ion-nav-buttons>
-  <ion-nav-title>{{ clubName }}</ion-nav-title>
+<ion-nav-bar class="bar-stable">
+    <ion-nav-buttons side="right">
+      <a class="button button-icon icon ion-ios-gear-outline" ui-sref="app.edit_club_profile"></a>
+    </ion-nav-buttons>
+    <ion-nav-title>{{ clubName }}</ion-nav-title>
+</ion-nav-bar>
+
   <ion-content>
     <!--
     <div class="row">
@@ -20,14 +23,6 @@
       <img class="profile-image" ng-src="{{image.data}}">
       <!-- *profile-name / name profile -->
       <h3 class="profile-name">{{clubName}}</h3>
-      <div class="row">
-        <div class="col">
-          <button class="button button-block {{buttonColour}}" ui-sref="app.create_event">
-            Create Event
-          </button>
-        </div>
-      </div>
-
     </div>
 
     <ion-item class="item item-text-wrap">
@@ -39,7 +34,15 @@
         <i ng-class="isItemShown(clubDesc) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
         {{ isItemShown(clubDesc) ? 'Less' : 'More' }}
       </div>
+      <div class="row">
+        <div class="col">
+          <button class="button button-block {{buttonColour}}" ui-sref="app.create_event">
+            Create Event
+          </button>
+        </div>
+      </div>
     </ion-item>
+
 
     <div class="list">
       <div class="item item-divider">
