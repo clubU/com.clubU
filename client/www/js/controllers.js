@@ -298,7 +298,6 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 .controller('ClubCtrl', function($scope, $stateParams, conn) {
 
-
   $scope.btnText = 'Subscribe';
   $scope.buttonColour = "button-positive";
 
@@ -307,18 +306,12 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   clubId = href.match(/.*\/(\d+)$/)[1];
   conn.dataTrans("GET", null, "club/" + clubId).success(function(data) {
     $clubInfo = data;
-    $scope.name = $clubInfo.name;
-    $scope.about = $clubInfo.description;
+    $scope.clubName = $clubInfo.name;
+    $scope.clubDesc = $clubInfo.description;
 	var $clubImgId = $clubInfo.image.id;
 	$scope.image = {};
 	conn.getImg("image/" + $clubImgId, $scope.image);
-  });
-
-
-  $eventList = {};
-  conn.dataTrans("GET", null, "event/" + clubId).success(function(data) {
-    $eventList = data;
-    $scope.events = $eventList;
+	$scope.events = $clubInfo.events;
   });
 
   /*

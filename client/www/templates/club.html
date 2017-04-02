@@ -17,7 +17,11 @@
       <div class="profile-info">
         <img class="profile-image" ng-src="{{image.data}}">
         <!-- *profile-name / name profile -->
+<<<<<<< HEAD
 				<h3 class="profile-name">{{name}}</h3>
+=======
+				<h3 class="profile-name">{{clubName}}</h3>
+>>>>>>> b3208003fa756a759217bca2f9b70bcfa84fb93c
         <div class="row">
           <div class="col">
             <button class="button button-block {{buttonColour}}" ng-click="subscribe()">
@@ -30,11 +34,19 @@
       <ion-item class="item item-text-wrap">
           <div ng-class="isItemShown(about) ? 'item-expand active' : 'item-expand inactive'">
             <h2>About</h2>
+<<<<<<< HEAD
             <p>{{description}}</p>
           </div>
           <div ng-click="toggleItem(about)" class="item-expand-footer">
             <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
             {{ isItemShown(description) ? 'Less' : 'More' }}
+=======
+            <p>{{clubDesc}}</p>
+          </div>
+          <div ng-click="toggleItem(about)" class="item-expand-footer">
+            <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
+            {{ isItemShown(clubDesc) ? 'Less' : 'More' }}
+>>>>>>> b3208003fa756a759217bca2f9b70bcfa84fb93c
           </div>
       </ion-item>
 
@@ -45,9 +57,9 @@
 
         <ion-item ng-repeat=" event in events">
           <h4>{{ event.title }}</h4>
-          <h5>Time: {{ event.time}}</h5>
+          <h5>Time: {{ event.time  | date:'yyyy-MM-dd HH:mm:ss'}}</h5>
           <h6>Location: {{ event.location }}</h6>
-          <p> {{event.desc}} </p>
+          <p> {{event.description}} </p>
         </ion-item>
       </div>
     </div>
