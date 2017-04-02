@@ -1,8 +1,8 @@
 <ion-view>
   <ion-nav-bar class ="bar-stable">
     <ion-nav-back-button></ion-nav-back-button>
-    <ion-nav-buttons side="right" ng-show="userInfo.type == 2" ng-hide="userInfo.type == 1">
-      <a class="button button-icon ion-ios-gear-outline" ui-sref="app.create_event"></a>
+    <ion-nav-buttons side="right">
+      <a class="button button-icon ion-ios-gear-outline" ui-sref="app.create_event" ng-show="userInfo.type == '2'"></a>
     </ion-nav-buttons>
     <ion-nav-title>{{eventName}}</ion-nav-title>
   </ion-nav-bar>

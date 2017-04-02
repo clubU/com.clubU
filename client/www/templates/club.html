@@ -47,7 +47,7 @@
           Upcoming Events
         </div>
 
-        <ion-item ng-repeat=" event in events">
+        <ion-item ng-repeat=" event in events" href="#/app/event/{{event.id}}">
           <h4>{{ event.title }}</h4>
           <h5>Time: {{ event.time  | date:'yyyy-MM-dd HH:mm:ss'}}</h5>
           <h6>Location: {{ event.location }}</h6>

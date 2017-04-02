@@ -603,6 +603,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 .controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, userInfo) {
   $ionicSideMenuDelegate.canDragContent(false);
+  console.log(userInfo);
   $scope.userInfo = userInfo;
 
 
