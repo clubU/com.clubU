@@ -71,12 +71,13 @@ angular.module('starter.controllers', ['starter.services','ngCordova'])
     conn.dataTrans("POST", $data, "session").success(function() {
       userInfo.username = $data.username;
       $state.go('app.feed');
+    })
+    .error(function(data) {
+    	msgbox.alert("Login Failed");
     });
   }
-
-
 })
-.controller('clubLoginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn) {
+.controller('clubLoginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn, userInfo, msgbox) {
     $ionicSideMenuDelegate.canDragContent(false);
     $scope.loginData = {};
 
@@ -91,10 +92,14 @@ angular.module('starter.controllers', ['starter.services','ngCordova'])
 	  		type: "2"
 	  	}
 
-	  	conn.dataTrans("POST", $data, "session").success(function() {
+	  conn.dataTrans("POST", $data, "session").success(function() {
+	  	userInfo.username = $data.username;
+      	$state.go('app.club_side_profile');
+      })
+	  .error(function() {
+	  	msgbox.alert("Login Failed");
+	  });
 
-      });
-      $state.go('app.club_side_profile');
     }
 
 })
@@ -117,12 +122,12 @@ angular.module('starter.controllers', ['starter.services','ngCordova'])
 	    $state.go('app.user');
 	})
 	.error(function(data) {
-		msgbox.alert("sign up failed");
+		msgbox.alert("Signup Failed");
 	});
   };
 
 })
-.controller('clubSignUpCtrl', function($scope, $state, $http, conn, userInfo) {
+.controller('clubSignUpCtrl', function($scope, $state, $http, conn, userInfo, msgbox) {
   $scope.userData = {};
   $scope.doClubSignUp = function (form) {
   	var $data = {
@@ -136,6 +141,9 @@ angular.module('starter.controllers', ['starter.services','ngCordova'])
   	.success(function(data) {
   		userInfo.username = $data.username;
 	  	$state.go('app.user');
+  	})
+  	.error(function() {
+  		msgbox.alert("Signup Failed");
   	});
   };
 
@@ -205,39 +213,53 @@ angular.module('starter.controllers', ['starter.services','ngCordova'])
 
 .controller ('FeedCtrl', function($scope, $state, $http, conn, userInfo) {
   $scope.doRefresh = function(){
-	conn.dataTrans("GET", userInfo.username, "student")
+
+	conn.dataTrans("GET", null, "student?username=" + userInfo.username)
 	.success(function(data) {
-	  $scope.user = data;
-	  $scope.events = [];
-	  var $allEventPromise = [];
+console.log(data);
+
+	  var $events = [];
+	  var $image = {};
 	  data.clubs.forEach(function(club) {
-	    var dataPromise = conn.dataTrans("GET", null, "event/" + club.id)
-	    .success(function(events) {
-	      $scope.events = $scope.events.concat(events);
-	    });
-
-	    $allEventPromise.push(dataPromise);
+	  	var $clubImgId = club.image.id;
+	  	if (!$image[$clubImgId]) {
+	  		var picObj = {};
+	  		$image[$clubImgId] = picObj;
+	  		conn.dataTrans("GET", null, "image/" + $clubImgId)
+	  		.success(function(data) {
+	  			picObj.image = data;
+	  		});
+	  	}
+	  	club.events.forEach(function(event) {
+	  		event.time = new Date(event.time);
+	  		var $eventImgId = event.image.id;
+		  	if (!$image[$eventImgId]) {
+		  		var picObj = {};
+		  		$image[$eventImgId] = picObj;
+		  		conn.dataTrans("GET", null, "image/" + $eventImgId)
+		  		.success(function(data) {
+		  			picObj.image = data;
+		  		});
+		  	}
+		  	event.eventImg = $image[$eventImgId];
+		  	event.clubImg = $image[$clubImgId];
+	  		$events.push(event);
+	  	})
 	  });
 
-	  Promise.all($allEventPromise).then(function(data) {
-		  $scope.events.sort(function(event1_, event2_) {
-		  	var event1 = new Date(event1_);
-		  	var event2 = new Date(event2_);
-		  	if (event1 > event2)
-		  		return 1;
-		  	else if (event1 == event2)
-		  		return 0;
-		  	else
-			  	return -1;
-		  });
+	  $events.sort(function(event1, event2) {
+	  	return event1.time - event2.time;
 	  });
+console.log($events);
+	  $scope.events = $events;
+
 
 	}).finally(function(){
       $scope.$broadcast('scroll.refreshComplete');
     });
 
 
-	conn.dataTrans("GET", userInfo.username, "club/recommendations")
+	conn.dataTrans("GET", null, "club/recommendations?forStudentUsername=" + userInfo.username)
 	.success(function(data) {
 		$scope.clubs = data;
   	})
