@@ -2,21 +2,28 @@ var hostname = "http://localhost:8080/";
 
 angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.hscrollcards'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state,$window, $location, conn, userInfo) {
-	$scope.logout = function() {
-	    $location.path('/start');
-	    $window.location.reload();
-	}
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state, $window, $location, conn, userInfo) {
+  $scope.doRefresh = function() {
+    $scope.logout = function() {
+      $location.path('/start');
+      $window.location.reload();
+    }
 
-	$scope.profImg = {};
-	$scope.profImg.data = "../img/blankProfile.jpeg";
+    $scope.profImg = {};
+    $scope.profImg.data = "../img/blankProfile.jpeg";
     conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
-    	if (response.image) {
-			var $profId = response.image.id;
-			conn.getImg("image/" + $profId, $scope.profImg);
-		}
-    });
+      if (response.image) {
+        var $profId = response.image.id;
+        conn.getImg("image/" + $profId, $scope.profImg);
+      }
+    }).finally(function(){
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+  }
 
+  $scope.doRefresh();
+
+})
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -63,7 +70,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
     $state.go('app.user');
   };
 */
-})
+
 
 
 .controller('loginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn, userInfo, msgbox) {

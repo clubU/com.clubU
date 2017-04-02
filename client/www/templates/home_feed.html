@@ -8,7 +8,7 @@
     <div ng-repeat="event in events" class="list card">
       <div class="item item-avatar item-icon-right">
         <img ng-src="{{event.clubImg.data}}">
-        <h2>{{event.title}}</h2>
+        <h2><a href="#/app/event/{{event.id}}">{{event.title}} </a></h2>
         <p class="icon-p">
           <i class="icon ion-ios-location-outline"></i>
           {{event.location}}
