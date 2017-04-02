@@ -92,10 +92,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
       userInfo.username = $data.username;
       userInfo.id = response.userId;
       userInfo.type = $data.type;
-console.log(userInfo);
       conn.dataTrans("GET", null, "student/" + userInfo.id).success(function(response) {
       	userInfo.imageId = response.image? response.image.id : null;
-console.log(userInfo);
       });
 
       $state.go('app.feed');
@@ -617,10 +615,19 @@ console.log(userInfo);
      }
 })
 
-.controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, userInfo) {
+
+.controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, conn) {
   $ionicSideMenuDelegate.canDragContent(false);
-  console.log(userInfo);
-  $scope.userInfo = userInfo;
-
-
+  var href = window.location.href;
+  var $eventId = href.match(/.*\/(\d+)$/)[1];
+  $scope.data = {};
+  $scope.image = {};
+  $scope.image.data = "img/bg.jpg";
+  conn.dataTrans("GET", null, "event/" + $eventId)
+  .success(function(response) {
+  	$scope.data = response;
+  	if (response.image) {
+	  	conn.getImg("image/" + response.image.id , $scope.image);
+	}
+  });
 });
