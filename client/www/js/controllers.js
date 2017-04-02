@@ -271,9 +271,11 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 .controller('ClubsCtrl', function($scope, $ionicActionSheet, conn, tempData, userInfo) {
-
+  $scope.loading = false;
   $scope.doRefresh = function(){
-    conn.dataTrans("GET", userInfo.username, "student").success(function(newItems) {
+  	$scope.loading = true;
+    conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(newItems) {
+      $scope.loading = false;
       $scope.clubs = newItems.clubs;
     })
     .finally(function() {
@@ -295,7 +297,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 })
 
-.controller('ClubCtrl', function($scope, $stateParams, conn, tempData) {
+.controller('ClubCtrl', function($scope, $stateParams, conn) {
 
 
   $scope.btnText = 'Subscribe';
@@ -303,12 +305,14 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
   var $clubInfo = {};
   href = window.location.href;
-  clubId = href.match(/.*\/(\d)$/)[1];
+  clubId = href.match(/.*\/(\d+)$/)[1];
   conn.dataTrans("GET", null, "club/" + clubId).success(function(data) {
     $clubInfo = data;
-    $scope.image = $clubInfo.image;
     $scope.name = $clubInfo.name;
     $scope.about = $clubInfo.description;
+	var $clubImgId = $clubInfo.image.id;
+	$scope.image = {};
+	conn.getImg("image/" + $clubImgId, $scope.image);
   });
 
 
@@ -358,13 +362,16 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 })
 
-.controller('searchCtrl', function($scope, conn) {
+.controller('searchCtrl', function($scope, conn, tempData) {
 	$scope.searchWord = "";
+	$scope.loading = false;
 	$scope.search = function() {
-		conn.dataTrans("GET", $scope.searchWord, "club").success(function(clubs) {
+		$scope.loading = true;
+		conn.dataTrans("GET", null, "club?keyword=" + $scope.searchWord).success(function(clubs) {
 	    	$scope.clubs = clubs;
+	    	$scope.loading = false;
 	    });
-	}
+	};
 
 	$scope.getClub = function(id){
 		tempData.clubId = id;

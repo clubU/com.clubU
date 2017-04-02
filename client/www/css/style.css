@@ -1,6 +1,12 @@
 /* Empty. Add your own CSS if you like */
 
 /* homescreen background image */
+.loading {
+  color: #66ccff;
+  font-style: oblique;
+  text-align: center
+}
+
 .background.scroll-content {
     /* background: url('../img/logo.png') no-repeat; */
     background: #46C7F3;

@@ -1,14 +1,14 @@
 <ion-view view-title="Search">
   <ion-header-bar class="bar-light bar-subheader">
     <label class="item item-input">
-      <i class="icon ion-search">
-      </i>
+      <i class="icon ion-search"></i>
       <input type="text" placeholder="Search for Clubs..." ng-model="searchWord">
-      <button ion-button on-click="search()">Search</button>
     </label>
+    <button ion-button ng-click="search()">Search</button>
  </ion-header-bar>
 
   <ion-content>
+    <h4 class="loading" ng-show="loading">Searching</h3>
     <div ng-repeat="club in clubs" ng-click="getClub(club.id)">
       <ion-list>
         <ion-item href="#/app/clubs/{{club.id}}">
