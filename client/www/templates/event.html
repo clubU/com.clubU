@@ -8,41 +8,38 @@
   </ion-nav-bar>
 
   <ion-content>
-    <!-- *profile-bg / container image -->
     <div class="profile-bg">
       <!-- EVENT BACKGROUD PHOTO -->
       <img src="{{image.data}}" alt="">
     </div>
 
+
     <div class="content">
+      <!-- *profile-bg / container image -->
+
       <!-- *profile-info / container data profile -->
-      <div class="profile-info">
+      <div class="event-info">
         <!-- *EVENT-name / name profile -->
-        <h3 class="profile-name">{{ data.title }}</h3>
+        <h3 class="event-name">{{ data.title }}</h3>
         <!-- *EVENT date -->
-        <span class="profile-description">
-         <h3>Event Date</h3>
-         {{ data.time | date:'yyyy-MM-dd HH:mm:ss' }}
+        <span class="event-description">
+          <i class="icon ion-ios-clock-outline"></i>
+          {{ data.time | date:'yyyy-MM-dd HH:mm:ss' }}
         </span>
 
         <!-- *EVENT location -->
-        <span class="profile-description">
-
-          <h3>Location</h3>
+        <span class="event-description">
+          <i class="icon ion-ios-location-outline"></i>
           {{ data.location }}
-
         </span>
-
         <!-- *EVENT-description / description profile -->
-        <span class="profile-description">
-          <h3>Description</h3>
+        <span class="event-about">
           {{ data.description }}
         </span>
       </div>
-
-
-
     </div>
-
   </ion-content>
+
+
+
 </ion-view>
