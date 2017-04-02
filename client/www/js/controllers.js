@@ -129,7 +129,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 })
 
-.controller('signUpCtrl', function($scope, $state, $http, conn,msgbox) {
+.controller('signUpCtrl', function($scope, $state, $http, conn, msgbox, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.userData = {};
   $scope.doSignUp = function (form) {
   	var $data = {
@@ -152,7 +153,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   };
 
 })
-.controller('clubSignUpCtrl', function($scope, $state, $http, conn, userInfo, msgbox) {
+.controller('clubSignUpCtrl', function($scope, $state, $http, conn, userInfo, msgbox, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.userData = {};
   $scope.doClubSignUp = function (form) {
   	var $data = {
@@ -411,8 +413,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   }
 })
 
-.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http) {
-
+.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.eventData = {};
   $scope.addEvent = function(form){
     var $data = {
@@ -442,7 +444,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	};
 })
 
-.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera) {
+.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.openPhotoLibrary = function() {
        var options = {
            quality: 100,
@@ -493,7 +496,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 })
 
-.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera) {
+.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
   $scope.openPhotoLibrary = function() {
        var options = {
            quality: 100,
@@ -541,6 +545,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
      }
 })
 
-.controller('EventCtrl', function($scope, $ionicActionSheet, $http) {
+.controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate) {
+  $ionicSideMenuDelegate.canDragContent(false);
 
 });
