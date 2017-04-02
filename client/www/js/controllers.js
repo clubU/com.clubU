@@ -92,6 +92,12 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
       userInfo.username = $data.username;
       userInfo.id = response.userId;
       userInfo.type = $data.type;
+console.log(userInfo);
+      conn.dataTrans("GET", null, "student/" + userInfo.id).success(function(response) {
+      	userInfo.imageId = response.image? response.image.id : null;
+console.log(userInfo);
+      });
+
       $state.go('app.feed');
     })
     .error(function(data) {
@@ -145,7 +151,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 	conn.dataTrans("POST", $data, "student")
 	.success(function(data) {
-	    $state.go('app.user');
+	    $state.go('app.start');
 	})
 	.error(function(data) {
 		msgbox.alert("Signup Failed");
@@ -166,8 +172,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
   	conn.dataTrans("POST", $data, "club")
   	.success(function(data) {
-  		userInfo.username = $data.username;
-	  	$state.go('app.user');
+	  	$state.go('app.start');
   	})
   	.error(function() {
   		msgbox.alert("Signup Failed");
@@ -267,6 +272,9 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	  var $events = [];
 	  var $image = {};
 	  data.clubs.forEach(function(club) {
+	  	if (!club.image)
+	  		return;
+
 	  	var $clubImgId = club.image.id;
 	  	if (!$image[$clubImgId]) {
 	  		var picObj = {};
@@ -275,6 +283,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	  	}
 	  	club.events.forEach(function(event) {
 	  		event.time = new Date(event.time);
+	  		if (!event.image)
+	  			return;
 	  		var $eventImgId = event.image.id;
 		  	if (!$image[$eventImgId]) {
 		  		var picObj = {};
@@ -465,7 +475,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	};
 })
 
-.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate) {
+.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate, conn, userInfo, $state) {
+  $scope.data = {};
   $ionicSideMenuDelegate.canDragContent(false)
   $scope.openPhotoLibrary = function() {
        var options = {
@@ -514,7 +525,12 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
      }
 
   // Add funcitons for edit profile here
-
+ 	$scope.update = function() {
+		conn.dataTrans("POST", $scope.data, "club/" + userInfo.clubId)
+		.success(function(data) {
+			$state.go('app.club_side_profile');
+		});
+ 	}
 })
 
 .controller('CreateEventCtrl', function($scope, $state, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate, userInfo, conn) {
