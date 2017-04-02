@@ -10341,6 +10341,18 @@ a.button {
         top: 35px;
         width: 45px;
         z-index: 1; }
+      .content-edit .content-img .img-bg .opt-image-left {
+        background-color: #46C7F3;
+        border-radius: 50%;
+        color: #fff;
+        display: block;
+        font-size: 3.2em;
+        height: 45px;
+        position: absolute;
+        left: -35px;
+        top: 35px;
+        width: 45px;
+        z-index: 1; }
       .content-edit .content-img .img-bg img {
         left: 0;
         position: absolute;

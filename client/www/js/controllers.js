@@ -72,6 +72,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
       userInfo.username = $data.username;
       $state.go('app.feed');
     });
+
   }
 
 
@@ -351,14 +352,103 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	};
 })
 
-.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http) {
+.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera) {
+  $scope.openPhotoLibrary = function() {
+       var options = {
+           quality: 100,
+           destinationType: Camera.DestinationType.FILE_URI,
+           sourceType: Camera.PictureSourceType.CAMERA,
+           allowEdit: true,
+           encodingType: Camera.EncodingType.JPEG,
+           popoverOptions: CameraPopoverOptions,
+           saveToPhotoAlbum: false
+       };
+
+       $cordovaCamera.getPicture(options).then(function(imageData) {
+
+           //console.log(imageData);
+           //console.log(options);
+
+          // var url = "http://mydomein.com/upload.php";
+           //target path may be local or url
+           var targetPath = imageData;
+           var filename = targetPath.split("/").pop();
+           var options = {
+               fileKey: "file",
+               fileName: filename,
+               chunkedMode: false,
+               mimeType: "image/jpg"
+           };
+           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+               console.log("SUCCESS: " + JSON.stringify(result.response));
+               alert("success");
+               alert(JSON.stringify(result.response));
+           }, function(err) {
+               console.log("ERROR: " + JSON.stringify(err));
+               alert(JSON.stringify(err));
+           }, function (progress) {
+               // constant progress updates
+               $timeout(function () {
+                   $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+               })
+           });
+
+       }, function(err) {
+           // error
+           console.log(err);
+       });
+     }
 
   // Add funcitons for edit profile here
 
 })
 
-.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http) {
+.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera) {
+  $scope.openPhotoLibrary = function() {
+       var options = {
+           quality: 100,
+           destinationType: Camera.DestinationType.FILE_URI,
+           sourceType: Camera.PictureSourceType.CAMERA,
+           allowEdit: true,
+           encodingType: Camera.EncodingType.JPEG,
+           popoverOptions: CameraPopoverOptions,
+           saveToPhotoAlbum: false
+       };
 
+       $cordovaCamera.getPicture(options).then(function(imageData) {
+
+           //console.log(imageData);
+           //console.log(options);
+
+          // var url = "http://mydomein.com/upload.php";
+           //target path may be local or url
+           var targetPath = imageData;
+           var filename = targetPath.split("/").pop();
+           var options = {
+               fileKey: "file",
+               fileName: filename,
+               chunkedMode: false,
+               mimeType: "image/jpg"
+           };
+           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+               console.log("SUCCESS: " + JSON.stringify(result.response));
+               alert("success");
+               alert(JSON.stringify(result.response));
+           }, function(err) {
+               console.log("ERROR: " + JSON.stringify(err));
+               alert(JSON.stringify(err));
+           }, function (progress) {
+               // constant progress updates
+               $timeout(function () {
+                   $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+               })
+           });
+
+       }, function(err) {
+           // error
+           console.log(err);
+       });
+     }
 })
 
 .controller('EventCtrl', function($scope, $ionicActionSheet, $http) {

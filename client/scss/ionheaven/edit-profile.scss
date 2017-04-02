@@ -63,6 +63,19 @@
 				width: 45px;
 				z-index: 1;
 			}
+			.opt-image-left {
+				background-color: $positive;
+				border-radius: 50%;
+				color: #fff;
+				display: block;
+				font-size: 3.2em;
+				height: 45px;
+				position: absolute;
+				left: -35px;
+				top: 35px;
+				width: 45px;
+				z-index: 1;
+			}
 			img {
 				left: 0;
 				position: absolute;
