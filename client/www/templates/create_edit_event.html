@@ -1,7 +1,7 @@
 <!-- (*) assigned classes -->
 <ion-view view-title="Event">
 	<ion-nav-buttons side="right">
-        <button class="button button-icon ion-ios-checkmark-empty"></button>
+        <button class="button button-icon ion-ios-checkmark-empty" ng-click="update()"></button>
     </ion-nav-buttons>
 	<ion-content>
 		<!--*edit-profile-bg / background profile -->
@@ -32,20 +32,24 @@
 			<!-- list inset style -->
 			<div class="list list-inset">
 				<label class="item item-input">
-          <span calss="input-label">Event Title</span>
-					<input type="text">
+		        	<span calss="input-label">Event Title</span>
+					<input type="text" ng-model="data.title">
 				</label>
-        <label class="item item-input">
+		        <label class="item item-input">
 					<span class="input-label">Event Date</span>
-					<input type="date">
+					<input type="date" ng-model="data.date">
 				</label>
-        <label class="item item-input">
-          <span class="input-label">Start Time</span>
-					<input type="time">
+		        <label class="item item-input">
+		        	<span class="input-label">Start Time</span>
+					<input type="time" ng-model="data.time">
 				</label>
-        <label class="item item-input item-stacked-label">
+				<label class="item item-input">
+					<span calss="input-label">Location</span>
+					<input type="text" ng-model="data.location">
+				</label>
+		        <label class="item item-input item-stacked-label">
 					<span class="input-label">Event Description</span>
-					<textarea></textarea>
+					<textarea ng-model="data.desc"></textarea>
 				</label>
 			</div>
 		</div>
