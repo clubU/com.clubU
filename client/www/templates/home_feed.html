@@ -7,9 +7,8 @@
     </ion-refresher>
     <div ng-repeat="event in events" class="list card">
       <div class="item item-avatar item-icon-right">
-        <img src="sampledata/img/rocsaut.jpg">
+        <img ng-src="{{event.clubImg.data}}">
         <h2>{{event.title}}</h2>
-
         <p class="icon-p">
           <i class="icon ion-ios-location-outline"></i>
           {{event.location}}
@@ -24,9 +23,8 @@
       </div>
 
       <div class="item item-image">
-        <img ng-src="{{event.image}}">
+        <img ng-src="{{event.eventImg.data}}">
       </div>
-
       <div class="item item-text-wrap">
         <p>
           {{event.description}}
