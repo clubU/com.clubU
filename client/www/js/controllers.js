@@ -208,51 +208,9 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 .controller('EditProfileCtrl', function($scope, $state, $http, $cordovaCamera, conn, userInfo) {
 	$scope.data = {};
-  $scope.openPhotoLibrary = function($action) {
-       var options = {
-           quality: 100,
-           destinationType: Camera.DestinationType.FILE_URI,
-           sourceType: Camera.PictureSourceType[$action],
-           allowEdit: true,
-           encodingType: Camera.EncodingType.JPEG,
-           popoverOptions: CameraPopoverOptions,
-           saveToPhotoAlbum: false
-       };
-
-       $cordovaCamera.getPicture(options).then(function(imageData) {
-
-           //console.log(imageData);
-           //console.log(options);
-
-          // var url = "http://mydomein.com/upload.php";
-           //target path may be local or url
-           var targetPath = imageData;
-           var filename = targetPath.split("/").pop();
-           var options = {
-               fileKey: "file",
-               fileName: filename,
-               chunkedMode: false,
-               mimeType: "image/jpg"
-           };
-           $cordovaFileTransfer.upload(conn.url + "image", targetPath, options).then(function(result) {
-               console.log("SUCCESS: " + JSON.stringify(result.response));
-               alert("success");
-               alert(JSON.stringify(result.response));
-           }, function(err) {
-               console.log("ERROR: " + JSON.stringify(err));
-               alert(JSON.stringify(err));
-           }, function (progress) {
-               // constant progress updates
-               $timeout(function () {
-                   $scope.downloadProgress = (progress.loaded / progress.total) * 100;
-               })
-           });
-
-       }, function(err) {
-           // error
-           console.log(err);
-       });
-     }
+	$scope.openPhotoLibrary = function($action) {
+		conn.postImg($action);
+	}
   // enter edit user function here
  	$scope.update = function() {
 		conn.dataTrans("POST", $scope.data, "student/" + userInfo.id)

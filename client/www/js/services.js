@@ -42,7 +42,7 @@ angular.module('starter.services', [])
 })*/
 
 
-.service('conn',function($state, $http, $cordovaFileTransfer) {
+.service('conn',function($state, $http, $cordovaCamera) {
 	this.url = 'http://localhost:8080/';
 	this.headers = {
     	"Content-Type": "application/x-www-form-urlencoded"
@@ -82,6 +82,26 @@ angular.module('starter.services', [])
 
 			$imgObj.data = "data:image/png;base64," + window.btoa(binary);
 		});
+	};
+	this.postImg = function($action) {
+		var options = {
+			quality: 75,
+			destinationType: Camera.DestinationType.DATA_URL,
+			sourceType: Camera.PictureSourceType[$action],
+			allowEdit: true,
+			encodingType: Camera.EncodingType.JPEG,
+			targetWidth: 300,
+			targetHeight: 300,
+			popoverOptions: CameraPopoverOptions,
+			saveToPhotoAlbum: false
+		};
+
+        $cordovaCamera.getPicture(options).then(function (imageData) {
+            var $data = { file: "data:image/jpeg;base64," + imageData };
+            this.dataTrans("POST", $data, "image").success(function(response) {});
+        }, function (err) {
+            // An error occured. Show a message to the user
+        });
 	};
 })
 .service('tempData', function() {
