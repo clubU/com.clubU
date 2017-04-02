@@ -1,9 +1,21 @@
 var hostname = "http://localhost:8080/";
 
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.cards'])
 
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state,$window, $location, conn, userInfo) {
+	$scope.logout = function() {
+	    $location.path('/start');
+	    $window.location.reload();
+	}
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
+	$scope.profImg = {};
+	$scope.profImg.data = "../img/blankProfile.jpeg";
+    conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
+    	if (response.image) {
+			var $profId = response.image.id;
+			conn.getImg("image/" + $profId, $scope.profImg);
+		}
+    });
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -54,8 +66,7 @@ angular.module('starter.controllers', ['starter.services'])
 })
 
 
-.controller('loginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn, userInfo) {
-
+.controller('loginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn, userInfo, msgbox) {
   $ionicSideMenuDelegate.canDragContent(false)
   $scope.loginData = {};
 
@@ -73,11 +84,14 @@ angular.module('starter.controllers', ['starter.services'])
     conn.dataTrans("POST", $data, "session").success(function() {
       userInfo.username = $data.username;
       $state.go('app.feed');
+    })
+    .error(function(data) {
+    	msgbox.alert("Login Failed");
     });
-  }
 
+  }
 })
-.controller('clubLoginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn) {
+.controller('clubLoginCtrl', function($scope, $state, $http, $ionicSideMenuDelegate, conn, userInfo, msgbox) {
     $ionicSideMenuDelegate.canDragContent(false);
     $scope.loginData = {};
 
@@ -92,14 +106,19 @@ angular.module('starter.controllers', ['starter.services'])
 	  		type: "2"
 	  	}
 
-	  	conn.dataTrans("POST", $data, "session").success(function() {
-        $state.go('app.club_side_profile');
-      });
+	  conn.dataTrans("POST", $data, "session").success(function() {
+	  	userInfo.username = $data.username;
+      	$state.go('app.club_side_profile');
+      })
+	  .error(function() {
+	  	msgbox.alert("Login Failed");
+	  });
+
     }
 
 })
 
-.controller('signUpCtrl', function($scope, $state, $http, conn) {
+.controller('signUpCtrl', function($scope, $state, $http, conn,msgbox) {
   $scope.userData = {};
   $scope.doSignUp = function (form) {
   	var $data = {
@@ -115,11 +134,14 @@ angular.module('starter.controllers', ['starter.services'])
 	conn.dataTrans("POST", $data, "student")
 	.success(function(data) {
 	    $state.go('app.user');
+	})
+	.error(function(data) {
+		msgbox.alert("Signup Failed");
 	});
   };
 
 })
-.controller('clubSignUpCtrl', function($scope, $state, $http, conn) {
+.controller('clubSignUpCtrl', function($scope, $state, $http, conn, userInfo, msgbox) {
   $scope.userData = {};
   $scope.doClubSignUp = function (form) {
   	var $data = {
@@ -131,14 +153,18 @@ angular.module('starter.controllers', ['starter.services'])
 
   	conn.dataTrans("POST", $data, "club")
   	.success(function(data) {
+  		userInfo.username = $data.username;
 	  	$state.go('app.user');
+  	})
+  	.error(function() {
+  		msgbox.alert("Signup Failed");
   	});
   };
 
 })
 
 .controller('UserCtrl', function($scope, conn, userInfo) {
-    conn.dataTrans("GET", userInfo.username, "student").success(function(response) {
+    conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
         $scope.info = {
 		    firstName: response.firstName,
 		    lastName: response.lastName,
@@ -147,50 +173,116 @@ angular.module('starter.controllers', ['starter.services'])
 		    program: response.programOfStudy,
 		    year: response.yearOfStudy
 		};
+
+		$scope.profImg = {};
+		if (!response.image)
+			$scope.profImg.data = "../img/blankProfile.jpeg";
+		else {
+			var $profId = response.image.id;
+			conn.getImg("image/" + $profId, $scope.profImg);
+    	}
     })
 })
 
-.controller('EditProdileCtrl', function($scope, $state, $http, $cordovaCamera) {
+.controller('EditProfileCtrl', function($scope, $state, $http, $cordovaCamera) {
+  $scope.openPhotoLibrary = function() {
+       var options = {
+           quality: 100,
+           destinationType: Camera.DestinationType.FILE_URI,
+           sourceType: Camera.PictureSourceType.CAMERA,
+           allowEdit: true,
+           encodingType: Camera.EncodingType.JPEG,
+           popoverOptions: CameraPopoverOptions,
+           saveToPhotoAlbum: false
+       };
+
+       $cordovaCamera.getPicture(options).then(function(imageData) {
+
+           //console.log(imageData);
+           //console.log(options);
+
+          // var url = "http://mydomein.com/upload.php";
+           //target path may be local or url
+           var targetPath = imageData;
+           var filename = targetPath.split("/").pop();
+           var options = {
+               fileKey: "file",
+               fileName: filename,
+               chunkedMode: false,
+               mimeType: "image/jpg"
+           };
+           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+               console.log("SUCCESS: " + JSON.stringify(result.response));
+               alert("success");
+               alert(JSON.stringify(result.response));
+           }, function(err) {
+               console.log("ERROR: " + JSON.stringify(err));
+               alert(JSON.stringify(err));
+           }, function (progress) {
+               // constant progress updates
+               $timeout(function () {
+                   $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+               })
+           });
+
+       }, function(err) {
+           // error
+           console.log(err);
+       });
+     }
   // enter edit user function here
 })
 
 .controller ('FeedCtrl', function($scope, $state, $http, conn, userInfo) {
   $scope.doRefresh = function(){
-	conn.dataTrans("GET", userInfo.username, "student")
+
+	conn.dataTrans("GET", null, "student?username=" + userInfo.username)
 	.success(function(data) {
-	  $scope.user = data;
-	  $scope.events = [];
-	  var $allEventPromise = [];
+	  var $events = [];
+	  var $image = {};
 	  data.clubs.forEach(function(club) {
-	    var dataPromise = conn.dataTrans("GET", null, "event/" + club.id)
-	    .success(function(events) {
-	      $scope.events = $scope.events.concat(events);
-	    });
+	  	var $clubImgId = club.image.id;
+	  	if (!$image[$clubImgId]) {
+	  		var picObj = {};
+	  		$image[$clubImgId] = picObj;
+	  		conn.getImg("image/" + $clubImgId, picObj);
+	  	}
+	  	club.events.forEach(function(event) {
+	  		event.time = new Date(event.time);
+	  		var $eventImgId = event.image.id;
+		  	if (!$image[$eventImgId]) {
+		  		var picObj = {};
+		  		$image[$eventImgId] = picObj;
+		  		conn.getImg("image/" + $eventImgId, picObj);
+		  	}
+		  	event.eventImg = $image[$eventImgId];
+		  	event.clubImg = $image[$clubImgId];
 
-	    $allEventPromise.push(dataPromise);
+	  		$events.push(event);
+	  	})
 	  });
 
-	  Promise.all($allEventPromise).then(function(data) {
-		  $scope.events.sort(function(event1_, event2_) {
-		  	var event1 = new Date(event1_);
-		  	var event2 = new Date(event2_);
-		  	if (event1 > event2)
-		  		return 1;
-		  	else if (event1 == event2)
-		  		return 0;
-		  	else
-			  	return -1;
-		  });
+	  $events.sort(function(event1, event2) {
+	  	return event1.time - event2.time;
 	  });
+
+	  $scope.events = $events;
+
 
 	}).finally(function(){
       $scope.$broadcast('scroll.refreshComplete');
     });
 
 
-	conn.dataTrans("GET", userInfo.username, "club/recommendations")
+	conn.dataTrans("GET", null, "club/recommendations?forStudentUsername=" + userInfo.username)
 	.success(function(data) {
 		$scope.clubs = data;
+		data.forEach(function(club) {
+			if (club.image) {
+				var $clubImgId = club.image.id;
+				conn.getImg("image/" + $clubImgId, club.image);
+			}
+		});
   	})
 
   };
@@ -202,9 +294,11 @@ angular.module('starter.controllers', ['starter.services'])
 })
 
 .controller('ClubsCtrl', function($scope, $ionicActionSheet, conn, tempData, userInfo) {
-
+  $scope.loading = false;
   $scope.doRefresh = function(){
-    conn.dataTrans("GET", userInfo.username, "student").success(function(newItems) {
+  	$scope.loading = true;
+    conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(newItems) {
+      $scope.loading = false;
       $scope.clubs = newItems.clubs;
     })
     .finally(function() {
@@ -226,27 +320,41 @@ angular.module('starter.controllers', ['starter.services'])
 
 })
 
-.controller('ClubCtrl', function($scope, $stateParams, conn, tempData) {
-
-
-  $scope.btnText = 'Subscribe';
-  $scope.buttonColour = "button-positive";
-
+.controller('ClubCtrl', function($scope, $stateParams, conn, userInfo) {
   var $clubInfo = {};
   href = window.location.href;
-  clubId = href.match(/.*\/(\d)$/)[1];
+  clubId = href.match(/.*\/(\d+)$/)[1];
+  var $subStat = false;
+
+	var subUpdate = function () {
+		if ($subStat) {
+			$scope.btnText = 'Subscribed';
+			$scope.buttonColour = "button-balanced";
+		} else {
+			$scope.btnText = 'Subscribe';
+			$scope.buttonColour = "button-positive";
+		}
+	}
+
+	conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
+		response.clubs.forEach(function(club) {
+			if (club.id == clubId) {
+				$subStat = true;
+			}
+
+		});
+
+		subUpdate();
+	});
+
   conn.dataTrans("GET", null, "club/" + clubId).success(function(data) {
     $clubInfo = data;
-    $scope.image = $clubInfo.image;
-    $scope.name = $clubInfo.name;
-    $scope.about = $clubInfo.description;
-  });
-
-
-  $eventList = {};
-  conn.dataTrans("GET", null, "event/" + clubId).success(function(data) {
-    $eventList = data;
-    $scope.events = $eventList;
+    $scope.clubName = $clubInfo.name;
+    $scope.clubDesc = $clubInfo.description;
+	var $clubImgId = $clubInfo.image.id;
+	$scope.image = {};
+	conn.getImg("image/" + $clubImgId, $scope.image);
+	$scope.events = $clubInfo.events;
   });
 
   /*
@@ -266,12 +374,17 @@ angular.module('starter.controllers', ['starter.services'])
   };
 
   $scope.subscribe = function() {
-    $scope.btnText = 'Subscribed';
-    $scope.buttonColour = "button-balanced";
+    if (!$subStat) {
+	    conn.dataTrans("POST", {studentUsername: userInfo.username, clubId: $clubInfo.id},"subscription").success(function() {
+	      console.log("subcribe successfully");
+	    });
+	} else {
 
-    conn.dataTrans("POST", {studentUsername: "temptest", clubId: $clubInfo.id},"subscription").success(function() {
-      console.log("subcribe successfully");
-    });
+	}
+
+  	$subStat = !$subStat;
+    subUpdate();
+
   }
 })
 
@@ -289,25 +402,121 @@ angular.module('starter.controllers', ['starter.services'])
 
 })
 
-.controller('searchCtrl', function($scope, conn) {
+.controller('searchCtrl', function($scope, conn, tempData) {
 	$scope.searchWord = "";
+	$scope.loading = false;
 	$scope.search = function() {
-		conn.dataTrans("GET", $scope.searchWord, "club").success(function(clubs) {
+		$scope.loading = true;
+		conn.dataTrans("GET", null, "club?keyword=" + $scope.searchWord).success(function(clubs) {
 	    	$scope.clubs = clubs;
+	    	$scope.loading = false;
 	    });
-	}
+	};
 
 	$scope.getClub = function(id){
 		tempData.clubId = id;
 	};
 })
 
-.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http) {
+.controller('EditClubProfileCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera) {
+  $scope.openPhotoLibrary = function() {
+       var options = {
+           quality: 100,
+           destinationType: Camera.DestinationType.FILE_URI,
+           sourceType: Camera.PictureSourceType.CAMERA,
+           allowEdit: true,
+           encodingType: Camera.EncodingType.JPEG,
+           popoverOptions: CameraPopoverOptions,
+           saveToPhotoAlbum: false
+       };
+
+       $cordovaCamera.getPicture(options).then(function(imageData) {
+
+           //console.log(imageData);
+           //console.log(options);
+
+          // var url = "http://mydomein.com/upload.php";
+           //target path may be local or url
+           var targetPath = imageData;
+           var filename = targetPath.split("/").pop();
+           var options = {
+               fileKey: "file",
+               fileName: filename,
+               chunkedMode: false,
+               mimeType: "image/jpg"
+           };
+           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+               console.log("SUCCESS: " + JSON.stringify(result.response));
+               alert("success");
+               alert(JSON.stringify(result.response));
+           }, function(err) {
+               console.log("ERROR: " + JSON.stringify(err));
+               alert(JSON.stringify(err));
+           }, function (progress) {
+               // constant progress updates
+               $timeout(function () {
+                   $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+               })
+           });
+
+       }, function(err) {
+           // error
+           console.log(err);
+       });
+     }
 
   // Add funcitons for edit profile here
 
 })
 
-.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http) {
+.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera) {
+  $scope.openPhotoLibrary = function() {
+       var options = {
+           quality: 100,
+           destinationType: Camera.DestinationType.FILE_URI,
+           sourceType: Camera.PictureSourceType.CAMERA,
+           allowEdit: true,
+           encodingType: Camera.EncodingType.JPEG,
+           popoverOptions: CameraPopoverOptions,
+           saveToPhotoAlbum: false
+       };
+
+       $cordovaCamera.getPicture(options).then(function(imageData) {
+
+           //console.log(imageData);
+           //console.log(options);
+
+          // var url = "http://mydomein.com/upload.php";
+           //target path may be local or url
+           var targetPath = imageData;
+           var filename = targetPath.split("/").pop();
+           var options = {
+               fileKey: "file",
+               fileName: filename,
+               chunkedMode: false,
+               mimeType: "image/jpg"
+           };
+           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+               console.log("SUCCESS: " + JSON.stringify(result.response));
+               alert("success");
+               alert(JSON.stringify(result.response));
+           }, function(err) {
+               console.log("ERROR: " + JSON.stringify(err));
+               alert(JSON.stringify(err));
+           }, function (progress) {
+               // constant progress updates
+               $timeout(function () {
+                   $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+               })
+           });
+
+       }, function(err) {
+           // error
+           console.log(err);
+       });
+     }
+})
+
+.controller('EventCtrl', function($scope, $ionicActionSheet, $http) {
 
 });

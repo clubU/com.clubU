@@ -18,7 +18,7 @@
     </ion-header-bar>
     <ion-content>
       <ion-item menu-close class="item-menu-avatar text-center">
-        <img src="../img/blankProfile.jpeg" ui-sref="app.user" class="avatar-menu">
+        <img src="{{profImg.data}}" ui-sref="app.user" class="avatar-menu">
       </ion-item>
       <ion-list>
         <a class="item item-icon-left" menu-close href="#/app/search">
@@ -35,13 +35,9 @@
           My Clubs
         </a>
         <ion-item class="item-divider"></ion-item>
-        <a class="item item-icon-left" menu-close href="#/app/browse">
-          <i class="icon ion-ios-gear"></i>
-          Settings
-        </a>
-        <ion-item class="item-divider"></ion-item>
 
-        <a class="item item-assertive item-icon-left" menu-close ui-sref="app.start">
+
+        <a class="item item-assertive item-icon-left" menu-close ng-click="logout()">
           <i class="icon ion-log-out"></i>
           Logout
         </a>

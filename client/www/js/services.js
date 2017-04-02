@@ -42,11 +42,11 @@ angular.module('starter.services', [])
 })*/
 
 
-.service('conn',function($state, $http) {
+.service('conn',function($state, $http, $cordovaFileTransfer) {
 	this.url = 'http://localhost:8080/';
 	this.headers = {
     	"Content-Type": "application/x-www-form-urlencoded"
-    }
+    };
 	this.dataTrans = function($method, $data, $path) {
 	    var capsul = {
 	      method: $method,
@@ -66,12 +66,35 @@ angular.module('starter.services', [])
 	    }
 
 		return $http(capsul);
-	}
+	};
+	this.getImg = function($path, $imgObj) {
+		return $http({
+			method: 'GET',
+			url: this.url + $path,
+			responseType: 'arraybuffer'
+		}).then(function(response) {
+			var binary = '';
+			var bytes = new Uint8Array(response.data);
+			var len = bytes.byteLength;
+			for (var i = 0; i < len; i++) {
+			  binary += String.fromCharCode(bytes[i]);
+			}
+
+			$imgObj.data = "data:image/png;base64," + window.btoa(binary);
+		});
+	};
 })
 .service('tempData', function() {
   this.data = {};
 })
 .service('userInfo', function() {
 	this.username = "";
+})
+.service('msgbox', function($ionicPopup) {
+	this.alert = function($string) {
+		$ionicPopup.alert({
+		title: $string
+		});
+	};
 })
 ;

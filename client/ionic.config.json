@@ -1,6 +1,6 @@
 {
   "name": "capstoneTest",
-  "app_id": "",
+  "app_id": "310526a2",
   "gulpStartupTasks": [
     "sass",
     "watch"
