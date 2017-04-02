@@ -213,12 +213,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 .controller ('FeedCtrl', function($scope, $state, $http, conn, userInfo) {
-  $scope.doRefresh = function(){
-
-	conn.dataTrans("GET", null, "student?username=" + userInfo.username)
+  conn.dataTrans("GET", null, "student?username=" + userInfo.username)
 	.success(function(data) {
-console.log(data);
-
 	  var $events = [];
 	  var $image = {};
 	  data.clubs.forEach(function(club) {
@@ -226,10 +222,7 @@ console.log(data);
 	  	if (!$image[$clubImgId]) {
 	  		var picObj = {};
 	  		$image[$clubImgId] = picObj;
-	  		conn.dataTrans("GET", null, "image/" + $clubImgId)
-	  		.success(function(data) {
-	  			picObj.image = data;
-	  		});
+	  		conn.getImg("image/" + $clubImgId, picObj);
 	  	}
 	  	club.events.forEach(function(event) {
 	  		event.time = new Date(event.time);
@@ -237,13 +230,11 @@ console.log(data);
 		  	if (!$image[$eventImgId]) {
 		  		var picObj = {};
 		  		$image[$eventImgId] = picObj;
-		  		conn.dataTrans("GET", null, "image/" + $eventImgId)
-		  		.success(function(data) {
-		  			picObj.image = data;
-		  		});
+		  		conn.getImg("image/" + $eventImgId, picObj);
 		  	}
 		  	event.eventImg = $image[$eventImgId];
 		  	event.clubImg = $image[$clubImgId];
+
 	  		$events.push(event);
 	  	})
 	  });
@@ -251,7 +242,7 @@ console.log(data);
 	  $events.sort(function(event1, event2) {
 	  	return event1.time - event2.time;
 	  });
-console.log($events);
+
 	  $scope.events = $events;
 
 
@@ -269,7 +260,6 @@ console.log($events);
 
 
   $scope.doRefresh();
-
 
 })
 
