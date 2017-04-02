@@ -4,7 +4,7 @@
     <ion-nav-buttons side="right">
       <a class="button button-icon ion-ios-gear-outline" ui-sref="app.create_event" ng-show="userInfo.type == '2'"></a>
     </ion-nav-buttons>
-    <ion-nav-title>{{eventName}}</ion-nav-title>
+    <ion-nav-title>{{data.title}}</ion-nav-title>
   </ion-nav-bar>
 
   <ion-content>
@@ -27,12 +27,10 @@
 
         <!-- *EVENT location -->
         <span class="profile-description">
-<<<<<<< HEAD
-          LOCATION
-=======
+
           <h3>Location</h3>
           {{ data.location }}
->>>>>>> 900e3d29b5ef3795ca692aae1106c620c5d2442d
+
         </span>
 
         <!-- *EVENT-description / description profile -->

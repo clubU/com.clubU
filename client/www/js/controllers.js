@@ -616,7 +616,8 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 
-.controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, conn) {
+.controller('EventCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, conn, userInfo) {
+  $scope.userInfo = userInfo;
   $ionicSideMenuDelegate.canDragContent(false);
   var href = window.location.href;
   var $eventId = href.match(/.*\/(\d+)$/)[1];
