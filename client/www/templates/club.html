@@ -24,13 +24,13 @@
       </div>
 
       <ion-item class="item item-text-wrap">
-        <div ng-class="isItemShown(about) ? 'item-expand active' : 'item-expand inactive'">
+        <div ng-class="isItemShown(clubDesc) ? 'item-expand active' : 'item-expand inactive'">
           <h2>About</h2>
 
           <p>{{clubDesc}}</p>
         </div>
-        <div ng-click="toggleItem(about)" class="item-expand-footer">
-          <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
+        <div ng-click="toggleItem(clubDesc)" class="item-expand-footer">
+          <i ng-class="isItemShown(clubDesc) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
           {{ isItemShown(clubDesc) ? 'Less' : 'More' }}
         </div>
         <div class="row">
