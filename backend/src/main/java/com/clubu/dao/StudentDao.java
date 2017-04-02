@@ -109,7 +109,8 @@ public class StudentDao extends AbstractDAO<Student> {
         		student.setProgramOfStudy(programOfStudy);
 			if (image != null)
 				student.setImage(image);
-			return persist(student);
+            currentSession().update(student);
+            return student;
 		} else {
 			return null;
 		}
@@ -119,6 +120,17 @@ public class StudentDao extends AbstractDAO<Student> {
         student.addClub(club);
         currentSession().update(student);
         return student;
+    }
+
+    public Student removeClub(Long studentId, Club club) {
+        Student student = findById(studentId);
+        if (student != null) {
+            student.removeClub(club);
+            currentSession().update(student);
+            return student;
+        } else {
+            return null;
+        }
     }
 
     public boolean validateCredentials(String username, String password) {

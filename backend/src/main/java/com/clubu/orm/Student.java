@@ -184,6 +184,9 @@ public class Student {
         }
         clubs.add(club);
     }
+    public void removeClub(Club club) {
+        clubs.remove(club);
+    }
 
 	public Image getImage() {
 		return image;
