@@ -49,8 +49,8 @@ public class StudentApi extends AbstractApiBase {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response find(
-            @QueryParam("username") String username
-            ) {
+        @QueryParam("username") String username
+    ) {
         Student student = studentDao.findByUsername(username);
         if (student != null) {
             return newResponse(Response.Status.OK)

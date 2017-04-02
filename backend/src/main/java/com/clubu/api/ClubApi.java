@@ -46,6 +46,8 @@ public class ClubApi extends AbstractApiBase {
     public Response cors() { return newResponse(Response.Status.OK).build(); }
     @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/all")
     public Response corsAll() { return newResponse(Response.Status.OK).build(); }
+    @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/search")
+    public Response corsSearch() { return newResponse(Response.Status.OK).build(); }
     @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/{id : \\d+}")
     public Response corsId() { return newResponse(Response.Status.OK).build(); }
     // End of CORS requests
@@ -85,6 +87,7 @@ public class ClubApi extends AbstractApiBase {
     @UnitOfWork
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/search")
     public Response findByKeyword(@QueryParam("keyword") String keyword) {
         return newResponse(Response.Status.OK)
                 .entity(clubDao.findBySearchKeyword(keyword))
@@ -110,6 +113,24 @@ public class ClubApi extends AbstractApiBase {
         return newResponse(Response.Status.OK)
                 .entity(clubDao.findById(id))
                 .build();
+    }
+
+    @UnitOfWork
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByUsername(
+        @QueryParam("username") String username
+    ) {
+        Club club = clubDao.findByUsername(username);
+        if (club != null) {
+            return newResponse(Response.Status.OK)
+                    .entity(club)
+                    .build();
+        } else {
+            return newResponse(Response.Status.BAD_REQUEST)
+                    .entity("{}")
+                    .build();
+        }
     }
 
     @UnitOfWork
