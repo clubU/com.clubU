@@ -168,7 +168,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
        var options = {
            quality: 100,
            destinationType: Camera.DestinationType.FILE_URI,
-           sourceType: Camera.PictureSourceType.CAMERA,
+           sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
            allowEdit: true,
            encodingType: Camera.EncodingType.JPEG,
            popoverOptions: CameraPopoverOptions,
@@ -356,12 +356,13 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 .controller('searchCtrl', function($scope, conn, tempData) {
 	$scope.searchWord = "";
+  $scope.searchMsg = "Searching";
 	$scope.loading = false;
 	$scope.search = function() {
 		$scope.loading = true;
 		conn.dataTrans("GET", null, "club?keyword=" + $scope.searchWord).success(function(clubs) {
 	    	$scope.clubs = clubs;
-	    	$scope.loading = false;
+        $scope.loading = false;
 	    });
 	};
 
