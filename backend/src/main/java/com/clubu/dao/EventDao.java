@@ -79,7 +79,8 @@ public class EventDao extends AbstractDAO<Event> {
                 event.setDescription(description);
             if (image != null)
                 event.setImage(image);
-            return persist(event);
+            currentSession().update(event);
+            return event;
         } else {
             return null;
         }

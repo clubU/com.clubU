@@ -1,11 +1,13 @@
 package com.clubu.server.api;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -32,6 +34,9 @@ public class SubscriptionApi extends AbstractApiBase {
     // Start of CORS requests
     @OPTIONS @Produces(MediaType.TEXT_HTML)
     public Response cors() { return newResponse(Response.Status.OK).build(); }
+    @OPTIONS @Produces(MediaType.TEXT_HTML) @Path("/{studentId : \\d+}/{clubId : \\d+}")
+
+    public Response corsStudentIdClubId() { return newResponse(Response.Status.OK).build(); }
     // End of CORS requests
 
     @UnitOfWork
@@ -63,4 +68,30 @@ public class SubscriptionApi extends AbstractApiBase {
                 .build();
     }
 
+    @UnitOfWork
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{studentId : \\d+}/{clubId : \\d+}")
+    public Response delete(
+        @PathParam("studentId") Long studentId,
+        @PathParam("clubId") Long clubId
+    ) {
+        Club club = clubDao.findById(clubId);
+        Student student = null;
+        if (club != null) {
+            student = studentDao.removeClub(studentId, club);
+        }
+        if (student != null) {
+            return newResponse(Response.Status.OK)
+                    .entity(student)
+                    .build();
+        } else {
+            return newResponse(Response.Status.BAD_REQUEST)
+                    .entity("{}")
+                    .build();
+        }
+
+    }
+
 }
+

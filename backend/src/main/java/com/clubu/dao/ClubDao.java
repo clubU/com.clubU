@@ -101,7 +101,8 @@ public class ClubDao extends AbstractDAO<Club> {
 				club.setDescription(description);
 			if (image != null)
 				club.setImage(image);
-			return persist(club);
+            currentSession().update(club);
+            return club;
 		} else {
 			return null;
 		}
