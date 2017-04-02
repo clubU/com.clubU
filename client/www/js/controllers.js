@@ -88,12 +88,9 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
       type: "1"
     }
 
-    conn.dataTrans("POST", $data, "session").success(function() {
+    conn.dataTrans("POST", $data, "session").success(function(response) {
       userInfo.username = $data.username;
-	  	conn.dataTrans("GET", null, "student?username=" + userInfo.username)
-	  	.success(function(data) {
-		  	userInfo.id = data.id;
-	  	});
+      userInfo.id = response.userId;
       $state.go('app.feed');
     })
     .error(function(data) {
@@ -117,8 +114,9 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	  		type: "2"
 	  	}
 
-	  conn.dataTrans("POST", $data, "session").success(function() {
+	  conn.dataTrans("POST", $data, "session").success(function(response) {
 	  	userInfo.username = $data.username;
+	  	userInfo.clubId = response.userId;
       	$state.go('app.club_side_profile');
       })
 	  .error(function() {
@@ -413,9 +411,41 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   }
 })
 
-.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate) {
+.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, conn, userInfo) {
   $ionicSideMenuDelegate.canDragContent(false);
   $scope.eventData = {};
+  var $clubInfo = {};
+  clubId = userInfo.clubId;
+	$scope.btnText = 'Subscribed';
+	$scope.buttonColour = "button-balanced";
+
+  conn.dataTrans("GET", null, "club/" + clubId).success(function(data) {
+    $clubInfo = data;
+    $scope.clubName = $clubInfo.name;
+    $scope.clubDesc = $clubInfo.description;
+	var $clubImgId = $clubInfo.image.id;
+	$scope.image = {};
+	conn.getImg("image/" + $clubImgId, $scope.image);
+	$scope.events = $clubInfo.events;
+console.log($scope.events);
+  });
+
+  /*
+   * if given group is the selected group, deselect it
+   * else, select the given group
+   */
+  $scope.toggleItem= function(item) {
+    if ($scope.isItemShown(item)) {
+      $scope.shownItem = null;
+    } else {
+      $scope.shownItem = item;
+    }
+  };
+
+  $scope.isItemShown = function(item) {
+    return $scope.shownItem === item;
+  };
+
   $scope.addEvent = function(form){
     var $data = {
       title: $scope.eventData.title,
@@ -433,7 +463,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	$scope.loading = false;
 	$scope.search = function() {
 		$scope.loading = true;
-		conn.dataTrans("GET", null, "club?keyword=" + $scope.searchWord).success(function(clubs) {
+		conn.dataTrans("GET", null, "club/search?keyword=" + $scope.searchWord).success(function(clubs) {
 	    	$scope.clubs = clubs;
         $scope.loading = false;
 	    });
