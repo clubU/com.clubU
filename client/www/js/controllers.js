@@ -421,7 +421,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   }
 })
 
-.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, conn, userInfo) {
+.controller('ClubProfileCtrl', function($scope, $ionicActionSheet, $http, $ionicSideMenuDelegate, conn, userInfo, $location, $window) {
   $ionicSideMenuDelegate.canDragContent(false)
   $scope.eventData = {};
   var $clubInfo = {};
@@ -598,14 +598,25 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 
      $scope.update = function() {
-     	var $time = $scope.data.time.getTime() + $scope.data.date.getTime();
-     	var $data = {
-     		clubId: userInfo.clubId,
-     		title: $scope.data.title,
-     		time: $time,
-     		location: $scope.data.location,
-     		description: $scope.data.desc
-     	}
+     	var $data = {};
+     	$data.clubId = userInfo.clubId;
+     	var $date = $scope.data.time? $scope.data.time.getTime() : 0;
+     	var $hour = $scope.data.date? $scope.data.date.getTime() : 0;
+     	var $time = $date + $hour;
+
+     	if ($time == 0)
+     		$time = null;
+     	else
+     		$data.time = $time;
+
+     	if ($scope.data.title)
+     		$data.title = $scope.data.title;
+
+     	if ($scope.data.location)
+     		$data.location = $scope.data.location;
+
+     	if ($scope.data.desc)
+     		$data.description = $scope.data.desc;
 
      	conn.dataTrans("POST", $data, "event")
      	.success(function(response) {
@@ -621,6 +632,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   $ionicSideMenuDelegate.canDragContent(false);
   var href = window.location.href;
   var $eventId = href.match(/.*\/(\d+)$/)[1];
+  userInfo.eventId = $eventId;
   $scope.data = {};
   $scope.image = {};
   $scope.image.data = "img/bg.jpg";
@@ -631,4 +643,81 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	  	conn.getImg("image/" + response.image.id , $scope.image);
 	}
   });
+})
+
+.controller('EditEventCtrl', function($scope, $state, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate, userInfo, conn) {
+  $ionicSideMenuDelegate.canDragContent(false);
+  $scope.data = {};
+  $scope.openPhotoLibrary = function() {
+       var options = {
+           quality: 100,
+           destinationType: Camera.DestinationType.FILE_URI,
+           sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+           allowEdit: true,
+           encodingType: Camera.EncodingType.JPEG,
+           popoverOptions: CameraPopoverOptions,
+           saveToPhotoAlbum: false
+       };
+
+       $cordovaCamera.getPicture(options).then(function(imageData) {
+
+           //console.log(imageData);
+           //console.log(options);
+
+          // var url = "http://mydomein.com/upload.php";
+           //target path may be local or url
+           var targetPath = imageData;
+           var filename = targetPath.split("/").pop();
+           var options = {
+               fileKey: "file",
+               fileName: filename,
+               chunkedMode: false,
+               mimeType: "image/jpg"
+           };
+           $cordovaFileTransfer.upload(conn.url + "image", targetPath, options).then(function(result) {
+               console.log("SUCCESS: " + JSON.stringify(result.response));
+               alert("success");
+               alert(JSON.stringify(result.response));
+           }, function(err) {
+               console.log("ERROR: " + JSON.stringify(err));
+               alert(JSON.stringify(err));
+           }, function (progress) {
+               // constant progress updates
+               $timeout(function () {
+                   $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+               })
+           });
+
+       }, function(err) {
+           // error
+           console.log(err);
+       });
+     }
+
+     $scope.update = function() {
+     	var $data = {};
+     	var $date = $scope.data.time? $scope.data.time.getTime() : 0;
+     	var $hour = $scope.data.date? $scope.data.date.getTime() : 0;
+     	var $time = $date + $hour;
+
+     	if ($time == 0)
+     		$time = null;
+     	else
+     		$data.time = $time;
+
+     	if ($scope.data.title)
+     		$data.title = $scope.data.title;
+
+     	if ($scope.data.location)
+     		$data.location = $scope.data.location;
+
+     	if ($scope.data.desc)
+     		$data.description = $scope.data.desc;
+
+     	conn.dataTrans("POST", $data, "event/" + userInfo.eventId)
+     	.success(function(response) {
+     		$state.go('app.club_side_profile');
+     	});
+
+     }
 });

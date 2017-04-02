@@ -194,6 +194,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'ClubCtrl'
       }
     }
+  })
+  .state('app.edit_event', {
+    url: '/edit_event',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/create_edit_event.html',
+        controller: 'EditEventCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/start');
