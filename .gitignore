@@ -4,3 +4,4 @@ db_reset/
 solr-6.5.0/
 solr/clubu/data/
 solr/hsperfdata_kmes40505
+solr/clubu/conf/dataimport.properties

@@ -91,6 +91,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
     conn.dataTrans("POST", $data, "session").success(function(response) {
       userInfo.username = $data.username;
       userInfo.id = response.userId;
+      userInfo.type = $data.type;
       $state.go('app.feed');
     })
     .error(function(data) {
@@ -117,6 +118,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	  conn.dataTrans("POST", $data, "session").success(function(response) {
 	  	userInfo.username = $data.username;
 	  	userInfo.clubId = response.userId;
+	  	userInfo.type = $data.type;
       	$state.go('app.club_side_profile');
       })
 	  .error(function() {
@@ -427,7 +429,6 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	$scope.image = {};
 	conn.getImg("image/" + $clubImgId, $scope.image);
 	$scope.events = $clubInfo.events;
-console.log($scope.events);
   });
 
   /*
@@ -445,16 +446,6 @@ console.log($scope.events);
   $scope.isItemShown = function(item) {
     return $scope.shownItem === item;
   };
-
-  $scope.addEvent = function(form){
-    var $data = {
-      title: $scope.eventData.title,
-      date: $scope.eventData.date,
-      desc: $scope.eventData.description
-    };
-    $http.post('sampledata/events.json', $scope.eventData);
-  };
-
 })
 
 .controller('searchCtrl', function($scope, conn, tempData) {
@@ -526,13 +517,14 @@ console.log($scope.events);
 
 })
 
-.controller('CreateEventCtrl', function($scope, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate) {
+.controller('CreateEventCtrl', function($scope, $state, $ionicActionSheet, $http, $cordovaCamera, $ionicSideMenuDelegate, userInfo, conn) {
   $ionicSideMenuDelegate.canDragContent(false);
+  $scope.data = {};
   $scope.openPhotoLibrary = function() {
        var options = {
            quality: 100,
            destinationType: Camera.DestinationType.FILE_URI,
-           sourceType: Camera.PictureSourceType.CAMERA,
+           sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
            allowEdit: true,
            encodingType: Camera.EncodingType.JPEG,
            popoverOptions: CameraPopoverOptions,
@@ -572,6 +564,24 @@ console.log($scope.events);
            // error
            console.log(err);
        });
+     }
+
+
+     $scope.update = function() {
+     	var $time = $scope.data.time.getTime() + $scope.data.date.getTime();
+     	var $data = {
+     		clubId: userInfo.clubId,
+     		title: $scope.data.title,
+     		time: $time,
+     		location: $scope.data.location,
+     		description: $scope.data.desc
+     	}
+
+     	conn.dataTrans("POST", $data, "event")
+     	.success(function(response) {
+     		$state.go('app.club_side_profile');
+     	});
+
      }
 })
 
