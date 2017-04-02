@@ -33,9 +33,16 @@
       <ion-item class="item item-divider home"></ion-item>
     </div>
 
-    <!-- club recommendations  -->
+    <!-- club recommendations -->
     <h3 style='margin-top: 5px;' class="you-may-like calm" >You may also like.. </h3>
+    <hscroller>
+      <hcard ng-repeat="club in clubs" desc="{{club.name}}">
+        <a href="#/app/clubs/{{club.id}}"><img ng-src="{{club.image.data}}"></a>
+      </hcard>
+    </hscroller>
 
+
+<!--
     <div class="recommend-clubs" ng-repeat="club in clubs">
       <ion-item href="#/app/clubs/{{club.id}}" style="display: inline-block; margin: 5px;">
         {{club.name}}
@@ -53,6 +60,8 @@
           </a>
         </div>
       </ion-scroll>
+-->
   </ion-content>
+
 
 </ion-view>

@@ -1,6 +1,6 @@
 var hostname = "http://localhost:8080/";
 
-angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.cards'])
+angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.hscrollcards'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
 
@@ -251,7 +251,6 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	}).finally(function(){
       $scope.$broadcast('scroll.refreshComplete');
     });
-
 
 	conn.dataTrans("GET", null, "club/recommendations?forStudentUsername=" + userInfo.username)
 	.success(function(data) {
