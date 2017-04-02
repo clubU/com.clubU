@@ -1,8 +1,11 @@
 <ion-view hide-back-button="true">
-  <ion-nav-buttons side="right">
-    <a class="button button-icon icon ion-ios-gear-outline" ui-sref="app.edit_club_profile"></a>
-  </ion-nav-buttons>
-  <ion-nav-title>{{ name }}</ion-nav-title>
+<ion-nav-bar class="bar-stable">
+    <ion-nav-buttons side="right">
+      <a class="button button-icon icon ion-ios-gear-outline" ui-sref="app.edit_club_profile"></a>
+    </ion-nav-buttons>
+    <ion-nav-title>{{ clubName }}</ion-nav-title>
+</ion-nav-bar>
+
   <ion-content>
     <!--
     <div class="row">
@@ -17,9 +20,20 @@
 -->
   <div class="content">
     <div class="profile-info">
-      <img class="profile-image" ng-src="{{image}}">
+      <img class="profile-image" ng-src="{{image.data}}">
       <!-- *profile-name / name profile -->
-      <h3 class="profile-name">{{name}}</h3>
+      <h3 class="profile-name">{{clubName}}</h3>
+    </div>
+
+    <ion-item class="item item-text-wrap">
+      <div ng-class="isItemShown(clubDesc) ? 'item-expand active' : 'item-expand inactive'">
+        <h2>About</h2>
+        <p>{{ clubDesc }}</p>
+      </div>
+      <div ng-click="toggleItem(clubDesc)" class="item-expand-footer">
+        <i ng-class="isItemShown(clubDesc) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
+        {{ isItemShown(clubDesc) ? 'Less' : 'More' }}
+      </div>
       <div class="row">
         <div class="col">
           <button class="button button-block {{buttonColour}}" ui-sref="app.create_event">
@@ -27,19 +41,8 @@
           </button>
         </div>
       </div>
-
-    </div>
-
-    <ion-item class="item item-text-wrap">
-      <div ng-class="isItemShown(about) ? 'item-expand active' : 'item-expand inactive'">
-        <h2>About</h2>
-        <p>{{ about }}</p>
-      </div>
-      <div ng-click="toggleItem(about)" class="item-expand-footer">
-        <i ng-class="isItemShown(about) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'"></i>
-        {{ isItemShown(about) ? 'Less' : 'More' }}
-      </div>
     </ion-item>
+
 
     <div class="list">
       <div class="item item-divider">
@@ -48,9 +51,9 @@
 
       <ion-item ng-repeat=" event in events" href="#/app/event">
         <h4>{{ event.title }}</h4>
-        <h5>Time: {{ event.time}}</h5>
+        <h5>Time: {{ event.time | date:'yyyy-MM-dd HH:mm:ss' }}</h5>
         <h6>Location: {{ event.location }}</h6>
-        <p> {{event.desc}} </p>
+        <p> {{event.description}} </p>
       </ion-item>
     </div>
   </div>
