@@ -43,7 +43,8 @@ angular.module('starter.services', [])
 
 
 .service('conn',function($state, $http, $cordovaFileTransfer) {
-	this.url = 'http://localhost:8080/';
+	//this.url = 'http://localhost:8080/';
+	this.url = 'http://ec2-54-187-175-7.us-west-2.compute.amazonaws.com:8080/';
 	this.headers = {
     	"Content-Type": "application/x-www-form-urlencoded"
     };

@@ -1,4 +1,5 @@
-var hostname = "http://localhost:8080/";
+//var hostname = "http://localhost:8080/";
+var hostname = "http://ec2-54-187-175-7.us-west-2.compute.amazonaws.com:8080/";
 
 angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.hscrollcards'])
 
@@ -639,6 +640,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   conn.dataTrans("GET", null, "event/" + $eventId)
   .success(function(response) {
   	$scope.data = response;
+    console.log(response);
   	if (response.image) {
 	  	conn.getImg("image/" + response.image.id , $scope.image);
 	}
