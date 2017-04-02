@@ -122,9 +122,13 @@ public class ClubDao extends AbstractDAO<Club> {
 		return ret;
     }
 
-    public boolean validateCredentials(String username, String password) {
+    public Club validateCredentials(String username, String password) {
         Club club = findByUsername(username);
-        return club == null ? false : BCrypt.checkpw(password, club.getPasswordHash());
+        if (club != null) {
+            return BCrypt.checkpw(password, club.getPasswordHash()) ? club : null;
+        } else {
+            return null;
+        }
     }
 
 }

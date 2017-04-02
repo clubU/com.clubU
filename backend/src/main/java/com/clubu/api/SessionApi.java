@@ -46,15 +46,17 @@ public class SessionApi extends AbstractApiBase {
             @FormParam("type") int type
             ) {
         if (type == SessionType.STUDENT.getTypeValue()) {
-            if (studentDao.validateCredentials(username, password)) {
-                Session session = sessionManager.createSession(username, SessionType.STUDENT);
+            Student student = studentDao.validateCredentials(username, password);
+            if (student != null) {
+                Session session = sessionManager.createSession(student.getId(), username, SessionType.STUDENT);
                 return newResponse(Response.Status.CREATED)
                         .entity(session)
                         .build();
             }
         } else if (type == SessionType.CLUB.getTypeValue()) {
-            if (clubDao.validateCredentials(username, password)) {
-                Session session = sessionManager.createSession(username, SessionType.CLUB);
+            Club club = clubDao.validateCredentials(username, password);
+            if (club != null) {
+                Session session = sessionManager.createSession(club.getId(), username, SessionType.CLUB);
                 return newResponse(Response.Status.CREATED)
                         .entity(session)
                         .build();

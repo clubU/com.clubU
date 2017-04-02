@@ -133,9 +133,13 @@ public class StudentDao extends AbstractDAO<Student> {
         }
     }
 
-    public boolean validateCredentials(String username, String password) {
+    public Student validateCredentials(String username, String password) {
         Student student = findByUsername(username);
-        return student == null ? false : BCrypt.checkpw(password, student.getPasswordHash());
+        if (student != null) {
+            return BCrypt.checkpw(password, student.getPasswordHash()) ? student : null;
+        } else {
+            return null;
+        }
     }
 
 }
