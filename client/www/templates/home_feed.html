@@ -7,7 +7,7 @@
     </ion-refresher>
     <div ng-repeat="event in events" class="list card">
       <div class="item item-avatar item-icon-right">
-        <img ng-src="{{event.clubImg.data}}">
+        <img ng-src="{{event.clubImg.data}}" ng-show="event.clubImg.data" />
         <h2>{{event.title}}</h2>
         <p class="icon-p">
           <i class="icon ion-ios-location-outline"></i>
@@ -17,13 +17,13 @@
         <p class="time">
           <a>
             <i class="icon ion-ios-clock-outline"></i>
-            {{event.time}}
+            {{event.time | date:'yyyy-MM-dd HH:mm'}}
           </a>
         </p>
       </div>
 
       <div class="item item-image">
-        <img ng-src="{{event.eventImg.data}}">
+        <img ng-src="{{event.eventImg.data}}" ng-show="event.eventImg.data" />
       </div>
       <div class="item item-text-wrap">
         <p>
