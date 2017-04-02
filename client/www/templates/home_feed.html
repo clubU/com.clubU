@@ -39,7 +39,7 @@
     <div class="recommend-clubs" ng-repeat="club in clubs">
       <ion-item href="#/app/clubs/{{club.id}}" style="display: inline-block; margin: 5px;">
         {{club.name}}
-        <img ng-src="{{club.image}}" class="examplePic">
+        <img ng-src="{{club.image.data}}" class="examplePic">
       </ion-item>
     </div>
 
@@ -48,7 +48,7 @@
           <a href="#/app/clubs/{{club.id}}" style="text-decoration: none;">
             <span>
               <h5>{{club.name}}</h5>
-              <img ng-src="{{club.image}}" class="examplePic">
+              <img ng-src="{{club.image.data}}" class="examplePic">
             </span>
           </a>
         </div>

@@ -256,6 +256,10 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	conn.dataTrans("GET", null, "club/recommendations?forStudentUsername=" + userInfo.username)
 	.success(function(data) {
 		$scope.clubs = data;
+		data.forEach(function(club) {
+			var $clubImgId = club.image.id;
+			conn.getImg("image/" + $clubImgId, club.image);
+		});
   	})
 
   };
