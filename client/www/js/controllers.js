@@ -213,7 +213,9 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 .controller ('FeedCtrl', function($scope, $state, $http, conn, userInfo) {
-  conn.dataTrans("GET", null, "student?username=" + userInfo.username)
+  $scope.doRefresh = function(){
+
+	conn.dataTrans("GET", null, "student?username=" + userInfo.username)
 	.success(function(data) {
 	  var $events = [];
 	  var $image = {};
@@ -260,6 +262,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 
   $scope.doRefresh();
+
 
 })
 
