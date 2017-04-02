@@ -520,7 +520,7 @@ console.log(userInfo);
                chunkedMode: false,
                mimeType: "image/jpg"
            };
-           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+           $cordovaFileTransfer.upload(conn.url + "image", targetPath, options).then(function(result) {
                console.log("SUCCESS: " + JSON.stringify(result.response));
                alert("success");
                alert(JSON.stringify(result.response));
@@ -578,7 +578,7 @@ console.log(userInfo);
                chunkedMode: false,
                mimeType: "image/jpg"
            };
-           $cordovaFileTransfer.upload(url, targetPath, options).then(function(result) {
+           $cordovaFileTransfer.upload(conn.url + "image", targetPath, options).then(function(result) {
                console.log("SUCCESS: " + JSON.stringify(result.response));
                alert("success");
                alert(JSON.stringify(result.response));
