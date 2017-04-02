@@ -33,7 +33,28 @@
       <ion-item class="item item-divider home"></ion-item>
     </div>
 
+    <!-- club recommendations using swipe cards -->
+    <h3 style='margin-top: 5px;' class="you-may-like calm" >You may also like.. </h3>
+
+    <div class="recommend-clubs" ng-repeat="club in clubs">
+      <ion-item href="#/app/clubs/{{club.id}}" style="display: inline-block; margin: 5px;">
+        {{club.name}}
+        <img ng-src="{{club.image}}" class="examplePic">
+      </ion-item>
+    </div>
+
+      <ion-scroll direction="xy" class="wide-as-needed">
+        <div ng-repeat="club in clubs" style='display: inline-block; margin: 5px;'>
+          <a href="#/app/clubs/{{club.id}}" style="text-decoration: none;">
+            <span>
+              <h5>{{club.name}}</h5>
+              <img ng-src="{{club.image}}" class="examplePic">
+            </span>
+          </a>
+        </div>
+      </ion-scroll>
   </ion-content>
+
 <!--
   <ion-content>
 
@@ -60,12 +81,13 @@
       <ion-item class="item item-divider home"></ion-item>
     </div>
 
+
     <!-- club recommendation
     <h3 style='margin-top: 5px;' class="you-may-like calm" >You may also like.. </h3>
     <a class="item home-item">
       You may also like...
     </a>
-<!--
+
     <div class="recommend-clubs" ng-repeat="club in clubs">
       <ion-item href="#/app/clubs/{{club.id}}" style="display: inline-block; margin: 5px;">
         {{club.name}}
