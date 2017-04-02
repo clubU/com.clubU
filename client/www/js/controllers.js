@@ -2,7 +2,20 @@ var hostname = "http://localhost:8080/";
 
 angular.module('starter.controllers', ['starter.services','ngCordova','ionic.contrib.ui.hscrollcards'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state,$window, $location, conn, userInfo) {
+	$scope.logout = function() {
+	    $location.path('/start');
+	    $window.location.reload();
+	}
+
+	$scope.profImg = {};
+	$scope.profImg.data = "../img/blankProfile.jpeg";
+    conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
+    	if (response.image) {
+			var $profId = response.image.id;
+			conn.getImg("image/" + $profId, $scope.profImg);
+		}
+    });
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -151,7 +164,7 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 })
 
 .controller('UserCtrl', function($scope, conn, userInfo) {
-    conn.dataTrans("GET", userInfo.username, "student").success(function(response) {
+    conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
         $scope.info = {
 		    firstName: response.firstName,
 		    lastName: response.lastName,
@@ -160,6 +173,14 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 		    program: response.programOfStudy,
 		    year: response.yearOfStudy
 		};
+
+		$scope.profImg = {};
+		if (!response.image)
+			$scope.profImg.data = "../img/blankProfile.jpeg";
+		else {
+			var $profId = response.image.id;
+			conn.getImg("image/" + $profId, $scope.profImg);
+    	}
     })
 })
 
@@ -256,8 +277,10 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 	.success(function(data) {
 		$scope.clubs = data;
 		data.forEach(function(club) {
-			var $clubImgId = club.image.id;
-			conn.getImg("image/" + $clubImgId, club.image);
+			if (club.image) {
+				var $clubImgId = club.image.id;
+				conn.getImg("image/" + $clubImgId, club.image);
+			}
 		});
   	})
 
@@ -296,14 +319,33 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 })
 
-.controller('ClubCtrl', function($scope, $stateParams, conn) {
-
-  $scope.btnText = 'Subscribe';
-  $scope.buttonColour = "button-positive";
-
+.controller('ClubCtrl', function($scope, $stateParams, conn, userInfo) {
   var $clubInfo = {};
   href = window.location.href;
   clubId = href.match(/.*\/(\d+)$/)[1];
+  var $subStat = false;
+
+	var subUpdate = function () {
+		if ($subStat) {
+			$scope.btnText = 'Subscribed';
+			$scope.buttonColour = "button-balanced";
+		} else {
+			$scope.btnText = 'Subscribe';
+			$scope.buttonColour = "button-positive";
+		}
+	}
+
+	conn.dataTrans("GET", null, "student?username=" + userInfo.username).success(function(response) {
+		response.clubs.forEach(function(club) {
+			if (club.id == clubId) {
+				$subStat = true;
+			}
+
+		});
+
+		subUpdate();
+	});
+
   conn.dataTrans("GET", null, "club/" + clubId).success(function(data) {
     $clubInfo = data;
     $scope.clubName = $clubInfo.name;
@@ -331,12 +373,17 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
   };
 
   $scope.subscribe = function() {
-    $scope.btnText = 'Subscribed';
-    $scope.buttonColour = "button-balanced";
+    if (!$subStat) {
+	    conn.dataTrans("POST", {studentUsername: userInfo.username, clubId: $clubInfo.id},"subscription").success(function() {
+	      console.log("subcribe successfully");
+	    });
+	} else {
 
-    conn.dataTrans("POST", {studentUsername: "temptest", clubId: $clubInfo.id},"subscription").success(function() {
-      console.log("subcribe successfully");
-    });
+	}
+
+  	$subStat = !$subStat;
+    subUpdate();
+
   }
 })
 
