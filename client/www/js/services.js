@@ -88,7 +88,7 @@ angular.module('starter.services', [])
 		var options = {
 			quality: 75,
 			destinationType: Camera.DestinationType.DATA_URL,
-			sourceType: Camera.PictureSourceType.[$action],
+			sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
 			allowEdit: true,
 			encodingType: Camera.EncodingType.JPEG,
 			targetWidth: 300,
