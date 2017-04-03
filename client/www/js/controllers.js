@@ -208,12 +208,34 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 
 .controller('EditProfileCtrl', function($scope, $state, $http, $cordovaCamera, conn, userInfo) {
 	$scope.data = {};
+	$scope.data.image = 'img/bg.jpg';
 	$scope.openPhotoLibrary = function($action) {
-		var result = conn.postImg($action);
+/*		var result = conn.postImg($action);
+
 		result.success(function(response) {
+
 			var $data = { imageId:response.id };
 			conn.dataTrans("POST", $data, "student/" + userInfo.id);
-		});
+		});*/
+		var options = {
+			quality: 75,
+			destinationType: Camera.DestinationType.DATA_URL,
+			sourceType: Camera.PictureSourceType[$action],
+			allowEdit: true,
+			encodingType: Camera.EncodingType.JPEG,
+			targetWidth: 300,
+			targetHeight: 300,
+			popoverOptions: CameraPopoverOptions,
+			saveToPhotoAlbum: false
+		};
+
+        $cordovaCamera.getPicture(options).then(function (imageData) {
+        	$scope.data.image = "data:image/jpeg;base64," + imageData;
+/*            var $data = { file: "data:image/jpeg;base64," + imageData };
+            return this.dataTrans("POST", $data, "image");*/
+        }, function (err) {
+            return null;
+        });
 	}
 
 	// enter edit user function here
