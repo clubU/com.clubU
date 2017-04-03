@@ -231,9 +231,11 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 		};
 
         $cordovaCamera.getPicture(options).then(function (imageData) {
-        	$scope.data.image = "data:image/jpeg;base64," + imageData;
-/*            var $data = { file: "data:image/jpeg;base64," + imageData };
-            return this.dataTrans("POST", $data, "image");*/
+        	/*$scope.data.image = "data:image/jpeg;base64," + imageData; "data:image/jpeg;base64," + */
+          var $data = { file: imageData };
+	        $http.post(conn.url + "image", $data, {
+	            headers: {'Content-Type': undefined}
+	        })
         }, function (err) {
             return null;
         });
