@@ -98,9 +98,9 @@ angular.module('starter.services', [])
 		};
 
         return $cordovaCamera.getPicture(options).then(function (imageData) {
-        	return "data:image/jpeg;base64," + imageData;
-/*            var $data = { file: "data:image/jpeg;base64," + imageData };
-            return this.dataTrans("POST", $data, "image");*/
+        	//return "data:image/jpeg;base64," + imageData;
+           var $data = { file: "data:image/jpeg;base64," + imageData };
+            return this.dataTrans("POST", $data, "image");
         }, function (err) {
             return null;
         });
