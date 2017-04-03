@@ -42,8 +42,7 @@ angular.module('starter.services', [])
 })*/
 
 
-<<<<<<< HEAD
-.service('conn',function($state, $http, $cordovaFileTransfer) {
+.service('conn',function($state, $http, $cordovaFileTransfer,$cordovaCamera) {
 	//this.url = 'http://localhost:8080/';
 	this.url = 'http://ec2-54-187-175-7.us-west-2.compute.amazonaws.com:8080/';
 	this.headers = {
@@ -89,7 +88,7 @@ angular.module('starter.services', [])
 		var options = {
 			quality: 75,
 			destinationType: Camera.DestinationType.DATA_URL,
-			sourceType: Camera.PictureSourceType[$action],
+			sourceType: Camera.PictureSourceType.[$action],
 			allowEdit: true,
 			encodingType: Camera.EncodingType.JPEG,
 			targetWidth: 300,
@@ -98,12 +97,12 @@ angular.module('starter.services', [])
 			saveToPhotoAlbum: false
 		};
 
-        $cordovaCamera.getPicture(options).then(function (imageData) {
-            var $data = { file: "data:image/jpeg;base64," + imageData };
-            this.dataTrans("POST", $data, "image").success(function(response) {});
-        }, function (err) {
-            // An error occured. Show a message to the user
-        });
+		$cordovaCamera.getPicture(options).then(function (imageData) {
+			var $data = { file: "data:image/jpeg;base64," + imageData };
+			this.dataTrans("POST", $data, "image").success(function(response) {});
+		}, function (err) {
+			// An error occured. Show a message to the user
+		});
 	};
 })
 .service('tempData', function() {
