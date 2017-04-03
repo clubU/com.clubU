@@ -210,9 +210,14 @@ angular.module('starter.controllers', ['starter.services','ngCordova','ionic.con
 .controller('EditProfileCtrl', function($scope, $state, $http, $cordovaCamera, conn, userInfo) {
 	$scope.data = {};
 	$scope.openPhotoLibrary = function($action) {
-		conn.postImg($action);
+		var result = conn.postImg($action);
+		result.success(function(response) {
+			var $data = { imageId:response.id };
+			conn.dataTrans("POST", $data, "student/" + userInfo.id);
+		});
 	}
-  // enter edit user function here
+
+	// enter edit user function here
  	$scope.update = function() {
 		conn.dataTrans("POST", $scope.data, "student/" + userInfo.id)
 		.success(function(data) {

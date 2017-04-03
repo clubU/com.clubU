@@ -97,12 +97,14 @@ angular.module('starter.services', [])
 			saveToPhotoAlbum: false
 		};
 
-		$cordovaCamera.getPicture(options).then(function (imageData) {
-			var $data = { file: "data:image/jpeg;base64," + imageData };
-			this.dataTrans("POST", $data, "image").success(function(response) {});
-		}, function (err) {
-			// An error occured. Show a message to the user
-		});
+        return $cordovaCamera.getPicture(options).then(function (imageData) {
+        	return "data:image/jpeg;base64," + imageData;
+/*            var $data = { file: "data:image/jpeg;base64," + imageData };
+            return this.dataTrans("POST", $data, "image");*/
+        }, function (err) {
+            return null;
+        });
+
 	};
 })
 .service('tempData', function() {
